@@ -14,6 +14,10 @@ router.get('/getComments', (req, res, next) => {
     const comments = DATA.items.map(comment =>
         comment.snippet.textDisplay)
     res.json(comments)
+});
+router.get('/getCommenterNames', (req, res, next) => {
+    const names = DATA.items.map(comment => comment.snippet.authorDisplayName)
+    res.json(names)
 })
 
 module.exports = router;
