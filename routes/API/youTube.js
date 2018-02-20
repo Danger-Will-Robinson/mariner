@@ -5,9 +5,9 @@ const DATA = require('./sampleData');
 router.get('/getCommenterImages', function(req, res, next) {
     console.log('target hit');
     //   res.render('', { title: 'Express' });
-    const images = DATA.items.map(comment => {
+    const images = DATA.items.map(comment =>
         comment.snippet.authorChannelUrl
-    })
+    )
     res.json(images)
 });
 router.get('/getComments', (req, res, next) => {
