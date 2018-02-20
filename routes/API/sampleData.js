@@ -21,7 +21,7 @@ const DATA = {
                 "parentId": "Ugi7hPbxcLYF3HgCoAEC",
                 "canRate": true,
                 "viewerRating": "none",
-                "likeCount": 0,
+                "likeCount": 6,
                 "publishedAt": "2018-01-25T02:30:44.000Z",
                 "updatedAt": "2018-01-25T02:30:44.000Z"
             }
@@ -42,7 +42,7 @@ const DATA = {
                 "parentId": "Ugi7hPbxcLYF3HgCoAEC",
                 "canRate": true,
                 "viewerRating": "none",
-                "likeCount": 0,
+                "likeCount": 3,
                 "publishedAt": "2017-12-29T16:30:16.000Z",
                 "updatedAt": "2017-12-29T16:30:16.000Z"
             }
@@ -63,7 +63,7 @@ const DATA = {
                 "parentId": "Ugi7hPbxcLYF3HgCoAEC",
                 "canRate": true,
                 "viewerRating": "none",
-                "likeCount": 0,
+                "likeCount": 2,
                 "publishedAt": "2017-12-15T06:10:40.000Z",
                 "updatedAt": "2017-12-15T06:10:40.000Z"
             }
@@ -84,7 +84,7 @@ const DATA = {
                 "parentId": "Ugi7hPbxcLYF3HgCoAEC",
                 "canRate": true,
                 "viewerRating": "none",
-                "likeCount": 0,
+                "likeCount": 66,
                 "publishedAt": "2017-12-15T05:17:46.000Z",
                 "updatedAt": "2017-12-15T05:17:46.000Z"
             }
@@ -105,7 +105,7 @@ const DATA = {
                 "parentId": "Ugi7hPbxcLYF3HgCoAEC",
                 "canRate": true,
                 "viewerRating": "none",
-                "likeCount": 0,
+                "likeCount": 3,
                 "publishedAt": "2017-12-12T05:57:36.000Z",
                 "updatedAt": "2017-12-12T06:33:33.000Z"
             }
@@ -315,7 +315,7 @@ const DATA = {
                 "parentId": "Ugi7hPbxcLYF3HgCoAEC",
                 "canRate": true,
                 "viewerRating": "none",
-                "likeCount": 0,
+                "likeCount": 2,
                 "publishedAt": "2017-06-29T03:56:43.000Z",
                 "updatedAt": "2017-06-29T03:56:43.000Z"
             }

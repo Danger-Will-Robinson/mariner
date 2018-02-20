@@ -16,8 +16,14 @@ router.get('/getComments', (req, res, next) => {
     res.json(comments)
 });
 router.get('/getCommenterNames', (req, res, next) => {
-    const names = DATA.items.map(comment => comment.snippet.authorDisplayName)
+    const names = DATA.items.map(comment =>
+        comment.snippet.authorDisplayName)
     res.json(names)
+})
+router.get('/getTotalLikes', (req, res, next) => {
+    const likes = DATA.items.reduce((acc, comment) =>
+        acc += comment.snippet.likeCount, 0)
+    res.json(likes)
 })
 
 module.exports = router;
