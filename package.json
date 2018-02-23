@@ -1,0 +1,26 @@
+{
+  "name": "mariner",
+  "version": "1.0.0",
+  "description": "DWR",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Danger-Will-Robinson/mariner.git"
+  },
+  "author": "ph8tel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Danger-Will-Robinson/mariner/issues"
+  },
+  "homepage": "https://github.com/Danger-Will-Robinson/mariner#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "serve-favicon": "^2.4.5"
+  }
+}
