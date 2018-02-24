@@ -4,7 +4,7 @@ const DATA = require('../../../data/sampleData');
 const VIDEO = require('../../../data/videoResponse');
 const ALLVIDEOS = require('../../../data/youTubeAllVideoResponse')
 
-router.get('/getAllVideos', function(req, res, next) {
+router.get('/getAllVideoPlayLists', function(req, res, next) {
     var ids = ALLVIDEOS.map(obj => {
         console.log(obj.snippet)
         return {
