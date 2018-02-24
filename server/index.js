@@ -11,7 +11,7 @@ var users = require('./routes/users');
 const API = require('./routes/API/youTube');
 
 //sample data routes
-var ALLVIDEOS = require('./data/youTubeAllVideos');
+var ALLVIDEOS = require('../data/youTubeAllVideoResponse');
 
 var app = express();
 
