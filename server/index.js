@@ -38,7 +38,17 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-// error handler
+app.get('/getUserToken:id', function(req, res, next) {
+    //reach out to joe's oauth app
+    //return user token string
+    //on port ;;4444
+})
+app.get('/allvideos/:token', function(req, res, next) {
+        //reach out to videos db app.
+        //on port 4445
+        //sends back json of needed info
+    })
+    // error handler
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
