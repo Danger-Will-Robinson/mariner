@@ -21,7 +21,7 @@ router.get('/getAllVideoPlayLists', function(req, res, next) {
     res.json(ids)
 })
 
-router.post('/videodatabase/addVideo/', function(req, res, next) {
+router.post('/videodatabase/addUser/', function(req, res, next) {
     db.query(`INSERT INTO users (username, google_auth) VALUES ('${req.body.username}', '${req.body.auth}')`, function cb(err, result) {
         if (err) {
             console.error(err);
@@ -31,6 +31,17 @@ router.post('/videodatabase/addVideo/', function(req, res, next) {
     }); 
     res.status(err.status || 500);
     res.end(); 
+});
+
+router.get('/videodatabase/users', function(req, res, next) {
+    db.query('SELECT * FROM users', function cb(err, result) {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log(result);
+            res.json(result);
+        }
+    });
 });
 
 router.get('/getCommenterImages', function(req, res, next) {
