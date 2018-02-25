@@ -44,6 +44,20 @@ router.get('/videodatabase/users', function(req, res, next) {
     });
 });
 
+router.post('/videodatabase/addVideo', function(req, res, next) {
+    // let {title, thumbnail, } = req.body;
+    let query = `INSERT INTO videos (title, thumbnailURL, commentCount, viewCount, user) VALUES (${req.body.title},${req.body.thumbnail},${req.body.commentCount},${req.body.viewCount},${req.body.user})`;
+    db.query(query, function cb(err, result) {
+        if (err) {
+            console.error(err);
+            res.end();
+        } else {
+            console.log(result);
+            res.json(result);
+        }
+    });
+});
+
 router.get('/getCommenterImages', function(req, res, next) {
     console.log('target hit');
     //   res.render('', { title: 'Express' });
