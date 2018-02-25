@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const db = require('../database/index')
 const PORT = process.env.PORT || 5000;
 
 var index = require('./routes/index');
