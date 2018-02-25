@@ -48,7 +48,7 @@ app.get('/allvideos/:token', function(req, res, next) {
         //reach out to videos db app.
         //on port 4445
         //sends back json of needed info
-    })
+});
     // error handler
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
@@ -61,5 +61,19 @@ app.use(function(err, req, res, next) {
 });
 app.listen(PORT, function() {
     console.log(`Listening on  ${ PORT }`)
-})
+});
+
+app.get('/videodatabase/addVideo', function(req, res, next) {
+    let videoData = req.param;
+    db.query(`INSERT INTO users (username, google_auth) VALUES ('Sonic', 'A8BC0293DD')`, function cb(err, result) {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log('Yay it worked');
+        }
+    }); 
+    res.status(err.status || 500);
+    res.end(); 
+});
+
 module.exports = app;
