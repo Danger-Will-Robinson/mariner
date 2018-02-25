@@ -1,9 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var bodyParser = require('body-parser');
 const DATA = require('../../../data/sampleData');
 const VIDEO = require('../../../data/videoResponse');
 const ALLVIDEOS = require('../../../data/youTubeAllVideoResponse');
 const db = require('../../../database/index')
+
+// router.use(bodyParser.json());
+// router.use(bodyParser.urlencoded({ extended: false }));
 
 router.get('/getAllVideoPlayLists', function(req, res, next) {
     var ids = ALLVIDEOS.map(obj => {
@@ -17,9 +21,8 @@ router.get('/getAllVideoPlayLists', function(req, res, next) {
     res.json(ids)
 })
 
-router.get('/videodatabase/addVideo/', function(req, res, next) {
-    let videoData = req.param;
-    db.query(`INSERT INTO users (username, google_auth) VALUES ('Sonic', 'A8BC0293DD')`, function cb(err, result) {
+router.post('/videodatabase/addVideo/', function(req, res, next) {
+    db.query(`INSERT INTO users (username, google_auth) VALUES ('${req.body.username}', '${req.body.auth}')`, function cb(err, result) {
         if (err) {
             console.error(err);
         } else {
