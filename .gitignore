@@ -4,8 +4,10 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+# keys
+micro-services/Login-App/keys/
 # Runtime data
+.DS_Store
 pids
 *.pid
 *.seed
