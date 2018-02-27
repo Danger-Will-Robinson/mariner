@@ -1,3 +1,8 @@
+#alex'signore
+micro-services/comment-retrieval/config
+micro-services/comment-retrieval/node_modules
+/.DS_Store
+
 micro-services/.DS_Store
 micro-services/Login-App/config
 # Logs

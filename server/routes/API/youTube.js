@@ -67,6 +67,10 @@ router.get('/getCommenterImages', function(req, res, next) {
     res.json(images)
 });
 
+router.get('/getRaw', (req, res, next) => {
+  res.json(DATA);
+});
+
 router.get('/getComments', (req, res, next) => {
     const comments = DATA.items.map(comment =>
         comment.snippet.textDisplay)
