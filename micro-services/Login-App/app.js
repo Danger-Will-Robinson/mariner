@@ -8,8 +8,9 @@ const mongoose = require('mongoose');
 const keys = require('./config/keys');
 
 const app = express();
-
-// set view engine
+//set static
+app.use(express.static('static'))
+    // set view engine
 app.set('view engine', 'ejs');
 
 // set up session cookies
@@ -36,7 +37,12 @@ app.use('/profile', profileRoutes);
 app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
-// app.get('/youtube', (req, res) => res.json(req))
+app.get('/youtube/get-videos', (req, res) => {
+
+
+
+    })
+    // app.get('/youtube', (req, res) => res.json(req))
 app.listen(3000, () => {
-    console.log('Login running on port 3000');
+    console.log('app now listening for requests on port 3000');
 });

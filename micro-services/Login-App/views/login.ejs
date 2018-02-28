@@ -11,7 +11,7 @@
         }
         
         nav {
-            background: #33bbcc;
+            background: #ff5353;
             padding: 20px 10px;
         }
         
@@ -44,6 +44,11 @@
             color: #333;
         }
         
+        img {
+            height: 100px;
+            margin: 30px auto;
+        }
+        
         .google-btn {
             color: #fff;
             text-decoration: none;
@@ -62,16 +67,14 @@
                 <% } else { %>
                     <li><a href="/auth/login">Login</a></li>
                     <% } %>
-                        <li><a href="/">Homepage</a></li>
-                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/">Home</a></li>
         </ul>
     </nav>
     <header>
-        <h1>Select Login Method:</h1>
     </header>
     <main>
-        <a class="google-btn" href="/auth/google">Google+</a>
-        <a href="/auth/youtube">YouTube</a>
+        <a href="/auth/google"><img src="/images/google.ico" /></a>
+        <a href="/auth/youtube"><img src="/images/youtube.png" /></a>
     </main>
 </body>
 

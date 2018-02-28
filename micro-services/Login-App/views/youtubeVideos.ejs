@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>OAuth Tutorials</title>
+    <title>All YOUR VIDEOS</title>
     <style>
         body {
             font-family: arial;
@@ -43,11 +43,23 @@
             padding: 0 10px;
             color: #333;
         }
+        
+        main img {
+            width: 40px;
+            margin-right: 10px;
+            position: relative;
+            top: 12px;
+        }
+        
+        main p {
+            display: inline-block;
+        }
     </style>
 </head>
 
 <body>
     <nav>
+        <a href="/profile/youtube/comments">Comments</a>
         <ul>
             <% if (user) { %>
                 <li><a href="/auth/logout">Log out</a></li>
@@ -58,11 +70,27 @@
         </ul>
     </nav>
     <header>
-        <h1>Mariner Login for Youtube</h1>
-        <!-- <h2>Homepage</h2> -->
+
+        <h1>
+            <%= user.name %> Playlists:
+        </h1>
+
     </header>
     <main>
-        <p>Authorize your youtube account</p>
+        <ul>
+            <% for(var i=0; i<data.items.length; i++) { %>
+                <li>
+                    <img src="<%= data.items[i].snippet.thumbnails.default.url %>" /> <br/><br/>title:
+                    <%= data.items[i].snippet.title %><br/> description:
+                        <%= data.items[i].snippet.description %><br/> publish date:
+                            <%= data.items[i].snippet.publishedAt %><br/>
+                                <p>uploads id:</p>
+                                <%= data.items[i].contentDetails.relatedPlaylists.uploads %><br/>
+                                    <p>all channel ID</p>
+                                    <%= data.items[i].id %>
+                </li>
+                <% } %>
+        </ul>
     </main>
 </body>
 

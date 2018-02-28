@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Mariner Login</title>
+    <title>Homepage</title>
     <style>
         body {
             font-family: arial;
@@ -11,7 +11,7 @@
         }
         
         nav {
-            background: #33ccff;
+            background: #ff5353;
             padding: 20px 10px;
         }
         
@@ -70,17 +70,16 @@
         </ul>
     </nav>
     <header>
-        <h1>User Name:
+        <h1>User Name is
             <%= user.username %>
         </h1>
-        <h1>User googleId:
+        <h2>User googleId
             <%= user.googleId %>
-                </h2>
+        </h2>
     </header>
     <main>
         <img src="<%= user.thumbnail %>" />
         <p>This is your profile thumbnail</p>
-
     </main>
 </body>
 
