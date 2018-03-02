@@ -4,7 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const db = require('../database/index')
+const mongoose = require('mongoose')
+const db = require('../database/preferences')
 const PORT = process.env.PORT || 5000;
 
 var index = require('./routes/index');
@@ -71,9 +72,9 @@ app.get('/videodatabase/addVideo', function(req, res, next) {
         } else {
             console.log('Yay it worked');
         }
-    }); 
+    });
     res.status(err.status || 500);
-    res.end(); 
+    res.end();
 });
 
 module.exports = app;
