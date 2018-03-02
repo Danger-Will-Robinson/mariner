@@ -1,18 +1,12 @@
-const mysql = require('mysql');
-
-const connection = mysql.createConnection({
-  host: 'thesisdb.ceerpjusbx3v.us-east-2.rds.amazonaws.com',
-  user: 'BigWidowsPeak',
-  password: 'hackreactor03',
-  database: 'ThesisDB'
-});
-
-connection.connect((err, success) => {
+const mongoose = require('mongoose');
+const keys = require('../config/keys');
+const mongoUri = keys.mongoDb.dbUri
+const db = mongoose.connect(mongoUri, (err, success) => {
   if (err) {
-    console.log('err in db connect', err);
+    console.log('err in mongodb connect', err);
   } else {
-    console.log('successful connection');
+    console.log('success in mongodb ', success);
   }
 });
 
-module.exports = connection;
+module.exports = db;
