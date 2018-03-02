@@ -26,8 +26,12 @@ router.get('/youtube',
 // send back all of the 
 router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res) => {
     var userID = req.user;
-    var w = await youtube.runner(userID, keys.youTube.API_KEY)
-    res.json(w.data.items)
+    var userName = req.user.name;
+    // console.log(userName)
+    var w = await youtube.runner(userName, keys.youTube.API_KEY)
+        // console.log(w, 'WWWWWWWWW')
+    res.json(w)
+        // res.render('youtubeVideos', { data: w.data.items, user: req.user, comments: [] })
 });
 
 // callback route for google to redirect to

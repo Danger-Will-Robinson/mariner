@@ -59,7 +59,6 @@
 
 <body>
     <nav>
-        <a href="/profile/youtube/comments">Comments</a>
         <ul>
             <% if (user) { %>
                 <li><a href="/auth/logout">Log out</a></li>
@@ -72,24 +71,39 @@
     <header>
 
         <h1>
-            <%= user.name %> Playlists:
+            <%= user.name %> 's uploaded videos:
         </h1>
 
     </header>
     <main>
         <ul>
-            <% for(var i=0; i<data.items.length; i++) { %>
+            <% for(var i=0; i<data.length; i++) { %>
                 <li>
-                    <img src="<%= data.items[i].snippet.thumbnails.default.url %>" /> <br/><br/>title:
-                    <%= data.items[i].snippet.title %><br/> description:
-                        <%= data.items[i].snippet.description %><br/> publish date:
-                            <%= data.items[i].snippet.publishedAt %><br/>
+                    <%= data[i].snippet.title %><br/> description:
+                        <%= data[i].snippet.description %><br/> publish date:
+                            <%= data[i].snippet.videoId %><br/>
                                 <p>uploads id:</p>
-                                <%= data.items[i].contentDetails.relatedPlaylists.uploads %><br/>
-                                    <p>all channel ID</p>
-                                    <%= data.items[i].id %>
+
                 </li>
                 <% } %>
+        </ul>
+        <ul>
+        <% if (comments.length) { %>
+        <% for(var i=0; i<comments.length; i++) { %>
+        
+        <li>
+           <h3><%= comments[i].author %></h3>
+           <p><%= comments[i].comment %></p>
+
+        </li>
+
+        <% } %>
+
+
+            <% } else { %>
+            <p>no comments</p>
+        <% } %>
+            
         </ul>
     </main>
 </body>
