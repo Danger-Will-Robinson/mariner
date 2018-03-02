@@ -37,12 +37,7 @@ app.use('/profile', profileRoutes);
 app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
-app.get('/youtube/get-videos', (req, res) => {
-
-
-
-    })
-    // app.get('/youtube', (req, res) => res.json(req))
+// app.get('/youtube', (req, res) => res.json(req))
 app.listen(3000, () => {
     console.log('app now listening for requests on port 3000');
 });
