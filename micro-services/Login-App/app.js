@@ -40,7 +40,10 @@ app.use('/api', apiRoutes);
 app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
-// app.get('/youtube', (req, res) => res.json(req))
+app.get('/test', (req, res) => {
+        res.render('api-test', {})
+    })
+    // app.get('/youtube', (req, res) => res.json(req))
 app.listen(3000, () => {
     console.log('app now listening for requests on port 3000');
 });

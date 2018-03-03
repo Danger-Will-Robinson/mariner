@@ -68,6 +68,14 @@ router.get('all-data/by-name', function(req, res) {
         res.json('not found')
     }
 });
+router.get('/sample', function(req, res) {
+    User.find({ name: 'ph8tel' }, function(err, data) {
+        if (err) {
+            console.log(err)
+        }
+        res.json(data)
+    }).catch(err => res.send('error finding by name'))
+})
 
 
 
