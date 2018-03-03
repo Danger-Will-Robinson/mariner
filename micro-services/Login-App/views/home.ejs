@@ -1,17 +1,6 @@
 <% include ./html-header.ejs %>
-
-
 <body>
-    <nav>
-        <ul>
-            <% if (user) { %>
-                <li><a href="/auth/logout">Log out</a></li>
-                <% } else { %>
-                    <li><a href="/auth/login">Login</a></li>
-                    <% } %>
-                        <li><a href="/">Homepage</a></li>
-        </ul>
-    </nav>
+    <% include ./nav-bar.ejs %> 
     <header>
         <h1>Mariner Login for Youtube</h1>
         <!-- <h2>Homepage</h2> -->

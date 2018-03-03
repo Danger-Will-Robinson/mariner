@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
 app.get('/test', (req, res) => {
-        res.render('api-test', {})
+        res.render('api-test', { user: false })
     })
     // app.get('/youtube', (req, res) => res.json(req))
 app.listen(3000, () => {
