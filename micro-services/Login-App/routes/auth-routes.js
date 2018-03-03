@@ -3,6 +3,7 @@ const passport = require('passport');
 const keys = require('../config/keys');
 var axios = require('axios')
 var youtube = require('../youtubelogic/youtube')
+const User = require('../models/user-model');
 
 // auth login
 router.get('/login', (req, res) => {
@@ -25,13 +26,17 @@ router.get('/youtube',
 );
 // send back all of the 
 router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res) => {
-    var userID = req.user;
-    var userName = req.user.name;
-    // console.log(userName)
-    var w = await youtube.runner(userName, keys.youTube.API_KEY)
-        // console.log(w, 'WWWWWWWWW')
-    res.json(w)
-        // res.render('youtubeVideos', { data: w.data.items, user: req.user, comments: [] })
+    let userComplete = req.user
+    let userData = await youtube.gimmeAll(req.user._id, keys.youTube.API_KEY)
+        // userData.user = req.user
+
+    User.findOneAndUpdate({ _id: req.user._id }, { videos: userData.videos, comments: userData.comments }, { fields: 'data' }, function(err) {
+            if (err) {
+                console.log(err, 'err in update db')
+            }
+        })
+        // res.json(userData)
+    res.render('youtubeVideos', { data: userData.videos, user: req.user, comments: userData.comments })
 });
 
 // callback route for google to redirect to

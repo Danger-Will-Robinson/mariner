@@ -32,6 +32,7 @@ module.exports = youtubeLogic = {
 
         getUploadedVideos: function(uploadsID, API_KEY) {
 
+
             return new Promise(resolve => {
                 axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
                     params: {
@@ -57,12 +58,12 @@ module.exports = youtubeLogic = {
                 })
             })
         },
-        getChannelInfo: function(name, API_KEY) {
+        getChannelInfo: function(id, API_KEY) {
 
             return new Promise(resolve => {
                 axios.get('https://www.googleapis.com/youtube/v3/channels', {
                         params: {
-                            forUsername: name,
+                            id: id,
                             part: 'snippet,contentDetails,statistics',
                             maxResults: '50',
                             key: API_KEY
@@ -72,19 +73,38 @@ module.exports = youtubeLogic = {
                     .catch(err => console.log('error in get chan infoerr'))
             })
         },
-        runner: async function(userName, API_KEY) {
-            let channelInfo = await this.getChannelInfo(userName, API_KEY)
-            let uploadsID = channelInfo.data.items[0].contentDetails.relatedPlaylists.uploads;
-            let channelId = channelInfo.data.items[0].id
-                // let videos = await this.getUploadedVideos(chanID, API_KEY);
-            let commentObjects = await this.getComments(channelId, API_KEY)
+        gimmeVideos: async function(chanID, API_KEY) {
+            let videos = await this.getUploadedVideos(chanID, API_KEY)
+            return videos
+        },
+        gimmeComments: async function(chanID, API_KEY) {
+            let commentObjects = await this.getComments(chanID, API_KEY)
+            return videos
+        },
+        gimmePlaylist: async function(uploadsID, API_KEY) {
             let videoObjects = await this.getPlaylists(uploadsID, API_KEY)
+            return videoObjects
+        },
+        gimmeAll: async function(userID, API_KEY) {
+            let channelInfo = await this.getChannelInfo(userID, API_KEY)
+            console.log('info is', channelInfo.data)
+            if (channelInfo.data.items.length) {
+                let uploadsID = channelInfo.data.items[0].contentDetails.relatedPlaylists.uploads;
+                let channelId = channelInfo.data.items[0].id
+                let commentObjects = await this.getComments(channelId, API_KEY)
+                let videoObjects = await this.getPlaylists(uploadsID, API_KEY)
 
-            let responseObject = {
-                videos: videoObjects,
-                comments: commentObjects
+                let responseObject = {
+                    videos: videoObjects,
+                    comments: commentObjects
+                }
+                return responseObject
+            } else {
+                return {
+                    videos: [],
+                    comments: []
+                }
             }
-            return responseObject
         },
         getComments: function(channelID, API_KEY) {
 
@@ -96,11 +116,12 @@ module.exports = youtubeLogic = {
                         key: API_KEY
                     }
                 }).then(allComments => {
+                    // console.log('HERE', allComments.data.items[0].snippet.topLevelComment)
                     var objs = allComments.data.items.map(e => {
                         return {
                             commentId: e.snippet.topLevelComment.id,
-                            author: e.snippet.topLevelComment.snippet.authoDisplayName,
-                            authorThumbnail: e.snippet.topLevelComment.snippet.authorProfileImage,
+                            author: e.snippet.topLevelComment.snippet.authorDisplayName,
+                            authorThumbnail: e.snippet.topLevelComment.snippet.authorProfileImageUrl,
                             videoId: e.snippet.topLevelComment.snippet.videoId,
                             comment: e.snippet.topLevelComment.snippet.textDisplay,
                             likeCount: e.snippet.topLevelComment.snippet.likeCount,

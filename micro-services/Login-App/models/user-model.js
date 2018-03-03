@@ -13,7 +13,10 @@ var userSchema = new mongoose.Schema({
     _id: { type: String },
     access_token: String,
     refresh_token: String,
-    name: String
+    name: String,
+    data: [],
+    videos: {},
+    comments: {}
 }, { collection: "you-tube-logins" });
 
 // var User = mongoose.model('User', userSchema);
