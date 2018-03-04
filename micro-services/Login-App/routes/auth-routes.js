@@ -24,7 +24,7 @@ router.get('/google', passport.authenticate('google', {
 router.get('/youtube',
     passport.authenticate('youtube')
 );
-// send back all of the 
+// send back all of the
 router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res) => {
     let userComplete = req.user
     let userData = await youtube.gimmeAll(req.user._id, keys.youTube.API_KEY)
@@ -36,6 +36,23 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
             }
         })
         // res.json(userData)
+    // http.post('http://localhost:5001/comments', {
+    //   videos: userData.videos,
+    //   user: req.user,
+    //   comments: userData.comments
+    // })
+    axios.post('http://localhost:5001/comments', {
+      videos: userData.videos,
+      user: req.user,
+      comments: userData.comments
+    })
+    .then((response) => {
+      console.log('success: response is ', response)
+    })
+    .catch((err) => {
+      console.log('err in axios post ', err);
+    })
+
     res.render('youtubeVideos', { data: userData.videos, user: req.user, comments: userData.comments })
 });
 
