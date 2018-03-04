@@ -8,6 +8,7 @@ const index = require('./routes/index');
 const db = require('./db/index')
 const users = require('./routes/users');
 const test = require('./routes/test');
+const comments = require('./routes/comments')
 const app = express();
 
 // view engine setup
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/test', test);
+app.use('/comments', comments);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
