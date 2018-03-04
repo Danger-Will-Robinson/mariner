@@ -31,12 +31,15 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
         // userData.user = req.user
 
     User.findOneAndUpdate({ _id: req.user._id }, { videos: userData.videos, comments: userData.comments }, { fields: 'data' }, function(err) {
-            if (err) {
-                console.log(err, 'err in update db')
-            }
-        })
+        if (err) {
+            console.log(err, 'err in update db')
+        }
+    })
+    res.userData = req.user;
+    res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`)
+        // res.json(req.user)
         // res.json(userData)
-    res.render('youtubeVideos', { data: userData.videos, user: req.user, comments: userData.comments })
+        // res.render('youtubeVideos', { data: userData.videos, user: req.user, comments: userData.comments })
 });
 
 // callback route for google to redirect to
