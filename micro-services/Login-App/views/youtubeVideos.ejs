@@ -11,6 +11,22 @@
         <h4> Youtube Token: <%= user.access_token %></h4>
     </header>
     <main>
+    <ol>
+    <% if (comments.length) { %>
+    <h1>Comments:</h1>
+      <% for(var i=0; i<comments.length; i++) { %>
+       <h2 class="comment"> <%= comments[i].comment %></h2>
+       <li>
+         <h3><img src="<%= comments[i].authorThumbnail %>" />author: <%= comments[i].author %></h3>
+         <p>video id: <%= comments[i].videoId %> </p><br />
+         <p>Likes: <%= comments[i].likeCount %></p><br />
+         <p>Created: <%= comments[1].publishedAt %></p><br />
+       </li>
+    <% } %>
+        <% } else { %>
+        <li>No Comments</li>
+    <% } %>
+    </ol>
         <ul>
         <% if (data.length) { %>
         <h2>Videos:</h2>
@@ -29,22 +45,7 @@
         <% } %>
             
         </ul>
-        <ol>
-        <% if (comments.length) { %>
-        <h1>Comments:</h1>
-          <% for(var i=0; i<comments.length; i++) { %>
-           <h2 class="comment"> <%= comments[i].comment %></h2>
-           <li>
-             <h3><img src="<%= comments[i].authorThumbnail %>" />author: <%= comments[i].author %></h3>
-             <p>video id: <%= comments[i].videoId %> </p><br />
-             <p>Likes: <%= comments[i].likeCount %></p><br />
-             <p>Created: <%= comments[1].publishedAt %></p><br />
-           </li>
-        <% } %>
-            <% } else { %>
-            <li>No Comments</li>
-        <% } %>
-        </ol>
+
     </main>
 </body>
 
