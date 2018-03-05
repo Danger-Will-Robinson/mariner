@@ -35,11 +35,28 @@ router.get('/:testName/:testData', async(req, res) => {
     }
     if (testName === 'text') {
         let textResult = await runTest.text(testData)
-        res.render('text', { result: textResult.result, data: textResult.data })
+        res.render('text', { text: testData, result: textResult.result, data: textResult.data, raw: textResult.raw })
     } else {
         res.send('not in place yet')
     }
     // res.render('', { user: {name: , id:  }})
 })
+router.get('/negative', async(req, res) => {
+    let negativeStatement = "angry bad hate ugly";
+    let result = await runTest.text(negativeStatement);
+    let valenceResult = result.data.valence === 'negative'
+    let polarityResult = result.data.polarity < 0
+    let typeResult = typeof result.raw === 'object'
 
+    res.render('negative', { valenceResult: valenceResult, polarityResult: polarityResult, typeResult: typeResult, text: negativeStatement })
+})
+router.get('/positive', async(req, res) => {
+    let statement = "happy love good pretty";
+    let result = await runTest.text(statement);
+    let valenceResult = result.data.valence === 'positive'
+    let polarityResult = result.data.polarity < 0
+    let typeResult = typeof result.raw === 'object'
+
+    res.render('positive', { text: statement, valenceResult: valenceResult, polarityResult: polarityResult, typeResult: typeResult })
+})
 module.exports = router;

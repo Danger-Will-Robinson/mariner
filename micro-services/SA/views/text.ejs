@@ -4,8 +4,11 @@
 </header>
 <main>
 <div id="test-name" >
+  <p>Text tp test: <em> <%= text %></em></p>
   <p>SA gives response for text: <em> <%= result %> </em> </p>
-  <p>SA response is: <%= JSON.stringify(data) %></p>
+  <p>test valence: <%= data.valence %></p>
+  <p>test polarity: <%= data.polarity %></p>
+  <p>SA response is: <%= JSON.stringify(raw) %></p>
 </div>
 </main>
 </body>

@@ -21,7 +21,7 @@ const tests = {
             axios.get('http://localhost:4000/api/text/' + text)
                 .then(response => {
                     if (response.data) {
-                        resolve({ result: true, data: response.data })
+                        resolve({ result: true, data: response.data.children[0].data, raw: response.data })
                     }
                     resolve(false)
                 }).catch(err => {
