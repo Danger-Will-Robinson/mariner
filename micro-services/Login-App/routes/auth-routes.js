@@ -46,18 +46,18 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
     //   comments: userData.comments
     // })
     axios.post('http://localhost:5001/comments', {
-      videos: userData.videos,
-      user: req.user,
-      comments: userData.comments
-    })
-    .then((response) => {
-      console.log('success: response is ', response)
-    })
-    .catch((err) => {
-      console.log('err in axios post ', err);
-    })
+            videos: userData.videos,
+            user: req.user,
+            comments: userData.comments
+        })
+        .then((response) => {
+            console.log('success: response is ', response)
+        })
+        .catch((err) => {
+            console.log('err in axios post ', err);
+        })
 
-    res.render('youtubeVideos', { data:
+    // res.render('youtubeVideos', { data:
 
 });
 
