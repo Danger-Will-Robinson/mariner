@@ -2,22 +2,32 @@ const axios = require('axios')
 const tests = {
     login: async(id) => {
         return new Promise(resolve => {
-            axios.get('http://localhost:3000/api/videos/by-id/', {
-                params: {
+            axios.post('http://localhost:3000/api/videos/by-id/', {
                     id: id
-                }
-            }).then(userData => {
-                // console.log('HERE', allComments.data.items[0].snippet.topLevelComment)
-                // var objs = userData.data.items.map(e => {
-                //     return {
-                //         result: e.videos.length === true,
-                //     }
-                // })
-                resolve(true)
-            }).catch(err => {
-                console.log('error in login')
-                resolve(false)
-            })
+                })
+                .then(userData => {
+                    if (userData) {
+                        resolve(true)
+                    }
+                    resolve(false)
+                }).catch(err => {
+                    console.log('error in login', )
+                    resolve('error')
+                })
+        })
+    },
+    text: (text) => {
+        return new Promise(resolve => {
+            axios.get('http://localhost:4000/api/text/' + text)
+                .then(response => {
+                    if (response.data) {
+                        resolve({ result: true, data: response.data })
+                    }
+                    resolve(false)
+                }).catch(err => {
+                    console.log('error in text', err.message)
+                    resolve('error')
+                })
         })
     }
 }

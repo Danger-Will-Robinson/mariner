@@ -1,19 +1,24 @@
+// put this in your app route 
+// app.use('/test', test);
 var express = require('express');
 var router = express.Router();
+// make this file with following snippet
 var runTest = require('../testing/testLogic.js')
 
-/* GET home page. */
+/* hard coded results page. */
 router.get('/', async(req, res, next) => {
-    console.log('root ran')
-    let loginResult = awaitrunTest.login('UCCooOt2LDAfz-5giM99biUQ')
-    let hasId = true
-        // res.render('index', { title: 'Express' });
+    let sampleUser = {
+        name: 'ph8tel',
+        id: 'UCCooOt2LDAfz-5giM99biUQ'
+    }
+    let loginResult = await runTest.login(sampleUser.id)
+    let hasIdResult = loginResult
     res.render('all', {
         user: {
-            name: 'ph8tel',
-            id: 'UCCooOt2LDAfz-5giM99biUQ',
+            name: sampleUser.name,
+            id: sampleUser.id,
             tests: {
-                login: loginResult,
+                loginResult: loginResult,
                 hasId: hasIdResult
             }
         }
@@ -21,13 +26,20 @@ router.get('/', async(req, res, next) => {
 
 });
 // tsting route
-router.get('/:testName', (req, res) => {
+router.get('/:testName/:testData', async(req, res) => {
     let testName = req.params.testName;
+    let testData = req.params.testData
+    console.log(testData, 'test data')
     if (testName === 'basic') {
         res.render('basic')
     }
-    res.send('not in place yet')
-        // res.render('', { user: {name: , id:  }})
+    if (testName === 'text') {
+        let textResult = await runTest.text(testData)
+        res.render('text', { result: textResult.result, data: textResult.data })
+    } else {
+        res.send('not in place yet')
+    }
+    // res.render('', { user: {name: , id:  }})
 })
 
 module.exports = router;
