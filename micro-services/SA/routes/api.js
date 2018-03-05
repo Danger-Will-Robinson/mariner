@@ -15,10 +15,9 @@ router.get('/text/:text', function(req, res, next) {
         .use(english)
         .use(sentiment);
 
-    var file = "this is the text from req"
-    var tree = processor.parse(file);
+    var tree = processor.parse(text);
 
-    processor.run(tree, file);
+    processor.run(tree, text);
     console.log(inspect(tree));
     res.json(tree)
 
