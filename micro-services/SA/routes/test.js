@@ -1,17 +1,20 @@
 var express = require('express');
 var router = express.Router();
+var runTest = require('../testing/testLogic.js')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', async(req, res, next) => {
     console.log('root ran')
+    let loginResult = awaitrunTest.login('UCCooOt2LDAfz-5giM99biUQ')
+    let hasId = true
         // res.render('index', { title: 'Express' });
     res.render('all', {
         user: {
             name: 'ph8tel',
             id: 'UCCooOt2LDAfz-5giM99biUQ',
             tests: {
-                loginResult: true,
-
+                login: loginResult,
+                hasId: hasIdResult
             }
         }
     })
