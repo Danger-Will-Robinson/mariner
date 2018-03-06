@@ -1,0 +1,20 @@
+<html>
+<header>
+<h1>User Name 
+    <%= user.name %>
+</h1>
+<h2>User Id
+    <%= user.id %>
+</h2>
+</header>
+<main>
+<a href="/">BACK</a>
+
+<div id="test-name" >
+  <p>User exists on login db: <em> <%= user.tests.loginResult %> </em> </p>
+  <p>User ID is correct: <em> <%= user.tests.hasId %> </em> </p>
+</div>
+</main>
+</body>
+
+</html>
