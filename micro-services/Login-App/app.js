@@ -3,12 +3,10 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const authRoutes = require('./routes/auth-routes');
 const profileRoutes = require('./routes/profile-routes');
-<<<<<<< HEAD
+
 //const passportSetup = require('./config/passport-setup');
-=======
 const apiRoutes = require('./routes/api-routes');
 const passportSetup = require('./config/passport-setup');
->>>>>>> 974a42ce2ebb8fe9e83fc3de5652155cceed38b5
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
 
