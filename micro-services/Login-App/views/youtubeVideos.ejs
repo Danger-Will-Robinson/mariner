@@ -1,96 +1,51 @@
-<!DOCTYPE html>
-<html>
+<% include ./html-header.ejs %>
 
-<head>
-    <meta charset="utf-8">
-    <title>All YOUR VIDEOS</title>
-    <style>
-        body {
-            font-family: arial;
-            margin: 0;
-        }
-        
-        nav {
-            background: #ff5353;
-            padding: 20px 10px;
-        }
-        
-        nav ul {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0;
-        }
-        
-        nav li {
-            list-style-type: none;
-            display: inline-block;
-            margin: 0 10px 0 0;
-        }
-        
-        nav a {
-            color: #fff;
-            font-size: 18px;
-            background: rgba(255, 255, 255, 0.2);
-            text-decoration: none;
-            padding: 10px;
-            display: block;
-        }
-        
-        main,
-        header {
-            max-width: 960px;
-            margin: 30px auto;
-            padding: 0 10px;
-            color: #333;
-        }
-        
-        main img {
-            width: 40px;
-            margin-right: 10px;
-            position: relative;
-            top: 12px;
-        }
-        
-        main p {
-            display: inline-block;
-        }
-    </style>
-</head>
-
-<body>
-    <nav>
-        <a href="/profile/youtube/comments">Comments</a>
-        <ul>
-            <% if (user) { %>
-                <li><a href="/auth/logout">Log out</a></li>
-                <% } else { %>
-                    <li><a href="/auth/login">Login</a></li>
-                    <% } %>
-                        <li><a href="/">Homepage</a></li>
-        </ul>
-    </nav>
+<% include ./nav-bar.ejs %>
     <header>
 
-        <h1>
-            <%= user.name %> Playlists:
-        </h1>
-
+        <h2>
+            <%= user.name %> 's YouTube Data:
+            
+        </h2>
+        <h4> Youtube Id: <%= user.id %></h4>
+        <h4> Youtube Token: <%= user.access_token %></h4>
     </header>
     <main>
+    <ol>
+    <% if (comments.length) { %>
+    <h1>Comments:</h1>
+      <% for(var i=0; i<comments.length; i++) { %>
+       <h2 class="comment"> <%= comments[i].comment %></h2>
+       <li>
+         <h3><img src="<%= comments[i].authorThumbnail %>" />author: <%= comments[i].author %></h3>
+         <p>video id: <%= comments[i].videoId %> </p><br />
+         <p>Likes: <%= comments[i].likeCount %></p><br />
+         <p>Created: <%= comments[1].publishedAt %></p><br />
+       </li>
+    <% } %>
+        <% } else { %>
+        <li>No Comments</li>
+    <% } %>
+    </ol>
         <ul>
-            <% for(var i=0; i<data.items.length; i++) { %>
+        <% if (data.length) { %>
+        <h2>Videos:</h2>
+            <% for(var i=0; i<data.length; i++) { %>
+            <h3><%= data[i].snippet.title %></h3>
                 <li>
-                    <img src="<%= data.items[i].snippet.thumbnails.default.url %>" /> <br/><br/>title:
-                    <%= data.items[i].snippet.title %><br/> description:
-                        <%= data.items[i].snippet.description %><br/> publish date:
-                            <%= data.items[i].snippet.publishedAt %><br/>
-                                <p>uploads id:</p>
-                                <%= data.items[i].contentDetails.relatedPlaylists.uploads %><br/>
-                                    <p>all channel ID</p>
-                                    <%= data.items[i].id %>
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= data[i].contentDetails.videoId %>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                  
+                  <p>Title: <%= data[i].snippet.title %> </p><br/> 
+                  <p>description: <%= data[i].snippet.description %> </p><br/>
+                  <p><img src="<%= data[i].snippet.thumbnails.default.url %>" />video id: <%= data[i].contentDetails.videoId %></p>
                 </li>
-                <% } %>
+            <% } %>
+        <% } else { %>
+        <li>No Videos </li>
+        <% } %>
+            
         </ul>
+
     </main>
 </body>
 

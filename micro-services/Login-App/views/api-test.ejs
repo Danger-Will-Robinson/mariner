@@ -1,0 +1,63 @@
+<% include ./html-header.ejs %>
+
+<% include ./nav-bar.ejs %>
+<body>
+    <h1>CURRENT WORKING API ROUTES</h1>
+<form name="form1" method="POST" action="/api/all-data/by-name">
+    <table>
+      <tr>
+        <td>Get all data by User Name</td>
+        <td>"/api/all-data/by-name?name=<input type="text" name="name" ></td>
+      </tr>
+    </table>
+</form>
+<form name="allbyid" method="POST" action="/api/all-data/by-id">
+    <table>
+      <tr>
+        <td>Get all data by User ID</td>
+        <td>"/api/all-data/by-id?id=<input type="text" name="id" >"</td>
+      </tr>
+    </table>
+</form>
+<form name="comsbyname" method="POST" action="/api/comments/by-name">
+    <table>
+    <tr>
+      <td>Get all comments by User Name</td>
+      <td>"/api/comments/by-name?name=<input type="text" name="name" >"</td>
+      </tr>
+    </table>
+</form>
+<form name="comsbyid" method="POST" action="/api/comments/by-id">
+  <table>
+    <tr> 
+      <td>Get all comments by User Id</td>
+      <td>"/api/comments/by-id?id=<input type="text" name="id" >"</td>
+    </tr>
+  </table>
+</form>    
+<form name="vidsbyname" method="POST" action="/api/videos/by-name">
+  <table>
+    <tr>
+      <td>Get all comments by User Name</td>
+      <td>"/api/videos/by-name?name=<input type="text" name="name" >"</td>
+    </tr>
+  </table>
+</form>
+<form name="vidsbyid" method="POST" action="/api/videos/by-id">
+  <table>
+    <tr>
+      <td>Get all comments by User Id</td>
+      <td> "/api/videos/by-id?id=<input type="text" name="id" >"</td>
+    </tr>
+  </table>
+</form>
+  
+    
+        <a href="/api/sample">
+            <li>get Comments sample</li>
+        </a>
+
+    </ul>
+</body>
+
+</html>

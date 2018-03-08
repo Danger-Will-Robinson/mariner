@@ -1,11 +1,16 @@
 #alex'signore
-micro-services/comment-retrieval/config
+micro-services/comment-retrieval/config/keys.js
 micro-services/comment-retrieval/node_modules
 /.DS_Store
 
+<<<<<<< HEAD
 
 
 
+=======
+server/config/key.js
+server/config/*.*
+>>>>>>> 974a42ce2ebb8fe9e83fc3de5652155cceed38b5
 micro-services/.DS_Store
 micro-services/Login-App/config
 # Logs

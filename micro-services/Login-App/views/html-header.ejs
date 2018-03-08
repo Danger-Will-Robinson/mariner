@@ -64,30 +64,3 @@
         }
     </style>
 </head>
-<nav>
-<ul>
-<img src="/images/icon.png" height="88px" float="left"/>
-
-    <% if (user) { %>
-        <li><a href="/auth/logout">Log out</a></li>
-        <% } else { %>
-            <li><a href="/auth/login">Login</a></li>
-            <% } %>
-                <li><a href="/">Home</a></li>
-                
-</ul>
-</nav>
-<header>
-<h1>User Name 
-    <%= user.name %>
-</h1>
-<h2>User Id
-    <%= user.id %>
-</h2>
-</header>
-<main>
-
-</main>
-</body>
-
-</html>

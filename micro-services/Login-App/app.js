@@ -3,7 +3,12 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const authRoutes = require('./routes/auth-routes');
 const profileRoutes = require('./routes/profile-routes');
+<<<<<<< HEAD
 //const passportSetup = require('./config/passport-setup');
+=======
+const apiRoutes = require('./routes/api-routes');
+const passportSetup = require('./config/passport-setup');
+>>>>>>> 974a42ce2ebb8fe9e83fc3de5652155cceed38b5
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
 
@@ -32,15 +37,15 @@ mongoose.connect(keys.mongodb.dbURI, () => {
 // set up routes
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
+app.use('/api', apiRoutes);
+
 
 // create home route
 app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
-app.get('/youtube/get-videos', (req, res) => {
-
-
-
+app.get('/test', (req, res) => {
+        res.render('api-test', { user: false })
     })
     // app.get('/youtube', (req, res) => res.json(req))
 app.listen(3000, () => {
