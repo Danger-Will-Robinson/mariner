@@ -6,6 +6,7 @@ const profileRoutes = require('./routes/profile-routes');
 const apiRoutes = require('./routes/api-routes');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
+const passportSetup = require('./config/passport-setup');
 
 const app = express();
 //set static
