@@ -3,10 +3,11 @@ micro-services/comment-retrieval/config/keys.js
 micro-services/comment-retrieval/node_modules
 /.DS_Store
 
+
 server/config/key.js
 server/config/*.*
 micro-services/.DS_Store
-micro-services/Login-App/config
+micro-services/Login-App/config/*.*
 # Logs
 logs
 *.log
