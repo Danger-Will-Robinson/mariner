@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const db = require('../../../database/index')
+//const db = require('../../../database/index')
+const db = require('../db/index')
 const bodyParser = require('body-parser');
 // const app = express()
 
@@ -24,10 +25,10 @@ router.post('/', (req, res) => {
   // })
   // res.status(err.status || 500);
   // res.end()
-
+  db.query('use ThesisDB')
   req.body.videos.map((video, index) => {
     console.log('inside map')
-    db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title}', '${video.snippet.thumbnails.default.url}', '${req.body.name}', '${video.contentDetails.videoId}')`, (err, result) => {
+    db.query(`insert into videos (title, thumbnailURL, contentId) values ('${JSON.stringify(video.snippet.title)}', '${video.snippet.thumbnails.default.url}', '${video.contentDetails.videoId}')`, (err, result) => {
       if (err) {
         console.log(`err at index ${index}, err looks like ${err}`)
       } else {
