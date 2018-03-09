@@ -1,0 +1,52 @@
+<% include ./html-header.ejs %>
+
+<% include ./nav-bar.ejs %>
+    <header>
+
+        <h2>
+            <%= user.name %> 's YouTube Data:
+            
+        </h2>
+        <h4> Youtube Id: <%= user.id %></h4>
+        <h4> Youtube Token: <%= user.access_token %></h4>
+    </header>
+    <main>
+    <ol>
+    <% if (comments.length) { %>
+    <h1>Comments:</h1>
+      <% for(var i=0; i<comments.length; i++) { %>
+       <h2 class="comment"> <%= comments[i].comment %></h2>
+       <li>
+         <h3><img src="<%= comments[i].authorThumbnail %>" />author: <%= comments[i].author %></h3>
+         <p>video id: <%= comments[i].videoId %> </p><br />
+         <p>Likes: <%= comments[i].likeCount %></p><br />
+         <p>Created: <%= comments[1].publishedAt %></p><br />
+       </li>
+    <% } %>
+        <% } else { %>
+        <li>No Comments</li>
+    <% } %>
+    </ol>
+        <ul>
+        <% if (data.length) { %>
+        <h2>Videos:</h2>
+            <% for(var i=0; i<data.length; i++) { %>
+            <h3><%= data[i].snippet.title %></h3>
+                <li>
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= data[i].contentDetails.videoId %>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                  
+                  <p>Title: <%= data[i].snippet.title %> </p><br/> 
+                  <p>description: <%= data[i].snippet.description %> </p><br/>
+                  <p><img src="<%= data[i].snippet.thumbnails.default.url %>" />video id: <%= data[i].contentDetails.videoId %></p>
+                </li>
+            <% } %>
+        <% } else { %>
+        <li>No Videos </li>
+        <% } %>
+            
+        </ul>
+
+    </main>
+</body>
+
+</html>

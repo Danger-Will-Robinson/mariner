@@ -1,0 +1,20 @@
+
+<% include ./html-header.ejs %>
+<body>
+<% include ./nav-bar.ejs %>
+
+    <header>
+        <h1>User Name is
+            <%= user.username %>
+        </h1>
+        <h2>User googleId
+            <%= user.googleId %>
+        </h2>
+    </header>
+    <main>
+        <img src="<%= user.thumbnail %>" />
+        <p>This is your profile thumbnail</p>
+    </main>
+</body>
+
+</html>

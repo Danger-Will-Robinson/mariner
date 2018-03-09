@@ -1,0 +1,22 @@
+{
+  "name": "sa",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "express": "~4.15.5",
+    "morgan": "~1.9.0",
+    "retext-english": "^3.0.0",
+    "retext-sentiment": "^4.1.0",
+    "serve-favicon": "~2.4.5",
+    "unified": "^6.1.6",
+    "unist-util-inspect": "^4.1.2"
+  }
+}

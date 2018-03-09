@@ -1,0 +1,14 @@
+<nav>
+<ul>
+<img src="/images/icon.png" height="88px" float="left"/>
+<li><a href="/test">API Test</a></li>
+
+    <% if (user) { %>
+        <li><a href="/auth/logout">Log out</a></li>
+        <% } else { %>
+            <li><a href="/auth/login">Login</a></li>
+            <% } %>
+                <li><a href="/">Home</a></li>
+                
+</ul>
+</nav>
