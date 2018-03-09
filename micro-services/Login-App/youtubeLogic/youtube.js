@@ -87,7 +87,6 @@ module.exports = youtubeLogic = {
         },
         gimmeAll: async function(userID, API_KEY) {
             let channelInfo = await this.getChannelInfo(userID, API_KEY)
-            console.log('info is', channelInfo.data)
             if (channelInfo.data.items.length) {
                 let uploadsID = channelInfo.data.items[0].contentDetails.relatedPlaylists.uploads;
                 let channelId = channelInfo.data.items[0].id

@@ -3,7 +3,7 @@ micro-services/comment-retrieval/config/keys.js
 micro-services/comment-retrieval/node_modules
 /.DS_Store
 
-
+config/*.*
 server/config/key.js
 server/config/*.*
 micro-services/.DS_Store

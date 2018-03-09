@@ -36,9 +36,8 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
         }
     })
     res.userData = req.user;
-    res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`)
-        // res.json(req.user)
-        // res.json(userData)
+    // res.json(req.user)
+    // res.json(userData)
 
     // http.post('http://localhost:5001/comments', {
     //   videos: userData.videos,
@@ -51,11 +50,12 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
             comments: userData.comments
         })
         .then((response) => {
-            console.log('success: response is ', response)
+            console.log('success: response is ')
         })
         .catch((err) => {
-            console.log('err in axios post ', err);
+            console.log('err in axios post ');
         })
+    res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`)
 
     // res.render('youtubeVideos', { data:
 
