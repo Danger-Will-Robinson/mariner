@@ -1,34 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-//const db = require('../../../database/index')
 const db = require('../db/index')
 const bodyParser = require('body-parser');
-// const app = express()
-
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser({limit: '50mb'}))
 
 router.post('/', (req, res) => {
   console.log('receiving post from Login ')
-  console.log('receving post from Login req.body looks like ', req.body);
-  // req.body.videos.map((video) => {
-  //   db.query(//insert videos and corresponding comments into mysql db
-  //   (err, response) => {
-  //     if (err) {
-  //       console.log('err in db post')
-  //     } else {
-  //       console.log('response ', response)
-  //     }
-  //   }),
-  // })
-  // res.status(err.status || 500);
-  // res.end()
-  db.query('use ThesisDB')
+  //console.log('receving post from Login req.body looks like ', req.body);
+  
+  db.query('use ThesisDB');
+  db.query(`insert into users (userName) values ('${req.body.name}')`, (err, res) => {
+    if (err) {
+      console.log('err posting user name ', err)
+    } else {
+      console.log('posted name to db');
+    }
+  }) 
   req.body.videos.map((video, index) => {
     console.log('inside map')
-    db.query(`insert into videos (title, thumbnailURL, contentId) values ('${JSON.stringify(video.snippet.title)}', '${video.snippet.thumbnails.default.url}', '${video.contentDetails.videoId}')`, (err, result) => {
+    db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
       if (err) {
         console.log(`err at index ${index}, err looks like ${err}`)
       } else {
@@ -36,6 +26,17 @@ router.post('/', (req, res) => {
       }
     })   
   })
+
+  req.body.comments.map((comment, index) => {
+    db.query(`insert into comments (comment, author, timestamp, thumbnail, likeCount, video) values ('${comment.comment}', '${comment.author}', '${comment.publishedAt}', '${comment.authorThumbnail}', '${comment.likeCount}', (select idvideos from videos where contentId ='${comment.videoId}'))`, (err, result) => {
+      if (err) {
+        console.log(`err in comment post at index ${index}, err looks like ${err}`)
+      } else {
+        console.log('posted comment to db');
+      }
+    })  
+  })
+
    res.status(200).send()
    res.end()
   
