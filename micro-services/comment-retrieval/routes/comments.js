@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
   })
 
   req.body.comments.map((comment, index) => {
-    db.query(`insert into comments (comment, author, timestamp, thumbnail, likeCount, video) values ('${comment.comment}', '${comment.author}', '${comment.publishedAt}', '${comment.authorThumbnail}', '${comment.likeCount}', (select idvideos from videos where contentId ='${comment.videoId}'))`, (err, result) => {
+    db.query(`insert into comments (comment, author, timestamp, thumbnail, likeCount, providedId, video) values ('${comment.comment}', '${comment.author}', '${comment.publishedAt}', '${comment.authorThumbnail}', '${comment.likeCount}', '${comment.commentId}', (select idvideos from videos where contentId ='${comment.videoId}'))`, (err, result) => {
       if (err) {
         console.log(`err in comment post at index ${index}, err looks like ${err}`)
       } else {
