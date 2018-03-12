@@ -18,7 +18,9 @@ router.post('/', (req, res) => {
   }) 
   req.body.videos.map((video, index) => {
     console.log('inside map')
-    db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
+    //db.query(`(SELECT REPLACE('${video.snippet.title}', ''', '''')),`)
+
+    db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
       if (err) {
         console.log(`err at index ${index}, err looks like ${err}`)
       } else {
@@ -54,7 +56,7 @@ router.get('/', (req, res) => {
     // console.log('urlId is ', urlId)
     axios.post('http://localhost:5001/comments', response.data[0])
     .then((res) => {
-      console.log('response in post from router.get is ', res)
+      console.log('response in post from router.get is ')
     })
     .catch((err) => {
       console.log('err in post from router.get is ', err)
