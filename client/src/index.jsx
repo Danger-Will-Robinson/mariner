@@ -44,16 +44,25 @@ class App extends React.Component {
 
   render() {
     const NavBar = styled.div`
-      background-color: #3498DB;
+      background-color: grey;
       margin: 0px;
-      padding: 10px;
+      padding: 20px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
     `
+    const LogOut = styled.button`
+      margin-top: 15px;
+      font-size: .9em;
+      height: 30px;
+    `
+
   	return(
       <div>
-        <NavBar></NavBar>
+        <NavBar>
+          <LogOut>Log Out</LogOut>
+        </NavBar>
+
       </div>   
   	)
   }
