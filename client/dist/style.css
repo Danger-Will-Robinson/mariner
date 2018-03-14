@@ -1,0 +1,12 @@
+h1 {
+  color: red;
+}
+
+.nav {
+  background-color: #3498DB;
+  margin: 0px;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;	
+}

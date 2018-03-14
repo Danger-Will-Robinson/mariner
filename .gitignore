@@ -2,9 +2,7 @@
 micro-services/comment-retrieval/node_modules
 /.DS_Store
 
-/config/*.*
-micro-services/comment-retrieval/package-lock.json
-package-lock.json
+config/*.*
 server/config/keys.js
 server/config/*.*
 micro-services/.DS_Store

@@ -5,9 +5,16 @@ class App extends React.Component {
   constructor(props) {
   	super(props);
   	this.state = {
-  		videos: []
+  		view: 'videos'
   	}
-  	console.log('this.state looks like ', this.state);
+  	//console.log('this.state looks like ', this.state);
+    this.changeView = this.changeView.bind(this);
+  }
+
+  changeView(component) {
+    this.setState({
+      view: component  
+    });
   }
 
   render() {
