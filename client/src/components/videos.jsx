@@ -1,6 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-class Videos extends React.Component {
-  	
-}
+const Videos = (props) => (
+  <div>
+    <ul>
+      {props.videos.map((video) => {
+      	return <div><li key={video.idvideos}><img src={video.thumbnailURL}></img></li><a>{video.title}</a></div>
+
+      })}
+    </ul>
+  </div>	
+
+)
+
+export default Videos;

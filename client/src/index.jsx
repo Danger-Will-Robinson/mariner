@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import Videos from './components/Videos.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -42,11 +43,17 @@ class App extends React.Component {
     });
   }
 
+  renderView() {
+    if (this.state.view === 'videos') {
+      return <Videos videos={this.state.userVideos}/>
+    }    
+  }
+
   render() {
     const NavBar = styled.div`
       background-color: grey;
       margin: 0px;
-      padding: 20px;
+      padding: 5px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -54,14 +61,37 @@ class App extends React.Component {
     const LogOut = styled.button`
       margin-top: 15px;
       font-size: .9em;
+      font-family: Verdana;
       height: 30px;
+    `
+
+    const Greeting = styled.span`
+      padding: 5px;
+      margin-right: 5px;
+      margin-top: 10px;
+      font-size: 1.1em;
+      font-family: 'Verdana';
+    `
+    const Logo = styled.h1`
+      font-weight: bold;
+      font-size: 1.9em;
+      margin-right: auto;
+      margin-left: auto;
+      align-items: center;
+      font-family: 'Allan', cursive;
+      color: #ffffff;  
     `
 
   	return(
       <div>
         <NavBar>
+          <Logo>Mariner</Logo>
+          <Greeting>Welcome, {this.state.user}</Greeting>
           <LogOut>Log Out</LogOut>
         </NavBar>
+        <div className="main">
+          {this.renderView()}
+        </div>
 
       </div>   
   	)
