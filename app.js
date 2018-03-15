@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const PORT = process.env.PORT || 5000;
+//const PORT = 5000;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/reactTest', express.static(path.join(__dirname, 'client/dist')));
 
 app.use('/', index);
 app.use('/users', users);
