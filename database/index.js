@@ -5,7 +5,7 @@ const db = mongoose.connect(mongoUri, (err, success) => {
     if (err) {
         console.log('err in mongodb connect', err);
     } else {
-        console.log('success in mongodb ');
+        console.log('success in mongodb');
     }
 });
 
