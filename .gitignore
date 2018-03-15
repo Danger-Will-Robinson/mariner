@@ -1,11 +1,10 @@
 #alex'signore
-micro-services/comment-retrieval/config/keys.js
 micro-services/comment-retrieval/node_modules
 /.DS_Store
 /package-lock.json
 
 config/*.*
-server/config/key.js
+server/config/keys.js
 server/config/*.*
 micro-services/.DS_Store
 micro-services/Login-App/config/*.*
