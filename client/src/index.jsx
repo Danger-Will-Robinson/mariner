@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import Videos from './components/Videos.jsx'
+import Videos from './components/Videos.jsx';
+import Comments from './components/Comments.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,7 +11,9 @@ class App extends React.Component {
   	this.state = {
   		view: 'videos',
       user: 'ph8tel',
-      userVideos:[]
+      userVideos:[],
+      videoComments: [],
+      currentTitle: ''
   	}
   	console.log('this.state looks like ', this.state);
     this.changeView = this.changeView.bind(this);
@@ -22,30 +25,64 @@ class App extends React.Component {
   }
 
   videoRental() {
-    axios.post('http://localhost:5001/appQuery', {
+    if (this.state.view === 'videos') {
+      axios.post('http://localhost:5001/appQuery', {
       query: `SELECT * FROM videos where user in (select idusers from users where username = '${this.state.user}')`
-    })
-    .then(response => {
-      console.log('response from mariner ', response);
-      this.setState({
-        userVideos: response.data
       })
-      console.log('this.state after rental ', this.state)
+      .then(response => {
+        console.log('response from mariner ', response);
+        this.setState({
+          userVideos: response.data
+        })
+        console.log('this.state after rental ', this.state)
+      })
+      .catch(err => {
+        console.log('err in videoRental ', err);
+      })  
+    }
+    
+  }
+
+  getComments(videoTitle) {
+    console.log('video title is is ', videoTitle)
+    axios.post('http://localhost:5001/appQuery', {
+      query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${videoTitle.title}')`
+    })
+    .then((response) => {
+      console.log('comment response from mariner ', response.data);
+      this.setState({
+        videoComments: response.data
+      })
+      console.log('this.state after CR ', this.state)
     })
     .catch(err => {
-      console.log('err in videoRental ', err);
+      console.log('err in CR ', err);
     })
+  } 
+
+  passVideo(item) {
+    // console.log('item in passVideo ', item)
+    // this.setState({
+    //   currentTitle: item.title   
+    // })
+    this.getComments(item)
   }
+
+  
 
   changeView(component) {
     this.setState({
       view: component  
     });
+    console.log('clicking')
   }
 
   renderView() {
     if (this.state.view === 'videos') {
-      return <Videos videos={this.state.userVideos}/>
+      return <Videos videos={this.state.userVideos} changeView={this.changeView.bind(this)} pass={this.passVideo.bind(this)}/>
+    }
+    if (this.state.view === 'comments') {
+      return <Comments title={this.state.currentTitle} comments={this.state.videoComments}/>
     }    
   }
 
