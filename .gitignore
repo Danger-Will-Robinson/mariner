@@ -2,7 +2,7 @@
 micro-services/comment-retrieval/node_modules
 client/dist/bundle.js
 package-lock.json
-micro-services/comment-retrieval/*package-lock.json
+micro-services/comment-retrieval/package-lock.json
 
 /.DS_Store
 

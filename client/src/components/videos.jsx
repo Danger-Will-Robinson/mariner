@@ -2,9 +2,9 @@ import React from 'react';
 
 const Videos = (props) => (
   <div>
-    <ul>
+    <ul className="grid-container">
       {props.videos.map((video) => {
-      	return <div><li key={video.idvideos}><img src={video.thumbnailURL}></img></li><a>{video.title}</a></div>
+      	return <div key={video.idvideos}><li><img src={video.thumbnailURL}></img></li><a>{video.title}</a></div>
 
       })}
     </ul>
