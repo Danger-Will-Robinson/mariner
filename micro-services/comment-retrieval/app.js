@@ -11,6 +11,7 @@ const test = require('./routes/test');
 const comments = require('./routes/comments');
 const appQuery = require('./routes/appQuery');
 const app = express();
+const cors = require('cors');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +24,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.use('/', index);
 app.use('/users', users);

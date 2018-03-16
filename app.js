@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 var index = require('./routes/index');
 var users = require('./routes/users');
 const API = require('./routes/API/youTube');
+let query = require('./routes/query');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use('/reactTest', express.static(path.join(__dirname, 'client/dist')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/API/', API);
+app.use('/query/', query);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

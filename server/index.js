@@ -7,10 +7,12 @@ var bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 const db = require('../database/preferences')
 const PORT = process.env.PORT || 5000;
+const axios = require('axios');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 const API = require('./routes/API/youTube');
+var query = require('../routes/query');
 
 //sample data routes
 var ALLVIDEOS = require('../data/youTubeAllVideoResponse');
@@ -32,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/', index);
 app.use('/users', users);
 app.use('/API/', API);
+app.use('/query/', query);
 
 app.get('/', (req, res) => {
     console.log('redir new user')
@@ -44,6 +47,25 @@ app.get('/:name/:id', (req, res) => {
         id: req.params.id
     }
     res.render('index', { user: user })
+});
+
+app.post('/query/', (req, res) => {
+    console.log('Processing query');
+    let query = req.body.query;
+    console.log(query);
+
+    //Make request to comment retrieval service:
+    axios.post('http://localhost:5001/appQuery', {
+        query: query
+    })
+    .then(function(response) {
+        res.json(response.data);
+    })
+    .catch(function (error) {
+        console.log(error);
+        res.end();
+    });
+
 })
 
 // catch 404 and forward to error handler

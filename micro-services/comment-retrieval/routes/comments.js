@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 router.post('/', (req, res) => {
   console.log('receiving post from Login ')
   //console.log('receving post from Login req.body looks like ', req.body);
-  
+
   db.query('use ThesisDB');
   db.query(`insert into users (userName) values ('${req.body.user.name}')`, (err, res) => {
     if (err) {

@@ -5,6 +5,7 @@ package-lock.json
 micro-services/comment-retrieval/package-lock.json
 
 /.DS_Store
+/package-lock.json
 
 config/*.*
 server/config/keys.js
