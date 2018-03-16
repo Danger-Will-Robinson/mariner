@@ -55,7 +55,7 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
         .catch((err) => {
             console.log('err in axios post ');
         })
-    res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`)
+    res.redirect(`http://localhost:5000/reactTest`)
 
     // res.render('youtubeVideos', { data:
 
