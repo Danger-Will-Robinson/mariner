@@ -43,10 +43,11 @@ app.get('/', (req, res) => {
 
 app.get('/:name/:id', (req, res) => {
     let user = {
-        name: req.params.name,
-        id: req.params.id
-    }
-    res.render('index', { user: user })
+            name: req.params.name,
+            id: req.params.id
+        }
+        // res.render('index', { user: user })
+    res.redirect(`http://localhost:5001/reactTest/${user.name}/${user.id}`)
 });
 
 app.post('/query/', (req, res) => {
@@ -56,15 +57,15 @@ app.post('/query/', (req, res) => {
 
     //Make request to comment retrieval service:
     axios.post('http://localhost:5001/appQuery', {
-        query: query
-    })
-    .then(function(response) {
-        res.json(response.data);
-    })
-    .catch(function (error) {
-        console.log(error);
-        res.end();
-    });
+            query: query
+        })
+        .then(function(response) {
+            res.json(response.data);
+        })
+        .catch(function(error) {
+            console.log(error);
+            res.end();
+        });
 
 })
 
