@@ -167,7 +167,7 @@ import Comments from './components/Comments.jsx';
           <ShowVideos onClick={() => this.changeView('videos')}>Show Videos</ShowVideos>
           <Logo>Mariner</Logo>
           <Greeting>Welcome, {this.state.user}</Greeting>
-          <LogOut>Log Out</LogOut>
+          <LogOut><a href="http://localhost:3000/auth/logout">Log Out</a></LogOut>
         </NavBar>
         <div className="main">
           {this.renderView()}
