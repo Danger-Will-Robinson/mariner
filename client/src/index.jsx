@@ -5,23 +5,55 @@ import styled from 'styled-components';
 import Videos from './components/Videos.jsx';
 import Comments from './components/Comments.jsx';
 
-class App extends React.Component {
-  constructor(props) {
-  	super(props);
-  	this.state = {
-  		view: 'videos',
-      user: 'ph8tel',
+ class App extends React.Component {
+//   constructor(props) {
+//   	super(props);
+//   	this.state = {
+//   		view: 'videos',
+//       user: 'ph8tel',
+//       userVideos:[],
+//       videoComments: [],
+//       currentTitle: ''
+//   	}
+//   	console.log('this.state looks like ', this.state);
+//     this.changeView = this.changeView.bind(this);
+//   }
+  
+//   componentWillMount() {
+//     console.log('component mounting')
+//     this.videoRental()  
+//   }
+constructor(props) {
+    super(props);
+    this.state = {
+      view: '',
+      user: '',
       userVideos:[],
       videoComments: [],
       currentTitle: ''
-  	}
-  	console.log('this.state looks like ', this.state);
+    }
+    console.log('this.state looks like ', this.state);
     this.changeView = this.changeView.bind(this);
   }
   
+  // componentDidMount() {
+  //   console.log('component mounting')
+  //   this.videoRental()  
+  // }
+
   componentWillMount() {
-    console.log('component mounting')
-    this.videoRental()  
+    axios.get('http://localhost:5000/getUser')
+    .then( response => {
+      console.log('got user from Mariner', response.data)
+      this.setState({
+        user: response.data,
+        view: 'videos'
+      });
+      this.videoRental();
+    })
+    .catch( err => {
+      console.log('error in getting user name', err.message)
+    });
   }
 
   videoRental() {
@@ -53,12 +85,28 @@ class App extends React.Component {
       this.setState({
         videoComments: response.data
       })
-      console.log('this.state after CR ', this.state)
+      console.log('this.state after CR ', this.state.videoComments)
     })
     .catch(err => {
       console.log('err in CR ', err);
     })
   } 
+
+  renderQuestions(comments) {
+    console.log('render Q clicked')
+    let collection = [];
+    console.log('videoComments before ', this.state.videoComments)
+    this.state.videoComments.forEach((comment) => {
+      if (comment.hasQuestion === 'T') {
+        collection.push(comment);
+      }
+    })
+    this.setState({
+      view: 'comments',
+      videoComments: collection
+    })
+    console.log('this.state after ', this.state.videoComments)
+  }
 
   passVideo(item) {
     // console.log('item in passVideo ', item)
@@ -118,10 +166,14 @@ class App extends React.Component {
       font-family: 'Allan', cursive;
       color: #ffffff;  
     `
+    const ShowQuestions = styled.button`
+      float: left;
+    `
 
   	return(
       <div>
         <NavBar>
+          <ShowQuestions onClick={this.renderQuestions.bind(this)}>Show Questions</ShowQuestions>
           <Logo>Mariner</Logo>
           <Greeting>Welcome, {this.state.user}</Greeting>
           <LogOut>Log Out</LogOut>
