@@ -29,3 +29,13 @@ ul {
   border: 1px solid black;
   padding: 20px 20px 20px 20px;
 }
+
+.userComment {
+  font-size: 20px;
+  font-family: 'Roboto Slab', serif;
+}
+
+.commentFooter {
+  font-size: 12px;
+  font-family: 'Roboto Slab', serif;
+}
