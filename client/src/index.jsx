@@ -6,35 +6,18 @@ import Videos from './components/Videos.jsx';
 import Comments from './components/Comments.jsx';
 
  class App extends React.Component {
-//   constructor(props) {
-//   	super(props);
-//   	this.state = {
-//   		view: 'videos',
-//       user: 'ph8tel',
-//       userVideos:[],
-//       videoComments: [],
-//       currentTitle: ''
-//   	}
-//   	console.log('this.state looks like ', this.state);
-//     this.changeView = this.changeView.bind(this);
-//   }
-  
-//   componentWillMount() {
-//     console.log('component mounting')
-//     this.videoRental()  
-//   }
-constructor(props) {
-    super(props);
-    this.state = {
-      view: '',
-      user: '',
-      userVideos:[],
-      videoComments: [],
-      currentTitle: ''
+  constructor(props) {
+      super(props);
+      this.state = {
+        view: '',
+        user: '',
+        userVideos:[],
+        videoComments: [],
+        currentTitle: ''
+      }
+      console.log('this.state looks like ', this.state);
+      this.changeView = this.changeView.bind(this);
     }
-    console.log('this.state looks like ', this.state);
-    this.changeView = this.changeView.bind(this);
-  }
   
   // componentDidMount() {
   //   console.log('component mounting')
@@ -169,11 +152,15 @@ constructor(props) {
     const ShowQuestions = styled.button`
       float: left;
     `
+    const ShowVideos = styled.button`
+      float: left;
+    `
 
   	return(
       <div>
         <NavBar>
           <ShowQuestions onClick={this.renderQuestions.bind(this)}>Show Questions</ShowQuestions>
+          <ShowVideos onClick={() => this.changeView('videos')}>Show Videos</ShowVideos>
           <Logo>Mariner</Logo>
           <Greeting>Welcome, {this.state.user}</Greeting>
           <LogOut>Log Out</LogOut>
@@ -181,7 +168,6 @@ constructor(props) {
         <div className="main">
           {this.renderView()}
         </div>
-
       </div>   
   	)
   }
