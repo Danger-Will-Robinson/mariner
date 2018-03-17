@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
     console.log('inside map')
     //db.query(`(SELECT REPLACE('${video.snippet.title}', ''', '''')),`)
 
-    db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
+    db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
       if (err) {
         console.log(`err at index ${index}, err looks like ${err}`)
       } else {
