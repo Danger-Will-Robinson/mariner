@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 const PORT = process.env.PORT || 5000;
 //const PORT = 5000;
 
-var index = require('./routes/index');
+var index = require('./server/index');
 var users = require('./routes/users');
 const API = require('./routes/API/youTube');
 let query = require('./routes/query');
