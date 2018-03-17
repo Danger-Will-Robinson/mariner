@@ -4,19 +4,27 @@ const axios = require('axios');
 const db = require('../db/index')
 const bodyParser = require('body-parser');
 
+let identifyQuestion = (text) => {
+  let questionTracker = text.split('?')
+  console.log('questionTracker is ', questionTracker)
+  let containsQuestion = ((questionTracker.length > 1) || (questionTracker.pop() === '?'))
+  containsQuestion === true ? containsQuestion = 'T' : containsQuestion = 'F';
+  return containsQuestion;
+}
+
 router.post('/', (req, res) => {
   console.log('receiving post from Login ')
   //console.log('receving post from Login req.body looks like ', req.body);
-
+  
   db.query('use ThesisDB');
-  db.query(`insert into users (userName) values ('${req.body.user.name}')`, (err, res) => {
+  db.query(`insert into users (userName) values ('${req.body.name}')`, (err, res) => {
     if (err) {
       console.log('err posting user name ', err)
     } else {
       console.log('posted name to db');
     }
   }) 
-  req.body.videos.map((video, index) => {
+  req.body.videos.forEach((video, index) => {
     console.log('inside map')
     //db.query(`(SELECT REPLACE('${video.snippet.title}', ''', '''')),`)
 
@@ -29,8 +37,10 @@ router.post('/', (req, res) => {
     })   
   })
 
-  req.body.comments.map((comment, index) => {
-    db.query(`insert into comments (comment, author, timestamp, thumbnail, likeCount, providedId, video) values ('${comment.comment}', '${comment.author}', '${comment.publishedAt}', '${comment.authorThumbnail}', '${comment.likeCount}', '${comment.commentId}', (select idvideos from videos where contentId ='${comment.videoId}'))`, (err, result) => {
+  req.body.comments.forEach((comment, index) => {
+    let bools = identifyQuestion(comment.comment);
+    console.log('bools is ', bools)
+    db.query(`insert into comments (comment, author, timestamp, thumbnail, likeCount, providedId, hasQuestion, video) values ('${comment.comment}', '${comment.author}', '${comment.publishedAt}', '${comment.authorThumbnail}', '${comment.likeCount}', '${comment.commentId}', '${bools}', (select idvideos from videos where contentId ='${comment.videoId}'))`, (err, result) => {
       if (err) {
         console.log(`err in comment post at index ${index}, err looks like ${err}`)
       } else {
@@ -59,7 +69,7 @@ router.get('/', (req, res) => {
       console.log('response in post from router.get is ')
     })
     .catch((err) => {
-      console.log('err in post from router.get is ', err)
+      console.log('err in post from router.get is ')
       
     })
   })

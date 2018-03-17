@@ -70,7 +70,7 @@ module.exports = youtubeLogic = {
                         }
                     })
                     .then(deets => resolve(deets))
-                    .catch(err => console.log('error in get chan infoerr'))
+                    .catch(err => console.log('error in get chan infoerr', err.message))
             })
         },
         gimmeVideos: async function(chanID, API_KEY) {
