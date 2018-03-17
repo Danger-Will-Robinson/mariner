@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 const db = require('../database/preferences')
-const PORT = process.env.PORT || 5000;
+//const PORT = process.env.PORT || 5000;
+const PORT = 5000
 const axios = require('axios');
 
 var index = require('./routes/index');
@@ -19,6 +20,8 @@ var ALLVIDEOS = require('../data/youTubeAllVideoResponse');
 
 var app = express();
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -30,6 +33,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/reactTest', express.static(path.join(__dirname, 'client/dist')));
+
 
 // app.use('/', index);
 app.use('/users', users);
@@ -41,14 +46,14 @@ app.get('/', (req, res) => {
     res.redirect('http://localhost:3000')
 })
 
-app.get('/:name/:id', (req, res) => {
-    let user = {
-            name: req.params.name,
-            id: req.params.id
-        }
-        // res.render('index', { user: user })
-    res.redirect(`http://localhost:5001/reactTest/${user.name}/${user.id}`)
-});
+// app.get('/:name/:id', (req, res) => {
+//     let user = {
+//             name: req.params.name,
+//             id: req.params.id
+//         }
+//         // res.render('index', { user: user })
+//     res.redirect(`http://localhost:5001/reactTest/${user.name}/${user.id}`)
+// });
 
 app.post('/query/', (req, res) => {
     console.log('Processing query');

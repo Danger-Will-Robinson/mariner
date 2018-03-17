@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
   //console.log('receving post from Login req.body looks like ', req.body);
   
   db.query('use ThesisDB');
-  db.query(`insert into users (userName) values ('${req.body.name}')`, (err, res) => {
+  db.query(`insert into users (userName) values ('${req.body.user.name}')`, (err, res) => {
     if (err) {
       console.log('err posting user name ', err)
     } else {

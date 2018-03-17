@@ -53,12 +53,28 @@ class App extends React.Component {
       this.setState({
         videoComments: response.data
       })
-      console.log('this.state after CR ', this.state)
+      console.log('this.state after CR ', this.state.videoComments)
     })
     .catch(err => {
       console.log('err in CR ', err);
     })
   } 
+
+  renderQuestions(comments) {
+    console.log('render Q clicked')
+    let collection = [];
+    console.log('videoComments before ', this.state.videoComments)
+    this.state.videoComments.forEach((comment) => {
+      if (comment.hasQuestion === 'T') {
+        collection.push(comment);
+      }
+    })
+    this.setState({
+      view: 'comments',
+      videoComments: collection
+    })
+    console.log('this.state after ', this.state.videoComments)
+  }
 
   passVideo(item) {
     // console.log('item in passVideo ', item)
@@ -118,10 +134,14 @@ class App extends React.Component {
       font-family: 'Allan', cursive;
       color: #ffffff;  
     `
+    const ShowQuestions = styled.button`
+      float: left;
+    `
 
   	return(
       <div>
         <NavBar>
+          <ShowQuestions onClick={this.renderQuestions.bind(this)}>Show Questions</ShowQuestions>
           <Logo>Mariner</Logo>
           <Greeting>Welcome, {this.state.user}</Greeting>
           <LogOut>Log Out</LogOut>
