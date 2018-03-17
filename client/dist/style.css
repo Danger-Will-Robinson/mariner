@@ -20,3 +20,12 @@ h1 {
 .inner-grid {
 	height: 50px
 }
+
+ul {
+  list-style-type: none;
+}
+
+.comment li {
+  border: 1px solid black;
+  padding: 20px 20px 20px 20px;
+}
