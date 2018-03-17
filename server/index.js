@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const db = require('../database/preferences')
 const axios = require('axios');
 const queryController = require('../controllers/queryController');
-
+var currentUser;
 //sample data routes
 var ALLVIDEOS = require('../data/youTubeAllVideoResponse');
 
@@ -18,11 +18,21 @@ router.get('/:name/:id', (req, res) => {
             name: req.params.name,
             id: req.params.id
         }
-        // res.render('index', { user: user })
-    res.redirect(`http://localhost:5001/reactTest/${user.name}/${user.id}`)
+    currentUser = user;// res.render('index', { user: user })
+    console.log('I think you are ', currentUser.name);
+    res.redirect(`http://localhost:5000/reactTest/`);
 });
 
 router.post('/query/', queryController.queryCommentDB);
+
+router.get('/getUser', (req, res) => {
+    // send user name to front end
+    if (currentUser) {
+        res.json(currentUser.name);
+    } else {
+        res.redirect('http://localhost:3000');
+    }
+});
 
 router.get('/getUserToken:id', function(req, res, next) {
     //reach out to joe's oauth app
