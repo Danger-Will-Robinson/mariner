@@ -2,9 +2,9 @@ import React from 'react';
 
 const Comments = (props) => (
   <div>
-    <ul class="comment">
+    <ul className="comment">
     	{props.comments.map((comment) => {
-    	  return <div key="comment.idcomments"><li class="comment">{comment.comment}</li></div>	
+    	  return <div key="comment.idcomments"><li className="comment">{comment.comment}</li></div>	
     	})}
     </ul>
   </div>
