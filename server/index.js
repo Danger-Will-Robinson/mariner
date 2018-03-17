@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose')
 const db = require('../database/preferences')
 const axios = require('axios');
+const queryController = require('../controllers/queryController');
 
 //sample data routes
 var ALLVIDEOS = require('../data/youTubeAllVideoResponse');
@@ -21,24 +22,7 @@ router.get('/:name/:id', (req, res) => {
     res.redirect(`http://localhost:5001/reactTest/${user.name}/${user.id}`)
 });
 
-router.post('/query/', (req, res) => {
-    console.log('Processing query');
-    let query = req.body.query;
-    console.log(query);
-
-    //Make request to comment retrieval service:
-    axios.post('http://localhost:5001/routerQuery', {
-            query: query
-        })
-        .then(function(response) {
-            res.json(response.data);
-        })
-        .catch(function(error) {
-            console.log(error);
-            res.end();
-        });
-
-})
+router.post('/query/', queryController.queryCommentDB);
 
 // catch 404 and forward to error handler
 router.use(function(req, res, next) {
@@ -48,12 +32,12 @@ router.use(function(req, res, next) {
 });
 
 router.get('/getUserToken:id', function(req, res, next) {
-    //reach out to joe's oauth router
+    //reach out to joe's oauth app
     //return user token string
     //on port ;;4444
 })
 router.get('/allvideos/:token', function(req, res, next) {
-    //reach out to videos db router.
+    //reach out to videos db app.
     //on port 4445
     //sends back json of needed info
 });
