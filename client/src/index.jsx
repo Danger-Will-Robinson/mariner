@@ -5,23 +5,55 @@ import styled from 'styled-components';
 import Videos from './components/Videos.jsx';
 import Comments from './components/Comments.jsx';
 
-class App extends React.Component {
-  constructor(props) {
-  	super(props);
-  	this.state = {
-  		view: 'videos',
-      user: 'ph8tel',
+ class App extends React.Component {
+//   constructor(props) {
+//   	super(props);
+//   	this.state = {
+//   		view: 'videos',
+//       user: 'ph8tel',
+//       userVideos:[],
+//       videoComments: [],
+//       currentTitle: ''
+//   	}
+//   	console.log('this.state looks like ', this.state);
+//     this.changeView = this.changeView.bind(this);
+//   }
+  
+//   componentWillMount() {
+//     console.log('component mounting')
+//     this.videoRental()  
+//   }
+constructor(props) {
+    super(props);
+    this.state = {
+      view: '',
+      user: '',
       userVideos:[],
       videoComments: [],
       currentTitle: ''
-  	}
-  	console.log('this.state looks like ', this.state);
+    }
+    console.log('this.state looks like ', this.state);
     this.changeView = this.changeView.bind(this);
   }
   
+  // componentDidMount() {
+  //   console.log('component mounting')
+  //   this.videoRental()  
+  // }
+
   componentWillMount() {
-    console.log('component mounting')
-    this.videoRental()  
+    axios.get('http://localhost:5000/getUser')
+    .then( response => {
+      console.log('got user from Mariner', response.data)
+      this.setState({
+        user: response.data,
+        view: 'videos'
+      });
+      this.videoRental();
+    })
+    .catch( err => {
+      console.log('error in getting user name', err.message)
+    });
   }
 
   videoRental() {
