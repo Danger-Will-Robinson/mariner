@@ -6,35 +6,18 @@ import Videos from './components/Videos.jsx';
 import Comments from './components/Comments.jsx';
 
  class App extends React.Component {
-//   constructor(props) {
-//   	super(props);
-//   	this.state = {
-//   		view: 'videos',
-//       user: 'ph8tel',
-//       userVideos:[],
-//       videoComments: [],
-//       currentTitle: ''
-//   	}
-//   	console.log('this.state looks like ', this.state);
-//     this.changeView = this.changeView.bind(this);
-//   }
-  
-//   componentWillMount() {
-//     console.log('component mounting')
-//     this.videoRental()  
-//   }
-constructor(props) {
-    super(props);
-    this.state = {
-      view: '',
-      user: '',
-      userVideos:[],
-      videoComments: [],
-      currentTitle: ''
+  constructor(props) {
+      super(props);
+      this.state = {
+        view: '',
+        user: '',
+        userVideos:[],
+        videoComments: [],
+        currentTitle: ''
+      }
+      console.log('this.state looks like ', this.state);
+      this.changeView = this.changeView.bind(this);
     }
-    console.log('this.state looks like ', this.state);
-    this.changeView = this.changeView.bind(this);
-  }
   
   // componentDidMount() {
   //   console.log('component mounting')
@@ -76,9 +59,9 @@ constructor(props) {
   }
 
   getComments(videoTitle) {
-    console.log('video title is is ', videoTitle)
+    console.log('video title is ', videoTitle)
     axios.post('http://localhost:5001/appQuery', {
-      query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${videoTitle.title}')`
+      query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${videoTitle.title || videoTitle}')`
     })
     .then((response) => {
       console.log('comment response from mariner ', response.data);
@@ -110,9 +93,9 @@ constructor(props) {
 
   passVideo(item) {
     // console.log('item in passVideo ', item)
-    // this.setState({
-    //   currentTitle: item.title   
-    // })
+    this.setState({
+      currentTitle: item.title   
+    });
     this.getComments(item)
   }
 
@@ -166,7 +149,13 @@ constructor(props) {
       font-family: 'Allan', cursive;
       color: #ffffff;  
     `
+    const ShowAllComments = styled.button`
+      float: left;
+    `
     const ShowQuestions = styled.button`
+      float: left;
+    `
+    const ShowVideos = styled.button`
       float: left;
     `
 
@@ -174,6 +163,8 @@ constructor(props) {
       <div>
         <NavBar>
           <ShowQuestions onClick={this.renderQuestions.bind(this)}>Show Questions</ShowQuestions>
+          <ShowAllComments onClick={() => this.getComments(this.state.currentTitle).bind(this)}>Show All Comments</ShowAllComments>
+          <ShowVideos onClick={() => this.changeView('videos')}>Show Videos</ShowVideos>
           <Logo>Mariner</Logo>
           <Greeting>Welcome, {this.state.user}</Greeting>
           <LogOut>Log Out</LogOut>
@@ -181,7 +172,6 @@ constructor(props) {
         <div className="main">
           {this.renderView()}
         </div>
-
       </div>   
   	)
   }
