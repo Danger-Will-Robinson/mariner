@@ -24,13 +24,6 @@ router.get('/:name/:id', (req, res) => {
 
 router.post('/query/', queryController.queryCommentDB);
 
-// catch 404 and forward to error handler
-router.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
 router.get('/getUserToken:id', function(req, res, next) {
     //reach out to joe's oauth app
     //return user token string
