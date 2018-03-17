@@ -59,9 +59,9 @@ import Comments from './components/Comments.jsx';
   }
 
   getComments(videoTitle) {
-    console.log('video title is is ', videoTitle)
+    console.log('video title is ', videoTitle)
     axios.post('http://localhost:5001/appQuery', {
-      query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${videoTitle.title}')`
+      query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${videoTitle.title || videoTitle}')`
     })
     .then((response) => {
       console.log('comment response from mariner ', response.data);
@@ -93,9 +93,9 @@ import Comments from './components/Comments.jsx';
 
   passVideo(item) {
     // console.log('item in passVideo ', item)
-    // this.setState({
-    //   currentTitle: item.title   
-    // })
+    this.setState({
+      currentTitle: item.title   
+    });
     this.getComments(item)
   }
 
@@ -149,6 +149,9 @@ import Comments from './components/Comments.jsx';
       font-family: 'Allan', cursive;
       color: #ffffff;  
     `
+    const ShowAllComments = styled.button`
+      float: left;
+    `
     const ShowQuestions = styled.button`
       float: left;
     `
@@ -160,6 +163,7 @@ import Comments from './components/Comments.jsx';
       <div>
         <NavBar>
           <ShowQuestions onClick={this.renderQuestions.bind(this)}>Show Questions</ShowQuestions>
+          <ShowAllComments onClick={() => this.getComments(this.state.currentTitle).bind(this)}>Show All Comments</ShowAllComments>
           <ShowVideos onClick={() => this.changeView('videos')}>Show Videos</ShowVideos>
           <Logo>Mariner</Logo>
           <Greeting>Welcome, {this.state.user}</Greeting>
