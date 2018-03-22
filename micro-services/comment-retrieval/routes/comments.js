@@ -4,11 +4,12 @@ const axios = require('axios');
 const db = require('../db/index')
 const bodyParser = require('body-parser');
 
+
+
 let identifyQuestion = (text) => {
-  let questionTracker = text.split('?')
-  let containsQuestion = ((questionTracker.length > 1) || (questionTracker.pop() === '?'))
+  let containsQuestion = ((text.substr(0, text.length - 1) === '?') || (text.includes('?') === true));
   containsQuestion === true ? containsQuestion = 'T' : containsQuestion = 'F';
-  return containsQuestion;
+  return containsQuestion;  
 }
 
 router.post('/', (req, res) => {
