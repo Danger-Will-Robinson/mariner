@@ -59,11 +59,6 @@ router.get('/', (req, res) => {
   axios.get('http://localhost:3000/api/sample')
   //axios.get('https://getmyyoutubedata.herokuapp.com/api/sample')
   .then((response) => {
-    //console.log('response.data from Login ', response.data[0])
-    // let url = response.data[0].videos[0].snippet.thumbnails.default.url
-    // let urlId = url.split('vi/')[1].split('/')[0]
-    // console.log('url is ', url)
-    // console.log('urlId is ', urlId)
     axios.post('http://localhost:5001/comments', response.data[0])
     .then((res) => {
       console.log('response in post from router.get is ')
@@ -80,4 +75,6 @@ router.get('/', (req, res) => {
 
 })
 
+module.exports = router
 module.exports.identifyQuestion = identifyQuestion
+
