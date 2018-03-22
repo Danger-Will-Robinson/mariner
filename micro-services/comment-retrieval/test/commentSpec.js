@@ -9,7 +9,7 @@ describe('identifyQuestions', function() {
     assert.equal(identifyQuestion(question), 'T');
   });
 
-  it('should pick out questions out of multiple statements', ()  => {
+  it('should pick out questions from multiple statements', ()  => {
     let question = 'Nice work today. Next time do you think you can get here earlier? That would be great.';
     assert.equal(identifyQuestion(question), 'T');
   });
@@ -21,7 +21,7 @@ describe('identifyQuestions', function() {
 
 
   it ('should return false if there are no questions', () => {
-    let str = 'This is so cool! I would love to go myself someday. Thanks for sharing';
+    let str = 'This is so cool! I would love to go myself someday. Thanks for sharing!!';
     assert.equal(identifyQuestion(str), 'F');
   }) 
 
