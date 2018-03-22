@@ -22,6 +22,7 @@ router.post('/', (req, res) => {
       console.log('err posting user name ', err)
     } else {
       console.log('posted name to db');
+      res.json();
     }
   }) 
   req.body.videos.forEach((video, index) => {

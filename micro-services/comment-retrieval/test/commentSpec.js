@@ -19,10 +19,15 @@ describe('identifyQuestions', function() {
     assert.equal(identifyQuestion(str), 'T');
   });
 
-
   it ('should return false if there are no questions', () => {
     let str = 'This is so cool! I would love to go myself someday. Thanks for sharing!!';
     assert.equal(identifyQuestion(str), 'F');
   }) 
 
 })
+
+// describe('escapingCharacters', () => {
+//   it('should handle apostrophes in user name', () => {
+    
+//   })
+// })
