@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 
 let identifyQuestion = (text) => {
   let questionTracker = text.split('?')
-  console.log('questionTracker is ', questionTracker)
   let containsQuestion = ((questionTracker.length > 1) || (questionTracker.pop() === '?'))
   containsQuestion === true ? containsQuestion = 'T' : containsQuestion = 'F';
   return containsQuestion;
@@ -80,4 +79,4 @@ router.get('/', (req, res) => {
 
 })
 
-module.exports = router
+module.exports.identifyQuestion = identifyQuestion
