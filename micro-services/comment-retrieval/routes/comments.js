@@ -4,12 +4,12 @@ const axios = require('axios');
 const db = require('../db/index')
 const bodyParser = require('body-parser');
 
+
+
 let identifyQuestion = (text) => {
-  let questionTracker = text.split('?')
-  console.log('questionTracker is ', questionTracker)
-  let containsQuestion = ((questionTracker.length > 1) || (questionTracker.pop() === '?'))
+  let containsQuestion = ((text.substr(0, text.length - 1) === '?') || (text.includes('?') === true));
   containsQuestion === true ? containsQuestion = 'T' : containsQuestion = 'F';
-  return containsQuestion;
+  return containsQuestion;  
 }
 
 router.post('/', (req, res) => {
@@ -22,6 +22,7 @@ router.post('/', (req, res) => {
       console.log('err posting user name ', err)
     } else {
       console.log('posted name to db');
+      res.json();
     }
   }) 
   req.body.videos.forEach((video, index) => {
@@ -59,11 +60,6 @@ router.get('/', (req, res) => {
   axios.get('http://localhost:3000/api/sample')
   //axios.get('https://getmyyoutubedata.herokuapp.com/api/sample')
   .then((response) => {
-    //console.log('response.data from Login ', response.data[0])
-    // let url = response.data[0].videos[0].snippet.thumbnails.default.url
-    // let urlId = url.split('vi/')[1].split('/')[0]
-    // console.log('url is ', url)
-    // console.log('urlId is ', urlId)
     axios.post('http://localhost:5001/comments', response.data[0])
     .then((res) => {
       console.log('response in post from router.get is ')
@@ -81,3 +77,5 @@ router.get('/', (req, res) => {
 })
 
 module.exports = router
+module.exports.identifyQuestion = identifyQuestion
+

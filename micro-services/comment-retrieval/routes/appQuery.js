@@ -19,7 +19,7 @@ router.post('/', function (req, res) {
       res.end();
     } else {
       res.status(200);
-      console.log(result);
+      //console.log(result);
       res.json(result);
     }
   });
