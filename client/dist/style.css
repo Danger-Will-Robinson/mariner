@@ -41,7 +41,7 @@ ul {
 }
 
 .login-frame {
-  position: absolute;
+  position: fixed;
   width: 414px;
   height: 414px;
   left: 513px;
@@ -81,7 +81,26 @@ body {
 
   width: 120px;
   height: 120px;
+  animation: ship-on-sea 1s 1s infinite alternate;
   
+}
+
+@keyframes ship-on-sea {
+  0% {
+    margin-top: 1%;
+    transform: rotate(-5deg);
+  }
+
+  50% {
+    margin-top: -1%;
+    transform: rotate(-2deg);
+  }
+
+  100% {
+    margin-top: 0.5%;
+    transform: rotate(-1deg);
+    
+  }
 }
 
 .login-options-row {
@@ -110,3 +129,25 @@ body {
   top: 57.55%;
   bottom: 0%;
 }
+
+.login-twitter {
+  position: absolute;
+  width: 59px;
+  height: 59px;
+
+  left: 37.12%;
+  right: 37.12%;
+  top: 0%;
+  bottom: 57.55%;
+}
+.login-twitch {
+  position: absolute;
+  width: 59px;
+  height: 59px;
+
+  left: 74.24%;
+  right: 0%;
+  top: 0%;
+  bottom: 57.55%;
+}
+

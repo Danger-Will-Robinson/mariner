@@ -19,16 +19,13 @@ class Login extends Component {
   render() {
     return (
       <Aux>
-        <div>Log In Sheet</div>
         <LoginFrame />
-        <form action="http://localhost:3000/auth/youtube">
+        {/* <form action="http://localhost:3000/auth/youtube">
           <input type="submit" value="Log In With YouTube" />
         </form>
         <form action="http://localhost:3000/auth/logout">
           <input type="submit" value="Log Out" />
-        </form>
-        <div>YouTube</div>
-        <div>Google</div>
+        </form> */}
       </Aux>
     );
   }
