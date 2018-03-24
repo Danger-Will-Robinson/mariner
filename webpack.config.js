@@ -1,6 +1,7 @@
 var path = require('path');
 var SRC_DIR = path.join(__dirname, '/client/src');
 var DIST_DIR = path.join(__dirname, '/client/dist');
+var ASSET_DIR = path.join(__dirname, '/client/assets');
 
 module.exports = {
   entry: `${SRC_DIR}/index.jsx`,
@@ -17,6 +18,13 @@ module.exports = {
         query: {
           presets: ['react', 'es2015']
         }
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        include: ASSET_DIR,
+        use: [
+          'file-loader'
+        ]
       }
     ]
   }

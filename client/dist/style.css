@@ -68,8 +68,8 @@ ul {
   color: #000000;
 }
 
-.background {
-  background: #448EB8;
+body {
+  background-color: #448EB8;
 }
 
 .login-logo {
@@ -82,4 +82,31 @@ ul {
   width: 120px;
   height: 120px;
   
+}
+
+.login-options-row {
+  position: fixed;
+  width: 229px;
+  height: 139px;
+  left: 606px;
+  top: 561px;
+}
+
+.login-youtube {
+  position: absolute;
+  width: 59px;
+  height: 59px;
+  left: 0px;
+  top: 0px;
+}
+
+.login-google {
+  position: absolute;
+  width: 59px;
+  height: 59px;
+
+  left: 37.12%;
+  right: 37.12%;
+  top: 57.55%;
+  bottom: 0%;
 }
