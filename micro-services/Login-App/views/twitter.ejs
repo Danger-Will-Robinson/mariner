@@ -1,0 +1,38 @@
+<% include ./html-header.ejs %>
+<body>
+<% include ./nav-bar.ejs %>
+
+    <header>
+    <img src="<%= user.photos[0].value %>" />
+
+        <h1>Name:
+            <%= user.username %>
+        </h1>
+        <h2>Twitter ID:
+            <%= user.id %>
+        </h2>
+    </header>
+    <main>
+        
+        <h2>your data on Twitter:</h2>
+        <ul>
+          <% for(let i in user) { %>
+          <% console.log('user item is', user[i]) %>
+            <% if ( !user[i].id ) { %>
+            <li>
+              <%= i %> : <%= user[i] %>
+            </li>
+            <% } %>
+        <% } %>
+        </ul>
+        
+        <h2>Last Tweet:</h2>
+          <% for (let k in status){ %>
+          <h3><%= k %> </h3>: <%= status[k] %>
+        <% } %> 
+        <br />
+
+    </main>
+</body>
+
+</html>
