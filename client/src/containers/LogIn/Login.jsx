@@ -11,21 +11,11 @@ class Login extends Component {
       logInUsed: null
     }
   }
-  // State needs to track the log in option the user chooses.
-  // state = {
-  //   logInUsed: null 
-  // }
 
   render() {
     return (
       <Aux>
         <LoginFrame />
-        {/* <form action="http://localhost:3000/auth/youtube">
-          <input type="submit" value="Log In With YouTube" />
-        </form>
-        <form action="http://localhost:3000/auth/logout">
-          <input type="submit" value="Log Out" />
-        </form> */}
       </Aux>
     );
   }
