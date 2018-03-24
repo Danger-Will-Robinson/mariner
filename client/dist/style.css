@@ -39,3 +39,47 @@ ul {
   font-size: 12px;
   font-family: 'Roboto Slab', serif;
 }
+
+.login-frame {
+  position: absolute;
+  width: 414px;
+  height: 414px;
+  left: 513px;
+  top: 305px;
+  background: #F2F2F2;
+  border-radius: 25px;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.app-title {
+  position: absolute;
+  left: 29.23%;
+  right: 28.99%;
+  top: 37.68%;
+  bottom: 51.93%;
+
+  font-family: Unica One;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 36px;
+
+  color: #000000;
+}
+
+.background {
+  background: #448EB8;
+}
+
+.login-logo {
+  position: absolute;
+  left: 35.51%;
+  right: 35.51%;
+  top: 2.66%;
+  bottom: 68.36%;
+
+  width: 120px;
+  height: 120px;
+  
+}
