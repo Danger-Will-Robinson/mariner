@@ -1,7 +1,8 @@
 import React from 'react';
+import classes from './NavBar.css';
 
 const navBar = (props) => (
-  <div className="nav-bar">
+  <div className={classes.NavBar}>
   </div>
 );
 
