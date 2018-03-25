@@ -11,7 +11,9 @@ const navBar = (props) => (
     <NavServiceSelector />
     <div className={classes.logOutButton}>
       <span className={classes.logOutText}>
-        Log Out
+        <a href="http://localhost:3000/auth/logout">
+          Log Out
+        </a>
       </span>
     </div>
   </div>
