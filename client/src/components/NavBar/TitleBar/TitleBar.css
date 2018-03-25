@@ -1,0 +1,15 @@
+.TitleBar {
+  position: absolute;
+  width: 317px;
+  height: 43px;
+  left: 561px;
+  top: 14px;
+
+  font-family: Unica One;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 36px;
+
+  color: #000000;
+}
