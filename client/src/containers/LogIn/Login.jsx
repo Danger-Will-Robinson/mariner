@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import classes from './Login.css';
+
 import Aux from '../../hoc/Aux.jsx';
 import LoginFrame from '../../components/LoginFrame/LoginFrame.jsx';
 

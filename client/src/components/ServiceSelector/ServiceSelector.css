@@ -1,0 +1,66 @@
+.loginOptionsRow {
+  position: fixed;
+  width: 229px;
+  height: 139px;
+  left: 606px;
+  top: 561px;
+}
+
+.loginYoutube {
+  position: absolute;
+  width: 59px;
+  height: 59px;
+  left: 0px;
+  top: 0px;
+}
+
+.loginYoutube:hover {
+  color: red;
+}
+
+.loginGoogle {
+  position: absolute;
+  width: 59px;
+  height: 59px;
+
+  left: 37.12%;
+  right: 37.12%;
+  top: 57.55%;
+  bottom: 0%;
+}
+
+.loginTwitter {
+  position: absolute;
+  width: 59px;
+  height: 59px;
+
+  left: 37.12%;
+  right: 37.12%;
+  top: 0%;
+  bottom: 57.55%;
+}
+.loginTwitch {
+  position: absolute;
+  width: 59px;
+  height: 59px;
+
+  left: 74.24%;
+  right: 0%;
+  top: 0%;
+  bottom: 57.55%;
+}
+
+.loginChoicePrompt {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 18px;
+  color: #000000;
+
+  position: absolute;
+  left: -3.93%;
+  right: -3.49%;
+  top: -34.5%;
+  bottom: 130%;
+}
