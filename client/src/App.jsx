@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Videos from './components/Videos.jsx';
-import Comments from './components/Comments.jsx';
+import Videos from './components/Videos/Videos.jsx';
+import Comments from './components/Comments/Comments.jsx';
 import Login from './containers/LogIn/Login.jsx';
 import Main from './containers/Main/Main.jsx';
 

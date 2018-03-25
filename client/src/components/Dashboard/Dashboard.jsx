@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './Dashboard.css';
+import RecentComments from './RecentComments/RecentComments.jsx';
 
 const dashBoard = (props) => (
   <div>
@@ -9,6 +10,7 @@ const dashBoard = (props) => (
     <p className={classes.recentCommentTitle}>
       Recent Comments
     </p>
+    <RecentComments />
   </div>
 );
 
