@@ -119,6 +119,10 @@ body {
   top: 0px;
 }
 
+.login-youtube:hover {
+  color: red;
+}
+
 .login-google {
   position: absolute;
   width: 59px;
@@ -151,3 +155,17 @@ body {
   bottom: 57.55%;
 }
 
+.login-choice-prompt {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 18px;
+  color: #000000;
+
+  position: absolute;
+  left: -3.93%;
+  right: -3.49%;
+  top: -34.5%;
+  bottom: 130%;
+}
