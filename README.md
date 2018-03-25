@@ -19,6 +19,3 @@ Rates text
 deployed at https://thawing-plateau-28784.herokuapp.com/
 api route: https://thawing-plateau-28784.herokuapp.com/api/[text to be screened]
 api returns json tree of text with analysis
-
-
-New repo who dis
