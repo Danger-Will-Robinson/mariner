@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import Videos from './components/Videos.jsx';
 import Comments from './components/Comments.jsx';
 import Login from './containers/LogIn/Login.jsx';
+import Main from './containers/Main/Main.jsx';
 
- class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
@@ -24,19 +25,20 @@ import Login from './containers/LogIn/Login.jsx';
   //   this.videoRental()  
   // }
 
-  componentWillMount() {
-    axios.get('http://localhost:5000/getUser')
-    .then( response => {
-      console.log('got user from Mariner', response.data)
-      this.setState({
-        user: response.data,
-        view: 'videos'
+  // Use this function to retrieve user data after successful log in.
+  getUserData() {
+      axios.get('http://localhost:5000/getUser')
+      .then( response => {
+        console.log('got user from Mariner', response.data)
+        this.setState({
+          user: response.data,
+          view: 'videos'
+        });
+        this.videoRental();
+      })
+      .catch( err => {
+        console.log('error in getting user name', err.message)
       });
-      this.videoRental();
-    })
-    .catch( err => {
-      console.log('error in getting user name', err.message)
-    });
   }
 
   videoRental() {
@@ -109,12 +111,18 @@ import Login from './containers/LogIn/Login.jsx';
   }
 
   renderView() {
+    if (this.state.view === 'login') {
+      return <Login />
+    }
     if (this.state.view === 'videos') {
       return <Videos videos={this.state.userVideos} changeView={this.changeView.bind(this)} pass={this.passVideo.bind(this)}/>
     }
     if (this.state.view === 'comments') {
       return <Comments title={this.state.currentTitle} comments={this.state.videoComments}/>
-    }    
+    }
+    if (this.state.view === 'main') {
+      return <Main />
+    }
   }
 
   render() {
@@ -173,7 +181,9 @@ import Login from './containers/LogIn/Login.jsx';
       //     {this.renderView()}
       //   </div>
       // </div>   
-      <Login />
+      <div>
+        {this.renderView()}
+      </div>
   	)
   }
 }
