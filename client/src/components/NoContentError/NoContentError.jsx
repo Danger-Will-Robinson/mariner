@@ -10,6 +10,9 @@ const noContentError = (props) => (
     <p className={classes.errorText}>
     Upload content to your YouTube channel in order to see videos and their respective comments listed here, along with our analysis.
     </p>
+    <p className={classes.visitText}>
+      Visit <a href="http://www.youtube.com">YouTube</a>
+    </p>
   </div>
 )
 
