@@ -8,43 +8,49 @@ import Main from './containers/Main/Main.jsx';
 
 class App extends React.Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        view: '',
-        user: 'Sean Spencer',
-        userVideos:[],
-        videoComments: [],
-        currentTitle: ''
-      }
-      console.log('this.state looks like ', this.state);
-      this.changeView = this.changeView.bind(this);
+    super(props);
+    this.state = {
+      view: 'login',
+      user: '',
+      userVideos:[],
+      videoComments: [],
+      currentTitle: ''
     }
-  
-  // componentDidMount() {
-  //   console.log('component mounting')
-  //   this.videoRental()  
-  // }
+    console.log('this.state looks like ', this.state);
+    this.changeView = this.changeView.bind(this);
+  }
   
 
-  // Use this function to retrieve user data after successful log in.
   componentWillMount() {
-    this.videoRental();
-      // axios.get('http://localhost:5000/getUser')
-      // .then( response => {
-      //   console.log('got user from Mariner', response.data)
-      //   this.setState({
-      //     user: response.data,
-      //     view: 'videos'
-      //   });
-      //   this.videoRental();
-      // })
-      // .catch( err => {
-      //   console.log('error in getting user name', err.message)
-      // });
+
+  }
+
+  async componentDidMount() {
+    if (this.state.view === 'login') {
+      const currentUser = await axios.get('http://localhost:5000/getUser');
+      const userVideos = await axios.post('http://localhost:5001/appQuery', {
+        query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
+      });
+      const videoComments = await axios.post('http://localhost:5001/appQuery', {
+        query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos.data[0].videoTitle}')`
+      });
+
+      this.setState({
+        user: currentUser.data,
+        userVideos: userVideos.data,
+        videoComments: videoComments.data
+      });
+    }
+
+    if (this.state.user !== '' && this.state.userVideos !== [] && this.state.videoComments !== []) {
+      this.setState({
+        view: 'main'
+      });
+    }
   }
 
   videoRental() {
-    // if (this.state.view === 'main') {
+    if (this.state.view === 'main') {
       axios.post('http://localhost:5001/appQuery', {
       query: `SELECT * FROM videos where user in (select idusers from users where username = '${this.state.user}')`
       })
@@ -55,14 +61,10 @@ class App extends React.Component {
         })
         console.log('this.state after rental ', this.state)
       })
-      .then(() => {
-        this.getComments(this.state.userVideos[0].title);
-      })
       .catch(err => {
         console.log('err in videoRental ', err);
       })  
-    // }
-    
+    }
   }
 
   getComments(videoTitle) {
@@ -73,10 +75,14 @@ class App extends React.Component {
     .then((response) => {
       console.log('comment response from mariner ', response.data);
       this.setState({
-        view: 'main',
         videoComments: response.data
-      })
+      });
       console.log('this.state after CR ', this.state.videoComments)
+      })
+    .then(() => {
+      this.setState({
+        view: 'main'
+      });
     })
     .catch(err => {
       console.log('err in CR ', err);
@@ -140,12 +146,6 @@ class App extends React.Component {
       justify-content: flex-end;
       align-items: center;
     `
-    const LogOut = styled.button`
-      margin-top: 15px;
-      font-size: .9em;
-      font-family: Verdana;
-      height: 30px;
-    `
 
     const Greeting = styled.span`
       padding: 5px;
@@ -153,15 +153,6 @@ class App extends React.Component {
       margin-top: 10px;
       font-size: 1.1em;
       font-family: 'Verdana';
-    `
-    const Logo = styled.h1`
-      font-weight: bold;
-      font-size: 1.9em;
-      margin-right: auto;
-      margin-left: auto;
-      align-items: center;
-      font-family: 'Allan', cursive;
-      color: #ffffff;  
     `
     const ShowAllComments = styled.button`
       float: left;
@@ -179,9 +170,7 @@ class App extends React.Component {
       //     <ShowQuestions onClick={this.renderQuestions.bind(this)}>Show Questions</ShowQuestions>
       //     <ShowAllComments onClick={() => this.getComments(this.state.currentTitle).bind(this)}>Show All Comments</ShowAllComments>
       //     <ShowVideos onClick={() => this.changeView('videos')}>Show Videos</ShowVideos>
-      //     <Logo>Mariner</Logo>
       //     <Greeting>Welcome, {this.state.user}</Greeting>
-      //     <LogOut><a href="http://localhost:3000/auth/logout">Log Out</a></LogOut>
       //   </NavBar>
       //   <div className="main">
       //     {this.renderView()}

@@ -1,12 +1,18 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+require("babel-polyfill");
 
 const SRC_DIR = path.join(__dirname, '/client/src');
 const DIST_DIR = path.join(__dirname, '/client/dist');
 const ASSET_DIR = path.join(__dirname, '/client/assets');
 
 module.exports = {
-  entry: `${SRC_DIR}/index.jsx`,
+  entry: ['babel-polyfill', `${SRC_DIR}/index.jsx`],
+  devtool: 'inline-source-map',
+  mode: 'development',
+  devServer: {
+    contentBase: './client/dist'
+  },
   output: {
     filename: 'bundle.js',
     path: DIST_DIR
@@ -18,7 +24,7 @@ module.exports = {
         include: SRC_DIR,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015']
+          presets: ['react', 'env']
         }
       },
       {
