@@ -24,7 +24,17 @@ router.get('/google', passport.authenticate('google', {
 router.get('/youtube',
     passport.authenticate('youtube')
 );
-// send back all of the
+router.get('/twitter',
+    passport.authenticate('twitter')
+);
+router.get('/twitter/callback',
+        passport.authenticate('twitter'),
+        (req, res) => {
+            console.log(req.user)
+            res.render('twitter', { user: req.user, status: req.user._json.status })
+        }
+    )
+    // send back all of the
 router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res) => {
     let userComplete = req.user
     let userData = await youtube.gimmeAll(req.user._id, keys.youTube.API_KEY)
@@ -36,14 +46,7 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
         }
     })
     res.userData = req.user;
-    // res.json(req.user)
-    // res.json(userData)
 
-    // http.post('http://localhost:5001/comments', {
-    //   videos: userData.videos,
-    //   user: req.user,
-    //   comments: userData.comments
-    // })
     axios.post('http://localhost:5001/comments', {
             videos: userData.videos,
             user: req.user,
