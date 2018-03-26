@@ -10,8 +10,8 @@ class App extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        view: 'main',
-        user: '',
+        view: '',
+        user: 'Sean Spencer',
         userVideos:[],
         videoComments: [],
         currentTitle: ''
@@ -24,25 +24,27 @@ class App extends React.Component {
   //   console.log('component mounting')
   //   this.videoRental()  
   // }
+  
 
   // Use this function to retrieve user data after successful log in.
-  getUserData() {
-      axios.get('http://localhost:5000/getUser')
-      .then( response => {
-        console.log('got user from Mariner', response.data)
-        this.setState({
-          user: response.data,
-          view: 'videos'
-        });
-        this.videoRental();
-      })
-      .catch( err => {
-        console.log('error in getting user name', err.message)
-      });
+  componentWillMount() {
+    this.videoRental();
+      // axios.get('http://localhost:5000/getUser')
+      // .then( response => {
+      //   console.log('got user from Mariner', response.data)
+      //   this.setState({
+      //     user: response.data,
+      //     view: 'videos'
+      //   });
+      //   this.videoRental();
+      // })
+      // .catch( err => {
+      //   console.log('error in getting user name', err.message)
+      // });
   }
 
   videoRental() {
-    if (this.state.view === 'videos') {
+    // if (this.state.view === 'main') {
       axios.post('http://localhost:5001/appQuery', {
       query: `SELECT * FROM videos where user in (select idusers from users where username = '${this.state.user}')`
       })
@@ -53,10 +55,13 @@ class App extends React.Component {
         })
         console.log('this.state after rental ', this.state)
       })
+      .then(() => {
+        this.getComments(this.state.userVideos[0].title);
+      })
       .catch(err => {
         console.log('err in videoRental ', err);
       })  
-    }
+    // }
     
   }
 
@@ -68,6 +73,7 @@ class App extends React.Component {
     .then((response) => {
       console.log('comment response from mariner ', response.data);
       this.setState({
+        view: 'main',
         videoComments: response.data
       })
       console.log('this.state after CR ', this.state.videoComments)
@@ -121,7 +127,7 @@ class App extends React.Component {
       return <Comments title={this.state.currentTitle} comments={this.state.videoComments}/>
     }
     if (this.state.view === 'main') {
-      return <Main />
+      return <Main serviceName='YouTube' videos={this.state.userVideos} comments={this.state.videoComments}/>
     }
   }
 

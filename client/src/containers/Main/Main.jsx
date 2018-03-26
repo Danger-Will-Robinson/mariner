@@ -7,13 +7,8 @@ import Dashboard from '../../components/Dashboard/Dashboard.jsx';
 
 const main = (props) => (
   <div className={classes.Main}>
-  <NavBar />
-  <Dashboard />
-    <ul>
-      <li>SideBar</li>
-      <li>ContentArea</li>
-      <li>Footer</li>
-    </ul>
+    <NavBar serviceName={props.serviceName}/>
+    <Dashboard activeContent={props.videos[0]} recentComments={props.comments}/>
   </div>
 );
 

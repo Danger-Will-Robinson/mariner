@@ -4,7 +4,7 @@ import Video from '../../Videos/Video/Video.jsx';
 
 const activeContent = (props) => (
   <div className={classes.activeColumn}>
-    <Video />
+    <Video video={props.video}/>
   </div>
 );
 

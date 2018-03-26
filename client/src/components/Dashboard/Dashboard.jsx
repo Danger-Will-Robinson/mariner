@@ -8,11 +8,11 @@ const dashBoard = (props) => (
     <p className={classes.activeContentTitle}>
       Active Content
     </p>
-    <ActiveContent />
+    <ActiveContent video={props.activeContent}/>
     <p className={classes.recentCommentTitle}>
       Recent Comments
     </p>
-    <RecentComments />
+    <RecentComments comments={props.recentComments}/>
   </div>
 );
 

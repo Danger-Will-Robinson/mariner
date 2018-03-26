@@ -7,7 +7,7 @@ import NavServiceSelector from './NavServiceSelector/NavServiceSelector.jsx';
 const navBar = (props) => (
   <div className={classes.NavBar}>
     <img src={MarinerLogo} className={classes.appLogo}></img>
-    <TitleBar serviceName="YouTube" />
+    <TitleBar serviceName={props.serviceName} />
     <NavServiceSelector />
     <div className={classes.logOutButton}>
       <span className={classes.logOutText}>
