@@ -1,0 +1,58 @@
+.loginFrame {
+  position: fixed;
+  width: 414px;
+  height: 414px;
+  left: 513px;
+  top: 305px;
+  background: #F2F2F2;
+  border-radius: 25px;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.appTitle {
+  position: absolute;
+  left: 29.23%;
+  right: 28.99%;
+  top: 37.68%;
+  bottom: 51.93%;
+
+  font-family: Unica One;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 36px;
+
+  color: #000000;
+}
+
+.loginLogo {
+  position: absolute;
+  left: 35.51%;
+  right: 35.51%;
+  top: 2.66%;
+  bottom: 68.36%;
+
+  width: 120px;
+  height: 120px;
+  animation: ship-on-sea 1s 1s infinite alternate;
+  
+}
+
+@keyframes ship-on-sea {
+  0% {
+    margin-top: 1%;
+    transform: rotate(-5deg);
+  }
+
+  50% {
+    margin-top: -1%;
+    transform: rotate(-2deg);
+  }
+
+  100% {
+    margin-top: 0.5%;
+    transform: rotate(-1deg);
+    
+  }
+}

@@ -10,7 +10,7 @@ var ALLVIDEOS = require('../data/youTubeAllVideoResponse');
 
 router.get('/', (req, res) => {
     console.log('redir new user')
-    res.redirect('http://localhost:3000')
+    res.redirect('http://localhost:5000')
 })
 
 router.get('/:name/:id', (req, res) => {
@@ -20,7 +20,7 @@ router.get('/:name/:id', (req, res) => {
         }
     currentUser = user;// res.render('index', { user: user })
     console.log('I think you are ', currentUser.name);
-    res.redirect(`http://localhost:5000/reactTest/`);
+    res.redirect(`http://localhost:8080/`);
 });
 
 router.post('/query/', queryController.queryCommentDB);
@@ -30,7 +30,7 @@ router.get('/getUser', (req, res) => {
     if (currentUser) {
         res.json(currentUser.name);
     } else {
-        res.redirect('http://localhost:3000');
+        res.redirect('http://localhost:8080');
     }
 });
 

@@ -1,0 +1,33 @@
+.activeContentTitle {
+  position: absolute;
+  width: 222px;
+  height: 43px;
+  left: 141px;
+  top: 132px;
+  
+  font-family: Unica One;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 36px;
+  text-transform: uppercase;
+  
+  color: #000000;
+}
+
+.recentCommentTitle {
+  position: absolute;
+  width: 260px;
+  height: 43px;
+  left: 771px;
+  top: 132px;
+  
+  font-family: Unica One;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 36px;
+  text-transform: uppercase;
+  
+  color: #000000;
+}

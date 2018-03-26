@@ -1,0 +1,72 @@
+.NoContentError {
+  position: fixed;
+  width: 571px;
+  height: 478px;
+  left: 434px;
+  top: 297px;
+}
+
+.errorWindowLogo {
+  position: absolute;
+  height: 94px;
+  width: 107px;
+  
+  left: 40.63%;
+  right: 40.63%;
+  top: 0%;
+  bottom: 80.33%;
+}
+
+.errorTitle {
+  position: absolute;
+  left: 35.38%;
+  right: 35.38%;
+  top: 28.66%;
+  bottom: 62.34%;
+
+  font-family: Unica One;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 36px;
+
+  color: #000000;
+}
+
+.errorText {
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 44.98%;
+  bottom: 37.24%;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 24px;
+  text-align: center;
+
+  color: #000000;
+}
+
+.visitText {
+  position: absolute;
+  left: 37.13%;
+  right: 37.13%;
+  top: 93.93%;
+  bottom: 0%;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 24px;
+  text-align: center;
+
+  color: #000000;
+}
+
+a {
+  text-decoration: none;
+}
