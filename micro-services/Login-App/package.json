@@ -28,6 +28,7 @@
         "mongoose": "^4.12.0",
         "passport": "^0.4.0",
         "passport-google-oauth20": "^1.0.0",
+        "passport-twitter": "^1.0.4",
         "passport-youtube": "0.0.6",
         "passport-youtube-v3": "^2.1.0",
         "youtube-node": "^1.3.2",
