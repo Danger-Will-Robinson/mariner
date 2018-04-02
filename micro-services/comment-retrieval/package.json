@@ -20,6 +20,7 @@
     "ramda": "^0.25.0",
     "retext-english": "^3.0.0",
     "retext-sentiment": "^4.1.0",
+    "sentiment": "^4.2.0",
     "serve-favicon": "~2.4.5",
     "unified": "^6.1.6",
     "unist-util-inspect": "^4.1.2"

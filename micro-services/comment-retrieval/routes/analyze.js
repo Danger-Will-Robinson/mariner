@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const shortTextAnalyzer = require('../helpers/shortText.js')
 const inspect = require('unist-util-inspect');
 const unified = require('unified');
 const english = require('retext-english');
-const sentiment = require('retext-sentiment');
+const retext = require('retext-sentiment');
+const sentiment = require('sentiment');
+
 const R = require('ramda');
-const bodyParser = require('body-parser');
+
 
 
 router.post('/', (req, res, next) => {
@@ -13,17 +16,31 @@ router.post('/', (req, res, next) => {
 	let text = req.body.text;
 	let result;
 
-	let processor = unified()
-	  .use(english)
-	  .use(sentiment)
+	if (text.length < 40) {
+		result = shortTextAnalyzer(text);
+		//res.json(result);
+		console.log('result is ', result)
+	} else {
+		let processor = unified()
+	    .use(english)
+	    .use(retext)
 
-	let tree = processor.parse(text);
+	  let tree = processor.parse(text);
 
-	processor.run(tree, text);
-	console.log('tree inspect looks like ', inspect(tree));
-	result = R.pluck('polarity', tree);
-	console.log('result is ', result.data); 
-	res.json(tree); 
+	  processor.run(tree, text);
+	  console.log('tree inspect looks like ', inspect(tree));
+	  result = R.pluck('polarity', tree);
+	  console.log('result is ', result.data); 
+	}	
+	console.log('result before sending ', result)
+	res.json(result); 
 })
+
+let tinker = sentiment('good job. nice job douchebag');
+let output = shortTextAnalyzer('good job. nice job douchebag');
+console.log('tinker is ',tinker)
+console.log('output is ', output)
+
+
 
 module.exports = router;
