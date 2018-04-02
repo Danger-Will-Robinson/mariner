@@ -1,7 +1,10 @@
 let sentiment = require('sentiment');
 
+
+
 let shortTextAnalyzer = (text) => {
   let analysis = sentiment(text);
+  console.log('raw analysis is ', analysis)
   let adjust = 0;
   let result = 0;
   let goodWords = analysis.positive;

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const shortTextAnalyzer = require('../helpers/shortText.js')
+const preDefine = require('../helpers/preDefine')
 const inspect = require('unist-util-inspect');
 const unified = require('unified');
 const english = require('retext-english');
@@ -10,16 +11,18 @@ const sentiment = require('sentiment');
 const R = require('ramda');
 
 
+preDefine()
+
 
 router.post('/', (req, res, next) => {
 	console.log('SA post happening req.body looks like ', req.body);
 	let text = req.body.text;
 	let result;
 
-	if (text.length < 40) {
+	if (text.length < 30) {
 		result = shortTextAnalyzer(text);
 		//res.json(result);
-		console.log('result is ', result)
+		//console.log('result is ', result)
 	} else {
 		let processor = unified()
 	    .use(english)
@@ -35,11 +38,6 @@ router.post('/', (req, res, next) => {
 	console.log('result before sending ', result)
 	res.json(result); 
 })
-
-let tinker = sentiment('good job. nice job douchebag');
-let output = shortTextAnalyzer('good job. nice job douchebag');
-console.log('tinker is ',tinker)
-console.log('output is ', output)
 
 
 
