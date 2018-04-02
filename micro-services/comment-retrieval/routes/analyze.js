@@ -19,10 +19,8 @@ router.post('/', (req, res, next) => {
 	let text = req.body.text;
 	let result;
 
-	if (text.length < 30) {
+	if (text.length < 60) {
 		result = shortTextAnalyzer(text);
-		//res.json(result);
-		//console.log('result is ', result)
 	} else {
 		let processor = unified()
 	    .use(english)

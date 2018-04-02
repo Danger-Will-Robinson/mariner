@@ -18,7 +18,10 @@ let shortTextAnalyzer = (text) => {
   	adjust += 3
   } 
   result = analysis.score + adjust;
+  console.log('result is ', result)
   return result;  
 }
+
+let output = shortTextAnalyzer('that judge was dumb. You were amazing')
 
 module.exports = shortTextAnalyzer
