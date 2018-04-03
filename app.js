@@ -12,6 +12,7 @@ var index = require('./server/index');
 var users = require('./routes/users');
 const API = require('./routes/API/youTube');
 let query = require('./routes/query');
+const analysis = require('./routes/analysis');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use('/', index);
 app.use('/:name/:id', users);
 app.use('/API/', API);
 app.use('/query/', query);
+app.use('/analysis', analysis);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

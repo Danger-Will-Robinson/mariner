@@ -33,9 +33,14 @@
         "mysql": "^2.15.0",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
+        "retext-english": "^3.0.0",
+        "retext-sentiment": "^4.1.0",
+        "sentiment": "^4.2.0",
         "sequelize": "^4.33.4",
         "serve-favicon": "^2.4.5",
-        "styled-components": "^3.2.2"
+        "styled-components": "^3.2.2",
+        "unified": "^6.1.6",
+        "unist-util-inspect": "^4.1.2"
     },
     "devDependencies": {
         "autoprefixer": "^8.2.0",
