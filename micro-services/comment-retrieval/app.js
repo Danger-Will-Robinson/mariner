@@ -9,6 +9,7 @@ const db = require('./db/index')
 const users = require('./routes/users');
 const comments = require('./routes/comments');
 const appQuery = require('./routes/appQuery');
+const analyze = require('./routes/analyze');
 const app = express();
 const cors = require('cors');
 
@@ -29,6 +30,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/comments', comments);
 app.use('/appquery', appQuery);
+app.use('/analyze', analyze)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
