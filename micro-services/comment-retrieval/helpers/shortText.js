@@ -22,6 +22,6 @@ let shortTextAnalyzer = (text) => {
   return result;  
 }
 
-let output = shortTextAnalyzer('that judge was dumb. You were amazing')
+let output = shortTextAnalyzer('Great content. Keep it up!')
 
 module.exports = shortTextAnalyzer

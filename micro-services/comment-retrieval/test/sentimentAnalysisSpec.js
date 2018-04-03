@@ -9,7 +9,6 @@ describe('deepSentimentAnalysis', () => {
   		text: 'Great Job. Your work blows.'
   	})
   	.then((response) => {
-  		console.log('response.data first is ', response.data)
   		assert.equal(response.data < -1, true)
   	})
   	.then(() => done(), done)
@@ -23,13 +22,20 @@ describe('deepSentimentAnalysis', () => {
   		text: 'Those judges were dumb. You were amazing!'
   	})
   	.then((response) => {
-  		console.log('response.data is ', response.data)
   		assert.equal(response.data > 1, true);
   	})
   	.then(() => done (), done)
   	.catch((err) => {
   		console.log('err in SA test #2 ');
   	})
-
+  })
+  it('should receive a collection of comments, analyze them and post them to the db', async () => {
+    const videoComments = await axios.post('http://localhost:5001/appQuery', {
+      query: `SELECT * FROM comments`
+    });
+    const analyzeComments = await axios.post('http://localhost:5001/analyze/comments', {
+      comments: videoComments.data
+    })
+    assert.equal(analyzeComments.status, 200)
   })
 })

@@ -12,7 +12,7 @@ const sentiment = require('sentiment');
 const R = require('ramda');
 
 
-preDefine()
+preDefine();
 
 let processor = unified()
   .use(english)
@@ -20,20 +20,24 @@ let processor = unified()
 
 router.post('/comments', (req, res, next) => {
 	db.query('use ThesisDB');
-	console.log('req.body in analyze/comments looks like ', req.body);
+	//console.log('req.body in analyze/comments looks like ', req.body);
 	let result;
-	req.body.forEach((comment, index) => {
+	req.body.comments.forEach((comment, index) => {
+		let text = comment.comment
+		console.log('inside for each')
 		if (text.length < 60) {
       result = shortTextAnalyzer(text);
 		} else {
 			let tree = processor.parse(text);
 			processor.run(tree, text);
-			result = R.pluck('polarity', tree);
-			console.log('result is ', result.data); 
+			result = R.pluck('polarity', tree).data;
+			//console.log('result is ', result.data); 
 		}
 	  db.query(`UPDATE comments SET SA = ${result} where idcomments = ${comment.idcomments}`, (err, result) => {
       if (err) {
-      	console.log(`err updating SA at index ${index} err looks like ${err}`)
+      	console.log(`err updating SA at index ${index} err looks like ${err} result looks like ${result}`)
+      	// res.status(500).send();
+      	// res.end();
       } else {
       	console.log('updated SA in db')
       }

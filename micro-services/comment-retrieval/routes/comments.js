@@ -65,8 +65,7 @@ router.get('/', (req, res) => {
       console.log('response in post from router.get is ')
     })
     .catch((err) => {
-      console.log('err in post from router.get is ')
-      
+      console.log('err in post from router.get is ')     
     })
   })
   .catch((err) => {
