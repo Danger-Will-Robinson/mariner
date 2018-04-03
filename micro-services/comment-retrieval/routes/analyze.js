@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../db/index');
 const shortTextAnalyzer = require('../helpers/shortText.js')
 const preDefine = require('../helpers/preDefine')
 const inspect = require('unist-util-inspect');
@@ -13,9 +14,38 @@ const R = require('ramda');
 
 preDefine()
 
+let processor = unified()
+  .use(english)
+	.use(retext)
+
+router.post('/comments', (req, res, next) => {
+	db.query('use ThesisDB');
+	console.log('req.body in analyze/comments looks like ', req.body);
+	let result;
+	req.body.forEach((comment, index) => {
+		if (text.length < 60) {
+      result = shortTextAnalyzer(text);
+		} else {
+			let tree = processor.parse(text);
+			processor.run(tree, text);
+			result = R.pluck('polarity', tree);
+			console.log('result is ', result.data); 
+		}
+	  db.query(`UPDATE comments SET SA = ${result} where idcomments = ${comment.idcomments}`, (err, result) => {
+      if (err) {
+      	console.log(`err updating SA at index ${index} err looks like ${err}`)
+      } else {
+      	console.log('updated SA in db')
+      }
+	  })  	
+	})
+	res.status(200).send()
+  res.end()
+})
 
 router.post('/', (req, res, next) => {
-	console.log('SA post happening req.body looks like ', req.body);
+
+ 	console.log('SA post happening req.body looks like ', req.body);
 	let text = req.body.text;
 	let result;
 
