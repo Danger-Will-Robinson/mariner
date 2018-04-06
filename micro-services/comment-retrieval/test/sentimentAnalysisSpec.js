@@ -1,8 +1,9 @@
 const assert = require('chai').assert;
 const axios = require('axios');
 
-describe('deepSentimentAnalysis', () => {
+describe('deepSentimentAnalysis', function () {
 	let data;
+  this.timeout(6000)
   
   it ('should detect sarcasm that would otherwise sound like praise', (done) => {	
   	axios.post('http://localhost:5001/analyze', {
@@ -28,14 +29,34 @@ describe('deepSentimentAnalysis', () => {
   	.catch((err) => {
   		console.log('err in SA test #2 ');
   	})
-  })
-  it('should receive a collection of comments, analyze them and post them to the db', async () => {
+  })  
+  it('should maintain accurate analysis when going over the limit of short text range', (done) => {
+    axios.post('http://localhost:5001/analyze', {
+      text: 'Hey dumbass! What makes you think you\'re so great? The only reason you got in here was because of your money'
+    })
+    .then((response) => {
+      assert.equal(response.data < -1, true);
+    })
+    .then(() => done(), done)
+    .catch((err) => {
+      console.log('err in SA test 3')
+    })
+   })   
+  it('should receive a collection of comments, analyze them and post them to the db', async (done) => {
     const videoComments = await axios.post('http://localhost:5001/appQuery', {
       query: `SELECT * FROM comments`
     });
-    const analyzeComments = await axios.post('http://localhost:5001/analyze/comments', {
+    axios.post('http://localhost:5001/analyze/comments', {
       comments: videoComments.data
     })
-    assert.equal(analyzeComments.status, 200)
+    .then((response) => {
+      console.log('inside response then')
+      assert.equal(analyzeComments.status, 200)
+    })
+    .then(() => done())
+    .catch((err) => {
+      console.log('err in mass SA update test')
+    })    
   })
+
 })

@@ -4,12 +4,14 @@ let sentiment = require('sentiment');
 
 let shortTextAnalyzer = (text) => {
   let analysis = sentiment(text);
-  console.log('raw analysis is ', analysis)
+  //console.log('raw analysis is ', analysis)
   let adjust = 0;
   let result = 0;
   let goodWords = analysis.positive;
   let badWords = analysis.negative;
   let allWords = analysis.words;
+
+  //turn positive and negative into sets and use .has
   
   if (goodWords.length === badWords.length && allWords.length > 1 && badWords.includes(allWords[0])) {
   	adjust = -3 
@@ -22,6 +24,8 @@ let shortTextAnalyzer = (text) => {
   return result;  
 }
 
-let output = shortTextAnalyzer('Great content. Keep it up!')
+let output = shortTextAnalyzer('nice job idiot');
+console.log('output is ', output);
+
 
 module.exports = shortTextAnalyzer
