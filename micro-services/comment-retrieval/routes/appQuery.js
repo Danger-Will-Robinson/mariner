@@ -4,11 +4,11 @@ const axios = require('axios');
 const db = require('../db/index.js');
 
 router.post('/', function (req, res) {
-  console.log('App message recieved');
+  //console.log('App message recieved');
 
   // Extract 'query' from request.body
   const query = req.body.query;
-  console.log('query is ', query);
+  //console.log('query is ', query);
 
   // Use this string to execute query on DB.
   db.query('use ThesisDB');

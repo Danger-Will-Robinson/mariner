@@ -11,11 +11,12 @@ describe('deepSentimentAnalysis', function () {
     })
     .then((response) => {
       console.log('inside response then')
-      assert.equal(analyzeComments.status, 200)
+      //console.log('response is ', response)
+      assert.equal(response.status, 200)
     })
     .catch((err) => {
       console.log('err in mass SA update test')
     })
-    .then(() => done())    
+    // .then(() => done())    
   })
 })

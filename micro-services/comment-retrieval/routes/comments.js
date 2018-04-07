@@ -3,7 +3,9 @@ const router = express.Router();
 const axios = require('axios');
 const db = require('../db/index')
 const bodyParser = require('body-parser');
-
+const queue = require('queue');
+const videoQ = queue();
+const commentQ = queue();
 
 
 let identifyQuestion = (text) => {
@@ -28,14 +30,23 @@ router.post('/', (req, res) => {
   req.body.videos.forEach((video, index) => {
     console.log('inside map')
     //db.query(`(SELECT REPLACE('${video.snippet.title}', ''', '''')),`)
+    videoQ.push(() => {
+      return new Promise((resolve, reject) => {
+        db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
+          if (err) {
+          console.log(`err at index ${index}, err looks like ${err}`)
+        } else {
+          console.log('posted to db');
+        }
+        })   
+      })
+    })
 
-    db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
-      if (err) {
-        console.log(`err at index ${index}, err looks like ${err}`)
-      } else {
-        console.log('posted to db');
-      }
-    })   
+    
+  })
+  videoQ.start((err) => {
+    if (err) throw err
+    console.log('finished videoQ')  
   })
 
   req.body.comments.forEach((comment, index) => {
@@ -60,6 +71,7 @@ router.get('/', (req, res) => {
   axios.get('http://localhost:3000/api/sample')
   //axios.get('https://getmyyoutubedata.herokuapp.com/api/sample')
   .then((response) => {
+    console.log('response in get ', response.data)
     axios.post('http://localhost:5001/comments', response.data[0])
     .then((res) => {
       console.log('response in post from router.get is ')
@@ -69,7 +81,7 @@ router.get('/', (req, res) => {
     })
   })
   .catch((err) => {
-    console.log('err in get to Login ');
+    console.log('err in get to Login ', err);
   })
 
 

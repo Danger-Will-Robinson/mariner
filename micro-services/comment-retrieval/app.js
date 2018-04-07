@@ -12,6 +12,7 @@ const appQuery = require('./routes/appQuery');
 const analyze = require('./routes/analyze');
 const app = express();
 const cors = require('cors');
+const queue = require('queue');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

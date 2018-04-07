@@ -3,7 +3,7 @@ const axios = require('axios');
 
 describe('deepSentimentAnalysis', function () {
 	let data;
-  this.timeout(6000)
+  //this.timeout(8000)
   
   it ('should detect sarcasm that would otherwise sound like praise', (done) => {	
   	axios.post('http://localhost:5001/analyze', {
@@ -42,21 +42,4 @@ describe('deepSentimentAnalysis', function () {
       console.log('err in SA test 3')
     })
    })   
-  it('should receive a collection of comments, analyze them and post them to the db', async (done) => {
-    const videoComments = await axios.post('http://localhost:5001/appQuery', {
-      query: `SELECT * FROM comments`
-    });
-    axios.post('http://localhost:5001/analyze/comments', {
-      comments: videoComments.data
-    })
-    .then((response) => {
-      console.log('inside response then')
-      assert.equal(analyzeComments.status, 200)
-    })
-    .then(() => done())
-    .catch((err) => {
-      console.log('err in mass SA update test')
-    })    
-  })
-
 })

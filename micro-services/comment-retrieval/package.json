@@ -19,6 +19,7 @@
     "morgan": "~1.9.0",
     "mysql": "^2.15.0",
     "promise-task-queue": "^1.2.0",
+    "queue": "^4.4.2",
     "ramda": "^0.25.0",
     "retext-english": "^3.0.0",
     "retext-sentiment": "^4.1.0",

@@ -9,7 +9,7 @@ let programWords = {
 }
 
 let preDefine = () => {
-  sentiment('', programWords, console.log('this was called'));
+  sentiment('', programWords);
 }
 
 module.exports = preDefine
