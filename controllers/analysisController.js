@@ -34,5 +34,5 @@ exports.analyzeComments = (req, res) => {
     console.log(data.polarity);
 
     // Send back object containing full analysis:
-    res.end(JSON.stringify(tree));
+    res.json(tree);
 }

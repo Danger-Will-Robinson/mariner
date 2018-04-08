@@ -1,9 +1,9 @@
 .loginOptionsRow {
-  position: fixed;
+  position: relative;
   width: 229px;
   height: 139px;
-  left: 606px;
-  top: 561px;
+  top: 260px;
+  margin: 0px auto 0px auto;
 }
 
 .loginYoutube {
@@ -51,6 +51,9 @@
 }
 
 .loginChoicePrompt {
+  position: absolute;
+  width: 242px;
+  margin: -30px auto;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: bold;
@@ -58,9 +61,8 @@
   font-size: 18px;
   color: #000000;
 
-  position: absolute;
-  left: -3.93%;
+  /* left: -3.93%;
   right: -3.49%;
   top: -34.5%;
-  bottom: 130%;
+  bottom: 130%; */
 }
