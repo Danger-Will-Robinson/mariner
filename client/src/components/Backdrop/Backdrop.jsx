@@ -9,7 +9,7 @@ import classes from './Backdrop.css';
 // Clicking on the backdrop will dismiss it and the modal.
 
 const backdrop = (props) => (
-  props.show ? <div className={classes.Backdrop} onClick={() => console.log('Backdrop clicked')}></div> : null
+  props.show ? <div className={classes.Backdrop} onClick={props.clicked}></div> : null
 );
 
 export default backdrop;

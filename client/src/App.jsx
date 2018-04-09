@@ -128,8 +128,16 @@ class App extends React.Component {
     console.log('Comment was clicked!', this);
     this.setState({
       showModal: true
-    })
+    });
     // Make 'modal' the state, pass it the clicked comment
+  }
+
+  dismissModalHandler() {
+    // Pass this down to the <Backdrop /> component, so that when it is clicked, the page
+    // dimisses the modal view.
+    this.setState({
+      showModal: false
+    });
   }
 
   renderView() {
@@ -149,6 +157,7 @@ class App extends React.Component {
               comments={this.state.videoComments} 
               commentClicked={() => this.commentClickedHandler()} 
               showModal={this.state.showModal}
+              dismissModalHandler={() => this.dismissModalHandler()}
             />
     }
   }
