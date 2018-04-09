@@ -14,7 +14,8 @@ class App extends React.Component {
       user: '',
       userVideos:[],
       videoComments: [],
-      currentTitle: ''
+      currentTitle: '',
+      showModal: false
     }
     console.log('this.state looks like ', this.state);
     this.changeView = this.changeView.bind(this);
@@ -124,7 +125,11 @@ class App extends React.Component {
 
   commentClickedHandler() {
     // Component props chain: "Main" > "Dashboard" >  "Recent Comments" > "Comment"
-    console.log('Comment was clicked!');
+    console.log('Comment was clicked!', this);
+    this.setState({
+      showModal: true
+    })
+    // Make 'modal' the state, pass it the clicked comment
   }
 
   renderView() {
@@ -138,7 +143,13 @@ class App extends React.Component {
       return <Comments title={this.state.currentTitle} comments={this.state.videoComments}/>
     }
     if (this.state.view === 'main') {
-      return <Main serviceName='YouTube' videos={this.state.userVideos} comments={this.state.videoComments} commentClicked={() => this.commentClickedHandler()} />
+      return <Main 
+              serviceName='YouTube' 
+              videos={this.state.userVideos} 
+              comments={this.state.videoComments} 
+              commentClicked={() => this.commentClickedHandler()} 
+              showModal={this.state.showModal}
+            />
     }
   }
 

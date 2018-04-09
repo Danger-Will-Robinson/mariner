@@ -1,7 +1,8 @@
 import React from 'react';
 import classes from './Modal.css';
 
-import Backdrop from '../Backdrop/Backdrop';
+import Aux from '../../hoc/Aux.jsx';
+import Backdrop from '../Backdrop/Backdrop.jsx';
 
 /* 
 1) Modal should render once a user clicks on a comment from anywhere in the Mariner UI.
@@ -11,8 +12,9 @@ import Backdrop from '../Backdrop/Backdrop';
 */
 
 const modal = (props) => (
-  <div>
-  </div>
+  <Aux>
+    <Backdrop show={props.show} />
+  </Aux>
 );
 
 export default modal;
