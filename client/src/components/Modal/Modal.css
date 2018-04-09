@@ -1,0 +1,11 @@
+.Modal {
+  position: fixed;
+  width: 766px;
+  height: 829px;
+  left: 337px;
+  top: 105px;
+  border-radius: 5px;
+  background-color: #448EB8;
+  z-index: 500;
+  transition: all 0.3s ease-out;
+}

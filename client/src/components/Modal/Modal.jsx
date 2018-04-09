@@ -14,6 +14,12 @@ import Backdrop from '../Backdrop/Backdrop.jsx';
 const modal = (props) => (
   <Aux>
     <Backdrop show={props.show} clicked={props.dismissModalHandler}/>
+    <div 
+      className={classes.Modal}
+      style={{
+        opacity: props.show ? '1' : '0'
+      }}>
+    </div>
   </Aux>
 );
 
