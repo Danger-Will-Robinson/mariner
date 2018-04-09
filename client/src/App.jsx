@@ -122,6 +122,11 @@ class App extends React.Component {
     console.log('clicking')
   }
 
+  commentClickedHandler() {
+    // Component props chain: "Main" > "Dashboard" >  "Recent Comments" > "Comment"
+    console.log('Comment was clicked!');
+  }
+
   renderView() {
     if (this.state.view === 'login') {
       return <Login />
@@ -133,7 +138,7 @@ class App extends React.Component {
       return <Comments title={this.state.currentTitle} comments={this.state.videoComments}/>
     }
     if (this.state.view === 'main') {
-      return <Main serviceName='YouTube' videos={this.state.userVideos} comments={this.state.videoComments}/>
+      return <Main serviceName='YouTube' videos={this.state.userVideos} comments={this.state.videoComments} commentClicked={() => this.commentClickedHandler()} />
     }
   }
 

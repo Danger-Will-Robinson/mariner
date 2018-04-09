@@ -8,7 +8,7 @@ import Dashboard from '../../components/Dashboard/Dashboard.jsx';
 const main = (props) => (
   <div className={classes.Main}>
     <NavBar serviceName={props.serviceName}/>
-    <Dashboard activeContent={props.videos[0]} recentComments={props.comments}/>
+    <Dashboard activeContent={props.videos[0]} recentComments={props.comments} commentClicked={props.commentClicked} />
   </div>
 );
 
