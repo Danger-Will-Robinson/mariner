@@ -5,6 +5,7 @@ import Videos from './components/Videos/Videos.jsx';
 import Comments from './components/Comments/Comments.jsx';
 import Login from './containers/LogIn/Login.jsx';
 import Main from './containers/Main/Main.jsx';
+import NoContentError from './components/NoContentError/NoContentError.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -47,6 +48,10 @@ class App extends React.Component {
       this.setState({
         view: 'main'
       });
+    } else if (this.state.userVideos.length === 0) {
+      this.setState({
+        view: 'no-content'
+      })
     }
   }
 
@@ -125,7 +130,7 @@ class App extends React.Component {
 
   commentClickedHandler() {
     // Component props chain: "Main" > "Dashboard" >  "Recent Comments" > "Comment"
-    console.log('Comment was clicked!', this);
+    console.log('Comment was clicked!');
     this.setState({
       showModal: true
     });
@@ -159,6 +164,9 @@ class App extends React.Component {
               showModal={this.state.showModal}
               dismissModalHandler={() => this.dismissModalHandler()}
             />
+    }
+    if (this.state.view === 'no-content') {
+      return <NoContentError />
     }
   }
 
