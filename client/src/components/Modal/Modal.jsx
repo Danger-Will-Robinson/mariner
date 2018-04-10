@@ -23,7 +23,8 @@ const modal = (props) => (
       <p className={classes.modalTitle}>
         COMMENT DETAILS
       </p>
-      <Comment comment={props.loadedComment} />
+      {props.loadedComment ? <Comment comment={props.loadedComment}/> : <p>Loading...</p>}
+      {/* <Comment comment={props.loadedComment} /> */}
       <form className={classes.modalForm}>
         <textarea defaultValue={"Type your reply here..."} className={classes.modalTextArea} />
         <input type="submit" name="Reply" value="Reply" />

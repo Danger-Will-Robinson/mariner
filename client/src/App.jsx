@@ -129,9 +129,9 @@ class App extends React.Component {
     console.log('clicking')
   }
 
-  commentClickedHandler() {
+  commentClickedHandler(e) {
     // Component props chain: "Main" > "Dashboard" >  "Recent Comments" > "Comment"
-    console.log('Comment was clicked!');
+    console.log('Comment was clicked!', e.target);
     this.setState({
       showModal: true
       // loadedComment: this.state.videoComments[0]
@@ -162,10 +162,10 @@ class App extends React.Component {
               serviceName='YouTube' 
               videos={this.state.userVideos} 
               comments={this.state.videoComments} 
-              commentClicked={() => this.commentClickedHandler()} 
+              commentClicked={(e) => this.commentClickedHandler(e)} 
               showModal={this.state.showModal}
               dismissModalHandler={() => this.dismissModalHandler()}
-              loadedComment={this.state.videoComments[0]}
+              loadedComment={this.state.loadedComment}
             />
     }
     if (this.state.view === 'no-content') {
