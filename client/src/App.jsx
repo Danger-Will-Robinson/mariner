@@ -16,7 +16,8 @@ class App extends React.Component {
       userVideos:[],
       videoComments: [],
       currentTitle: '',
-      showModal: false
+      showModal: false,
+      loadedComment: null
     }
     console.log('this.state looks like ', this.state);
     this.changeView = this.changeView.bind(this);
@@ -133,6 +134,7 @@ class App extends React.Component {
     console.log('Comment was clicked!');
     this.setState({
       showModal: true
+      // loadedComment: this.state.videoComments[0]
     });
     // Make 'modal' the state, pass it the clicked comment
   }
@@ -163,6 +165,7 @@ class App extends React.Component {
               commentClicked={() => this.commentClickedHandler()} 
               showModal={this.state.showModal}
               dismissModalHandler={() => this.dismissModalHandler()}
+              loadedComment={this.state.videoComments[0]}
             />
     }
     if (this.state.view === 'no-content') {
@@ -171,44 +174,7 @@ class App extends React.Component {
   }
 
   render() {
-    const NavBar = styled.div`
-      background-color: grey;
-      margin: 0px;
-      padding: 5px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    `
-
-    const Greeting = styled.span`
-      padding: 5px;
-      margin-right: 5px;
-      margin-top: 10px;
-      font-size: 1.1em;
-      font-family: 'Verdana';
-    `
-    const ShowAllComments = styled.button`
-      float: left;
-    `
-    const ShowQuestions = styled.button`
-      float: left;
-    `
-    const ShowVideos = styled.button`
-      float: left;
-    `
-
-  	return(
-      // <div>
-      //   <NavBar>
-      //     <ShowQuestions onClick={this.renderQuestions.bind(this)}>Show Questions</ShowQuestions>
-      //     <ShowAllComments onClick={() => this.getComments(this.state.currentTitle).bind(this)}>Show All Comments</ShowAllComments>
-      //     <ShowVideos onClick={() => this.changeView('videos')}>Show Videos</ShowVideos>
-      //     <Greeting>Welcome, {this.state.user}</Greeting>
-      //   </NavBar>
-      //   <div className="main">
-      //     {this.renderView()}
-      //   </div>
-      // </div>   
+  	return( 
       <div>
         {this.renderView()}
       </div>
