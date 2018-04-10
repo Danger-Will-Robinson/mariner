@@ -1,0 +1,47 @@
+.Modal {
+  position: fixed;
+  width: 766px;
+  height: 829px;
+  left: 337px;
+  top: 105px;
+  border-radius: 5px;
+  background-color: #448EB8;
+  z-index: 500;
+  transition: all 0.3s ease-out;
+}
+
+.modalTitle {
+  position: absolute;
+  width: 260px;
+  height: 43px;
+  left: 229px;
+  /* top: 124px; */
+
+  font-family: Unica One;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 36px;
+
+  color: #000000;
+}
+
+.modalForm {
+  position: absolute;
+  top: 500px;
+  left: 250px;
+}
+
+.modalTextArea {
+  width: 500px;
+  height: 200px;
+  position: absolute;
+  left: -130px;
+  font-size: 16px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 18px;
+  color: #000000;
+}

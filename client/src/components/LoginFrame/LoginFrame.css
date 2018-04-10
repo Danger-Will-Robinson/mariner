@@ -1,9 +1,10 @@
 .loginFrame {
-  position: fixed;
+  position: relative;
   width: 414px;
   height: 414px;
-  left: 513px;
-  top: 305px;
+  /* left: 50%;
+  top: 305px; */
+  margin: 180px auto;
   background: #F2F2F2;
   border-radius: 25px;
 
@@ -12,6 +13,8 @@
 
 .appTitle {
   position: absolute;
+  width: 190px;
+  /* margin: 0px auto 0 auto; */
   left: 29.23%;
   right: 28.99%;
   top: 37.68%;
@@ -22,6 +25,7 @@
   font-weight: normal;
   line-height: normal;
   font-size: 36px;
+  letter-spacing: 10px;
 
   color: #000000;
 }

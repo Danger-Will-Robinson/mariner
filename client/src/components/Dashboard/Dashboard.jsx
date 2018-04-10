@@ -12,7 +12,7 @@ const dashBoard = (props) => (
     <p className={classes.recentCommentTitle}>
       Recent Comments
     </p>
-    <RecentComments comments={props.recentComments}/>
+    <RecentComments comments={props.recentComments} commentClicked={props.commentClicked}/>
   </div>
 );
 

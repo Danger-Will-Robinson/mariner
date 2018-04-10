@@ -5,6 +5,7 @@ import Videos from './components/Videos/Videos.jsx';
 import Comments from './components/Comments/Comments.jsx';
 import Login from './containers/LogIn/Login.jsx';
 import Main from './containers/Main/Main.jsx';
+import NoContentError from './components/NoContentError/NoContentError.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class App extends React.Component {
       user: '',
       userVideos:[],
       videoComments: [],
-      currentTitle: ''
+      currentTitle: '',
+      showModal: false,
+      loadedComment: null
     }
     console.log('this.state looks like ', this.state);
     this.changeView = this.changeView.bind(this);
@@ -46,6 +49,10 @@ class App extends React.Component {
       this.setState({
         view: 'main'
       });
+    } else if (this.state.userVideos.length === 0) {
+      this.setState({
+        view: 'no-content'
+      })
     }
   }
 
@@ -122,6 +129,24 @@ class App extends React.Component {
     console.log('clicking')
   }
 
+  commentClickedHandler(e) {
+    // Component props chain: "Main" > "Dashboard" >  "Recent Comments" > "Comment"
+    console.log('Comment was clicked!', e.target);
+    this.setState({
+      showModal: true
+      // loadedComment: this.state.videoComments[0]
+    });
+    // Make 'modal' the state, pass it the clicked comment
+  }
+
+  dismissModalHandler() {
+    // Pass this down to the <Backdrop /> component, so that when it is clicked, the page
+    // dimisses the modal view.
+    this.setState({
+      showModal: false
+    });
+  }
+
   renderView() {
     if (this.state.view === 'login') {
       return <Login />
@@ -133,49 +158,23 @@ class App extends React.Component {
       return <Comments title={this.state.currentTitle} comments={this.state.videoComments}/>
     }
     if (this.state.view === 'main') {
-      return <Main serviceName='YouTube' videos={this.state.userVideos} comments={this.state.videoComments}/>
+      return <Main 
+              serviceName='YouTube' 
+              videos={this.state.userVideos} 
+              comments={this.state.videoComments} 
+              commentClicked={(e) => this.commentClickedHandler(e)} 
+              showModal={this.state.showModal}
+              dismissModalHandler={() => this.dismissModalHandler()}
+              loadedComment={this.state.loadedComment}
+            />
+    }
+    if (this.state.view === 'no-content') {
+      return <NoContentError />
     }
   }
 
   render() {
-    const NavBar = styled.div`
-      background-color: grey;
-      margin: 0px;
-      padding: 5px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    `
-
-    const Greeting = styled.span`
-      padding: 5px;
-      margin-right: 5px;
-      margin-top: 10px;
-      font-size: 1.1em;
-      font-family: 'Verdana';
-    `
-    const ShowAllComments = styled.button`
-      float: left;
-    `
-    const ShowQuestions = styled.button`
-      float: left;
-    `
-    const ShowVideos = styled.button`
-      float: left;
-    `
-
-  	return(
-      // <div>
-      //   <NavBar>
-      //     <ShowQuestions onClick={this.renderQuestions.bind(this)}>Show Questions</ShowQuestions>
-      //     <ShowAllComments onClick={() => this.getComments(this.state.currentTitle).bind(this)}>Show All Comments</ShowAllComments>
-      //     <ShowVideos onClick={() => this.changeView('videos')}>Show Videos</ShowVideos>
-      //     <Greeting>Welcome, {this.state.user}</Greeting>
-      //   </NavBar>
-      //   <div className="main">
-      //     {this.renderView()}
-      //   </div>
-      // </div>   
+  	return( 
       <div>
         {this.renderView()}
       </div>
