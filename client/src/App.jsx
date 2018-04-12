@@ -56,6 +56,7 @@ class App extends React.Component {
         view: 'no-content'
       })
     }
+    console.log('state after componentDidMount ', this.state)
   }
 
   videoRental() {
