@@ -5,6 +5,7 @@ import Comment from '../../Comments/Comment/Comment.jsx';
 
 const recentComments = (props) => {
   // Extract the first three comments from props:
+  console.log('props is ', props)
   const firstThreeComments = props.comments.slice(0,3);
 
   // Store the Comments components in 'recentsList':

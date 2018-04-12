@@ -14,6 +14,7 @@ class App extends React.Component {
       view: 'login',
       user: '',
       userVideos:[],
+      currentVideo:[],
       videoComments: [],
       currentTitle: '',
       showModal: false,
@@ -39,10 +40,12 @@ class App extends React.Component {
       const videoComments = await axios.post('http://localhost:5001/appQuery', {
         query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos.data[0].videoTitle}')`
       });
+      console.log('videoComments is ', videoComments)
 
       this.setState({
         user: currentUser.data,
         userVideos: userVideos.data,
+        currentVideo: userVideos.data[0],
         videoComments: videoComments.data
       });
     }
@@ -118,7 +121,8 @@ class App extends React.Component {
   passVideo(item) {
     // console.log('item in passVideo ', item)
     this.setState({
-      currentTitle: item.title   
+      currentTitle: item.title, 
+      currentVideo: item  
     });
     this.getComments(item)
   }
@@ -164,7 +168,8 @@ class App extends React.Component {
       return <Main 
               serviceName='YouTube'
               changeView={this.changeView.bind(this)} 
-              videos={this.state.userVideos} 
+              videos={this.state.userVideos}
+              currentVideo={this.state.currentVideo} 
               comments={this.state.videoComments} 
               commentClicked={(e) => this.commentClickedHandler(e)} 
               showModal={this.state.showModal}
