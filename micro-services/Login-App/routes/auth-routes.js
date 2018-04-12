@@ -38,6 +38,8 @@ router.get('/twitter/callback',
 router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res) => {
     let userComplete = req.user
     let userData = await youtube.gimmeAll(req.user._id, keys.youTube.API_KEY)
+    console.log('userComplete is ', userComplete)
+    console.log('userData is ', userData)
         // userData.user = req.user
 
     User.findOneAndUpdate({ _id: req.user._id }, { videos: userData.videos, comments: userData.comments }, { fields: 'data' }, function(err) {

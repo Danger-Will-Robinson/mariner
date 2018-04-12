@@ -31,9 +31,11 @@ class App extends React.Component {
   async componentDidMount() {
     if (this.state.view === 'login') {
       const currentUser = await axios.get('http://localhost:5000/getUser');
+      console.log('currentUser is ', currentUser)
       const userVideos = await axios.post('http://localhost:5001/appQuery', {
         query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
       });
+      console.log('userVideos is ', userVideos)
       const videoComments = await axios.post('http://localhost:5001/appQuery', {
         query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos.data[0].videoTitle}')`
       });
@@ -152,14 +154,15 @@ class App extends React.Component {
       return <Login />
     }
     if (this.state.view === 'videos') {
-      return <Videos videos={this.state.userVideos} changeView={this.changeView.bind(this)} pass={this.passVideo.bind(this)}/>
+      return <Videos videos={this.state.userVideos} changeView={this.changeView.bind(this)} pass={this.passVideo.bind(this)} serviceName='YouTube'/>
     }
     if (this.state.view === 'comments') {
       return <Comments title={this.state.currentTitle} comments={this.state.videoComments}/>
     }
     if (this.state.view === 'main') {
       return <Main 
-              serviceName='YouTube' 
+              serviceName='YouTube'
+              changeView={this.changeView.bind(this)} 
               videos={this.state.userVideos} 
               comments={this.state.videoComments} 
               commentClicked={(e) => this.commentClickedHandler(e)} 

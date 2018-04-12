@@ -8,7 +8,7 @@ import Modal from '../../components/Modal/Modal.jsx';
 
 const main = (props) => (
   <div className={classes.Main}>
-    <NavBar serviceName={props.serviceName}/>
+    <NavBar serviceName={props.serviceName} changeView={props.changeView}/>
     <Dashboard 
       activeContent={props.videos[0]} 
       recentComments={props.comments} 

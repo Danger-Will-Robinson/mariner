@@ -37,6 +37,7 @@ router.post('/videos/by-id/', function(req, res) {
             if (err) {
                 console.log(err)
             }
+            console.log('videos in login api is ', data[0].videos)
             res.json(data[0].videos)
         }).catch(err => res.send('error finding by id'))
     } else {
