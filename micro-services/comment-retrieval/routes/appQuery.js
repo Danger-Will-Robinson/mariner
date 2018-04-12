@@ -4,7 +4,7 @@ const axios = require('axios');
 const db = require('../db/index.js');
 
 router.post('/', function (req, res) {
-  //console.log('App message recieved');
+  console.log('App message recieved');
 
   // Extract 'query' from request.body
   const query = req.body.query;
@@ -14,7 +14,7 @@ router.post('/', function (req, res) {
   db.query('use ThesisDB');
   db.query(query, function (error, result) {
     if (error) {
-      console.error(error);
+      console.error('err in app query ', error);
       res.status(error.status || 500);
       res.end();
     } else {
