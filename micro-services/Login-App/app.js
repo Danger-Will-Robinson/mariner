@@ -1,15 +1,19 @@
-const express = require('express');
-const cookieSession = require('cookie-session');
-const passport = require('passport');
-const authRoutes = require('./routes/auth-routes');
-const profileRoutes = require('./routes/profile-routes');
-const apiRoutes = require('./routes/api-routes');
-const mongoose = require('mongoose');
 const keys = require('./config/keys');
 const passportSetup = require('./config/passport-setup');
-
-const app = express();
-//set static
+const express = require('express')
+const cookieSession = require('cookie-session')
+const passport = require('passport')
+const authRoutes = require('./routes/auth-routes')
+const profileRoutes = require('./routes/profile-routes')
+const apiRoutes = require('./routes/api-routes')
+const reply = require('./routes/comment-reply')
+const passportSetup = require('./passport/passport-setup')
+const mongoose = require('mongoose')
+const cookie = process.env.CKE || require('./config/keys').session.cookieKey
+const mongo = process.env.MNG || require('./config/keys').mongodb.dbURI
+const PORT = process.env.PORT || 3000;
+const app = express()
+    //set static
 app.use(express.static('static'))
     // set view engine
 app.set('view engine', 'ejs');
