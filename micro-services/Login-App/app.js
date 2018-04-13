@@ -1,19 +1,23 @@
 const keys = require('./config/keys');
+const passport = require('passport')
 const passportSetup = require('./config/passport-setup');
+
 const express = require('express')
 const cookieSession = require('cookie-session')
-const passport = require('passport')
-const authRoutes = require('./routes/auth-routes')
-const profileRoutes = require('./routes/profile-routes')
-const apiRoutes = require('./routes/api-routes')
-const reply = require('./routes/comment-reply')
-const passportSetup = require('./passport/passport-setup')
-const mongoose = require('mongoose')
+
 const cookie = process.env.CKE || require('./config/keys').session.cookieKey
 const mongo = process.env.MNG || require('./config/keys').mongodb.dbURI
 const PORT = process.env.PORT || 3000;
 const app = express()
-    //set static
+
+const authRoutes = require('./routes/auth-routes')
+const profileRoutes = require('./routes/profile-routes')
+const apiRoutes = require('./routes/api-routes')
+const reply = require('./routes/comment-reply')
+
+const mongoose = require('mongoose')
+
+//set static
 app.use(express.static('static'))
     // set view engine
 app.set('view engine', 'ejs');
@@ -38,16 +42,15 @@ mongoose.connect(keys.mongodb.dbURI, () => {
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/api', apiRoutes);
-
+app.use('/testing', reply)
 
 // create home route
 app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
 app.get('/test', (req, res) => {
-        res.render('api-test', { user: false })
-    })
-    // app.get('/youtube', (req, res) => res.json(req))
+    res.render('api-test', { user: req.user })
+})
 app.listen(3000, () => {
     console.log('app now listening for requests on port 3000');
 });
