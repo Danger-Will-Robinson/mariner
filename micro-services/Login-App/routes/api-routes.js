@@ -16,6 +16,12 @@ router.post('/comments/uploader/', async(req, res) => {
     const data = req.body
     let result = await youtube.addComment(data.chanId, data.parentID, data.textOriginal, req.user.access_token, req.user.refresh_token, keys)
     res.send(result)
+})
+
+router.post('/comments/reply/', async(req, res) => {
+    const data = req.body
+    let result = await youtube.replyToComment(data.commentId, data.chanId, data.parentID, data.textOriginal, req.user.access_token, req.user.refresh_token, keys)
+    res.send(result)
 });
 
 router.post('/comments/by-name/', function(req, res) {
