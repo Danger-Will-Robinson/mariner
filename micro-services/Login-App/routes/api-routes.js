@@ -6,6 +6,12 @@ const User = require('../models/user-model');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
+router.get('/comment/upload/:chanId/:parentId/:textOriginal', async(req, res) => {
+    const data = req.params
+    let result = await youtube.addComment(data.chanId, data.parentID, data.textOriginal, req.user.access_token, req.user.refresh_token, keys)
+    res.send(result)
+})
+
 router.post('/comments/by-name/', function(req, res) {
     if (req.query.name || req.body.name) {
         User.find({ name: req.query.name || req.body.name }, function(err, data) {
