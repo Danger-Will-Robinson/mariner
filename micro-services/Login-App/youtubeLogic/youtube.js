@@ -31,7 +31,15 @@ module.exports = youtubeLogic = {
                         }
                     }
                 }
-
+                youTubeDataApi.commentThreads.insert(params, (err, info) => {
+                    if (err) {
+                        console.log('Failure posting comment. This is how you messed up:', err.message);
+                        resolve("failed posting comment");
+                    } else {
+                        console.log('comment posted', info.statusText);
+                        resolve("posted comment");
+                    }
+                });
             })
 
         },
