@@ -12,6 +12,10 @@ module.exports = youtubeLogic = {
                     refresh_token: refresh_token,
                     access_token: accessToken
                 });
+                //default set to tokens are in header
+                google.google.options({ auth: oauth2Client })
+
+
             })
         },
         getPlaylists: function(chanID, API_KEY) {
