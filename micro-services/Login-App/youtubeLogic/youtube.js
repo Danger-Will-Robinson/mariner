@@ -1,6 +1,94 @@
 var axios = require('axios')
 
 module.exports = youtubeLogic = {
+
+
+        replyToComment: (commentId, chanId, parentId, commentText, accessToken, refresh_token, keys) => {
+
+            return new Promise(resolve => {
+
+                const oauth2Client = new OAuth2(keys.youTube.clientID, keys.youTube.clientSecret, [])
+
+                // put the tokens in the header
+                oauth2Client.setCredentials({
+                    refresh_token: refresh_token,
+                    access_token: accessToken
+                });
+
+                //default set to tokens are in header
+                google.google.options({ auth: oauth2Client })
+
+                //build youtube commentResource object for request body
+                let params = {
+                    auth: oauth2Client,
+                    part: "snippet",
+                    resource: {
+                        snippet: {
+                            channelId: chanId,
+                            topLevelComment: {
+                                snippet: {
+                                    textOriginal: commentText
+                                }
+                            },
+                            videoId: parentId,
+                            commentId: commentId,
+                        }
+                    }
+                }
+                youTubeDataApi.commentThreads.insert(params, (err, info) => {
+                    if (err) {
+                        console.log('Failure posting comment. This is how you messed up:', err.message);
+                        resolve("failed posting comment");
+                    } else {
+                        console.log('comment posted', info.statusText);
+                        resolve("posted comment");
+                    }
+                });
+            })
+        },
+
+        addComment: (chanId, parentId, commentText, accessToken, refresh_token, keys) => {
+
+            return new Promise(resolve => {
+
+                const oauth2Client = new OAuth2(keys.youTube.clientID, keys.youTube.clientSecret, [])
+
+                // put the tokens in the header
+                oauth2Client.setCredentials({
+                    refresh_token: refresh_token,
+                    access_token: accessToken
+                });
+                //default set to tokens are in header
+                google.google.options({ auth: oauth2Client })
+
+                //build youtube commentResource object for request body
+                let params = {
+                    auth: oauth2Client,
+                    part: "snippet",
+                    resource: {
+                        snippet: {
+                            channelId: chanId,
+                            videoId: parentId,
+                            topLevelComment: {
+                                snippet: {
+                                    textOriginal: commentText
+                                }
+                            }
+                        }
+                    }
+                }
+                youTubeDataApi.commentThreads.insert(params, (err, info) => {
+                    if (err) {
+                        console.log('Failure posting comment. This is how you messed up:', err.message);
+                        resolve("failed posting comment");
+                    } else {
+                        console.log('comment posted', info.statusText);
+                        resolve("posted comment");
+                    }
+                });
+            })
+
+        },
         getPlaylists: function(chanID, API_KEY) {
 
             return new Promise(resolve => {
@@ -135,4 +223,4 @@ module.exports = youtubeLogic = {
             })
         }
     }
-    // youtubeLogic.runner('ph8tel')
+    // youtubeLogic.runner('ph8tel')git add .

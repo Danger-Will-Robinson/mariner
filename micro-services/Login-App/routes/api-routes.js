@@ -5,6 +5,10 @@ const User = require('../models/user-model');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
+router.get('/user/tokens/:id', (req, res) => {
+    let userId = req.params.id;
+    console.log('user info is', userId)
+})
 
 router.post('/comments/by-name/', function(req, res) {
     if (req.query.name || req.body.name) {
@@ -17,7 +21,8 @@ router.post('/comments/by-name/', function(req, res) {
     } else {
         res.send("no matches")
     }
-});
+})
+
 router.post('/comments/by-id/', function(req, res) {
     if (req.query.id || req.body.id) {
         User.find({ _id: req.query.id || req.body.id }, function(err, data) {
@@ -30,7 +35,8 @@ router.post('/comments/by-id/', function(req, res) {
     } else {
         res.send("no matches")
     }
-});
+})
+
 router.post('/videos/by-id/', function(req, res) {
     if (req.query.id || req.body.id) {
         User.find({ _id: req.query.id || req.body.id }, function(err, data) {
@@ -43,7 +49,8 @@ router.post('/videos/by-id/', function(req, res) {
     } else {
         res.send("no matches")
     }
-});
+})
+
 router.post('/videos/by-name/', function(req, res) {
     if (req.query.name || req.body.name) {
         User.find({ name: req.query.name || req.body.name }, function(err, data) {
@@ -55,7 +62,30 @@ router.post('/videos/by-name/', function(req, res) {
     } else {
         res.send("no matches")
     }
-});
+})
+
+router.get('/comment/upload/:chanId/:parentId/:textOriginal', async(req, res) => {
+    const data = req.params
+    let result = await youtube.addComment(data.chanId, data.parentID, data.textOriginal, req.user.access_token, req.user.refresh_token, keys)
+    res.send(result)
+})
+
+router.post('/comments/uploader/', async(req, res) => {
+    console.log('hit with', req.body)
+    const data = req.body
+    let result = await youtube.addComment(data.chanId, data.parentID, data.textOriginal, req.user.access_token, req.user.refresh_token, keys)
+    res.send(result)
+
+})
+
+router.post('/comments/reply/', async(req, res) => {
+    console.log('hit with', req.body)
+    const data = req.body
+    let result = await youtube.replyToComment(data.commentId, data.chanId, data.parentID, data.textOriginal, req.user.access_token, req.user.refresh_token, keys)
+    res.send(result)
+
+})
+
 router.post('/all-data/by-id', function(req, res) {
     if (req.query.id || req.body.id) {
         User.find({ _id: req.query.id || req.body.id }, function(err, data) {
@@ -67,7 +97,8 @@ router.post('/all-data/by-id', function(req, res) {
     } else {
         res.send("no matches")
     }
-});
+})
+
 router.post('/all-data/by-name', function(req, res) {
     console.log('ding', req.query, req.params, req.body)
 
@@ -81,7 +112,8 @@ router.post('/all-data/by-name', function(req, res) {
     } else {
         res.json('not found')
     }
-});
+})
+
 router.get('/sample', function(req, res) {
     User.find({ name: 'ph8tel' }, function(err, data) {
         if (err) {
