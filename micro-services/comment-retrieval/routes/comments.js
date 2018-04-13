@@ -128,8 +128,8 @@ router.get('/', (req, res) => {
   //axios.get('http://localhost:3000/api/sample')
   axios.get('https://getmyyoutubedata.herokuapp.com/api/sample')
   .then((response) => {
-    console.log('response in get ', response.data[0])
-    axios.post('http://localhost:5001/comments', {
+    console.log('response in get ')
+    axios.post('http://localhost:5001/replied', {
       videos: response.data[0].videos,
       user: response.data[0].name,
       comments: response.data[0].comments
