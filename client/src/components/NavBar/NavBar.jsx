@@ -8,12 +8,10 @@ const navBar = (props) => (
   <div className={classes.NavBar}>
     <img src={MarinerLogo} className={classes.appLogo}></img>
     <TitleBar serviceName={props.serviceName} />
-    <NavServiceSelector />
-    <div className={classes.logOutButton}>
+    <NavServiceSelector changeView={props.changeView}/>
+    <div href="http://localhost:3000/auth/logout" className={classes.logOutButton}>
       <span className={classes.logOutText}>
-        <a href="http://localhost:3000/auth/logout">
           Log Out
-        </a>
       </span>
     </div>
   </div>

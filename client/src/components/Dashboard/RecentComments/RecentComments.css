@@ -3,4 +3,6 @@
   left: 760px;
   column-count: 1;
   column-width: 578px;
+  z-index: -1000;
 }
+

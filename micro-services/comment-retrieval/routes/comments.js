@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
         console.log('ready for json');
       })
       .catch((err) => {
-        console.log('err in req.body.videos loop ', err);
+        console.log('err in req.body.videos loop ');
       })      
     })
     
@@ -125,10 +125,10 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
   console.log('get request happening in comments app router.get')
-  axios.get('http://localhost:3000/api/sample')
-  //axios.get('https://getmyyoutubedata.herokuapp.com/api/sample')
+  //axios.get('http://localhost:3000/api/sample')
+  axios.get('https://getmyyoutubedata.herokuapp.com/api/sample')
   .then((response) => {
-    //console.log('response in get ', response.data[0])
+    console.log('response in get ', response.data[0])
     axios.post('http://localhost:5001/comments', {
       videos: response.data[0].videos,
       user: response.data[0].name,
