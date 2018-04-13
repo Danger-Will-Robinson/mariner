@@ -169,6 +169,7 @@ class App extends React.Component {
               serviceName='YouTube'
               changeView={this.changeView.bind(this)} 
               videos={this.state.userVideos}
+              currentTitle={this.state.currentTitle}
               currentVideo={this.state.currentVideo} 
               comments={this.state.videoComments} 
               commentClicked={(e) => this.commentClickedHandler(e)} 
