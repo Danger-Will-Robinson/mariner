@@ -18,6 +18,23 @@ module.exports = youtubeLogic = {
                 //default set to tokens are in header
                 google.google.options({ auth: oauth2Client })
 
+                //build youtube commentResource object for request body
+                let params = {
+                    auth: oauth2Client,
+                    part: "snippet",
+                    resource: {
+                        snippet: {
+                            channelId: chanId,
+                            topLevelComment: {
+                                snippet: {
+                                    textOriginal: commentText
+                                }
+                            },
+                            videoId: parentId,
+                            commentId: commentId,
+                        }
+                    }
+                }
 
             })
         },
