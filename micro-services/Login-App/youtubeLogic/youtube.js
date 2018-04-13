@@ -1,6 +1,23 @@
 var axios = require('axios')
 
 module.exports = youtubeLogic = {
+
+
+        replyToComment: (commentId, chanId, parentId, commentText, accessToken, refresh_token, keys) => {
+
+            return new Promise(resolve => {
+
+                const oauth2Client = new OAuth2(keys.youTube.clientID, keys.youTube.clientSecret, [])
+
+                // put the tokens in the header
+                oauth2Client.setCredentials({
+                    refresh_token: refresh_token,
+                    access_token: accessToken
+                });
+
+            })
+        },
+
         addComment: (chanId, parentId, commentText, accessToken, refresh_token, keys) => {
 
             return new Promise(resolve => {
