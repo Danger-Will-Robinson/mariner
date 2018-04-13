@@ -3,6 +3,9 @@
 <% include ./nav-bar.ejs %>
 <body>
     <h1>CURRENT WORKING API ROUTES</h1>
+    <button id="execute-request-button">TEST POST COMMENT TO COMMENT</button>
+    <br />
+    <a href="/testing/post"> TEST POST COMMENT TO VIDEO</a>
 <form name="reply-form" method="POST" action="/api/comments/reply">
   <table>
     <tr>
@@ -16,7 +19,7 @@
   </table>
 </form>
 </form>
-    <form name="form1" method="POST" action="/api/comments/uploader">
+    <form name="commentPoster" method="POST" action="/api/comments/uploader">
     <table>
       <tr>
         <td>post a comment</td>
