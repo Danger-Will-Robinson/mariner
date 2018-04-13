@@ -15,6 +15,10 @@ module.exports = youtubeLogic = {
                     access_token: accessToken
                 });
 
+                //default set to tokens are in header
+                google.google.options({ auth: oauth2Client })
+
+
             })
         },
 
