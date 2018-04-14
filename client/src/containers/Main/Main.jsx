@@ -6,9 +6,11 @@ import NoContentError from '../../components/NoContentError/NoContentError.jsx';
 import Dashboard from '../../components/Dashboard/Dashboard.jsx';
 import Modal from '../../components/Modal/Modal.jsx';
 
-const main = (props) => (
+const main = (props) => {
+console.log('props in main ', props)
+return (
   <div className={classes.Main}>
-    <NavBar serviceName={props.serviceName} changeView={props.changeView} renderQuestions={props.renderQuestions}/>
+    <NavBar serviceName={props.serviceName} changeView={props.changeView} renderQuestions={props.renderQuestions} analyzeComments={props.analyzeComments}/>
     <Dashboard
       commentDescription={props.commentDescription} 
       activeContent={props.currentVideo}
@@ -22,4 +24,5 @@ const main = (props) => (
   </div>
 );
 
+}
 export default main;

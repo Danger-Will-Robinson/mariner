@@ -63,6 +63,16 @@ class App extends React.Component {
     console.log('state after componentDidMount ', this.state)
   }
 
+  async analyzeComments(comments) {
+    let sentComments = await axios.post('http://localhost:5001/analyze/comments', {
+      comments: this.state.videoComments
+    })
+    console.log('analyzedComments is ', sentComments);
+    this.setState({
+      videoComments: sentComments.data
+    })  
+  }
+
   videoRental() {
     if (this.state.view === 'main') {
       axios.post('http://localhost:5001/appQuery', {
@@ -102,6 +112,8 @@ class App extends React.Component {
       console.log('err in CR ', err);
     })
   } 
+  
+  
 
   renderQuestions(comments) {
     console.log('render Q clicked')
@@ -180,6 +192,7 @@ class App extends React.Component {
               showModal={this.state.showModal}
               dismissModalHandler={() => this.dismissModalHandler()}
               loadedComment={this.state.loadedComment}
+              analyzeComments={this.analyzeComments.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
             />
     }
