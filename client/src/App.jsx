@@ -17,6 +17,7 @@ class App extends React.Component {
       currentVideo:[],
       videoComments: [],
       currentTitle: '',
+      commentDescription: 'Recent Comments',
       showModal: false,
       loadedComment: null
     }
@@ -113,7 +114,8 @@ class App extends React.Component {
       }
     })
     this.setState({
-      videoComments: collection
+      videoComments: collection,
+      commentDescription: 'Questions'
     })
     console.log('this.state after ', this.state)
   }
@@ -122,7 +124,8 @@ class App extends React.Component {
     // console.log('item in passVideo ', item)
     this.setState({
       currentTitle: item.title, 
-      currentVideo: item  
+      currentVideo: item,
+      commentDescription: 'Video Comments'  
     });
     this.getComments(item)
   }
@@ -164,9 +167,10 @@ class App extends React.Component {
     // if (this.state.view === 'comments') {
     //   return <Comments title={this.state.currentTitle} comments={this.state.videoComments} renderQuestions={this.renderQuestions.bind(this)}/>
     // }
-    if (this.state.view === 'main' || this.state.view === 'comments') {
+    if (this.state.view === 'main') {
       return <Main 
               serviceName='YouTube'
+              commentDescription={this.state.commentDescription}
               changeView={this.changeView.bind(this)} 
               videos={this.state.userVideos}
               currentTitle={this.state.currentTitle}
