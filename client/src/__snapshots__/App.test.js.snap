@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders 1`] = `
+<div>
+  <div
+    className="loginFrame"
+  >
+    <img
+      className="loginLogo"
+      src="test-file-stub"
+    />
+    <h1
+      className="appTitle"
+    >
+      MARINER
+    </h1>
+    <div
+      className="loginOptionsRow"
+    >
+      <p
+        className="loginChoicePrompt"
+      >
+        Choose a service to start with.
+      </p>
+      <a
+        href="http://localhost:3000/auth/youtube"
+      >
+        <img
+          className="loginYoutube"
+          src="test-file-stub"
+        />
+      </a>
+      <img
+        className="loginGoogle"
+        src="test-file-stub"
+      />
+      <img
+        className="loginTwitter"
+        src="test-file-stub"
+      />
+      <img
+        className="loginTwitch"
+        src="test-file-stub"
+      />
+    </div>
+  </div>
+</div>
+`;

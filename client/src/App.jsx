@@ -40,8 +40,7 @@ class App extends React.Component {
       const videoComments = await axios.post('http://localhost:5001/appQuery', {
         query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos.data[0].videoTitle}')`
       });
-      console.log('videoComments is ', videoComments)
-
+      
       this.setState({
         user: currentUser.data,
         userVideos: userVideos.data,
