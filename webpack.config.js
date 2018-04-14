@@ -24,6 +24,7 @@ module.exports = {
         include: SRC_DIR,
         loader: 'babel-loader',
         query: {
+          plugins: ['recharts'],
           presets: ['react', 'env']
         }
       },
