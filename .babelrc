@@ -1,3 +1,4 @@
 {
+  "plugins": ["recharts"],
   "presets": ["env", "react"]
 }
