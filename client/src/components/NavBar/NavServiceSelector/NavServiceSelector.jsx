@@ -11,7 +11,7 @@ import sentimentLogo from '../../../../assets/sentimentIcon.png'
 const navServiceSelector = (props) => (
   <div>
     <img onClick={function(){props.changeView('videos')}}src={YouTubeLogo} className={classes.serviceIcon}></img>
-    <img src={QuestionMarkLogo} className={classes.questionIcon}></img>
+    <img onClick={() => {props.renderQuestions()}}src={QuestionMarkLogo} className={classes.questionIcon}></img>
     <img src ={sentimentLogo} className={classes.sentimentIcon}></img>
   </div>
   

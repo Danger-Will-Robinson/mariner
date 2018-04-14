@@ -108,14 +108,14 @@ class App extends React.Component {
     console.log('videoComments before ', this.state.videoComments)
     this.state.videoComments.forEach((comment) => {
       if (comment.hasQuestion === 'T') {
+        console.log('inside if')
         collection.push(comment);
       }
     })
     this.setState({
-      view: 'comments',
       videoComments: collection
     })
-    console.log('this.state after ', this.state.videoComments)
+    console.log('this.state after ', this.state)
   }
 
   passVideo(item) {
@@ -161,10 +161,10 @@ class App extends React.Component {
     if (this.state.view === 'videos') {
       return <Videos videos={this.state.userVideos} changeView={this.changeView.bind(this)} pass={this.passVideo.bind(this)} serviceName='YouTube'/>
     }
-    if (this.state.view === 'comments') {
-      return <Comments title={this.state.currentTitle} comments={this.state.videoComments}/>
-    }
-    if (this.state.view === 'main') {
+    // if (this.state.view === 'comments') {
+    //   return <Comments title={this.state.currentTitle} comments={this.state.videoComments} renderQuestions={this.renderQuestions.bind(this)}/>
+    // }
+    if (this.state.view === 'main' || this.state.view === 'comments') {
       return <Main 
               serviceName='YouTube'
               changeView={this.changeView.bind(this)} 
@@ -176,6 +176,7 @@ class App extends React.Component {
               showModal={this.state.showModal}
               dismissModalHandler={() => this.dismissModalHandler()}
               loadedComment={this.state.loadedComment}
+              renderQuestions={this.renderQuestions.bind(this)}
             />
     }
     if (this.state.view === 'no-content') {
