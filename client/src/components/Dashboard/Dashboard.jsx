@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './Dashboard.css';
 import RecentComments from './RecentComments/RecentComments.jsx';
+import VerticalNavBar from './VerticalNavBar/VerticalNavBar.jsx';
 import ActiveContent from './ActiveContent/ActiveContent.jsx';
 
 const dashBoard = (props) => (

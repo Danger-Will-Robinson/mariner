@@ -5,3 +5,19 @@
   left: 129px;
   top: 10px;
 }
+
+.questionIcon {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  left: 185px;
+  top: 12px;
+}
+
+.sentimentIcon {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  left: 235px;
+  top: 12px;
+}
