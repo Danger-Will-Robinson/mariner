@@ -15,7 +15,7 @@ const R = require('ramda');
 
 const q = queues();
 
-
+let results = [];
 
 
 preDefine();
@@ -28,46 +28,55 @@ router.post('/comments', (req, res, done) => {
 	db.query('use ThesisDB');
 	
 	req.body.comments.forEach((comment, index) => {
-		q.push(() => {
-			return new Promise((resolve, reject) => {
-			  let text = comment.comment;
-				let result;
-		      if (text.length < 100) {
-                result = shortTextAnalyzer(text);
-		      } else {
-			      let tree = processor.parse(text);
-			      processor.run(tree, text);
-			      result = R.pluck('polarity', tree).data;
-			    if (result > -2 && result < 2) {
-			      result = shortTextAnalyzer(text);	
-			    } 
-		    }
-		    db.query(`UPDATE comments SET SA = ${result} where idcomments = ${comment.idcomments}`, (err, res) => {
-				  if (err) {
-					  console.log('err in dbupdate ', err);
-					  reject();
-				  } else {
-					  console.log('udated SA in db at index ', index)
-					  resolve();
-				  }
-			  })		 
+    if (comment.SA === null) {
+      q.push(() => {
+        return new Promise((resolve, reject) => {
+          let text = comment.comment;
+          let result;
+          if (text.length < 100) {
+          result = shortTextAnalyzer(text);
+          } else {
+            let tree = processor.parse(text);
+            processor.run(tree, text);
+            result = R.pluck('polarity', tree).data;
+            if (result > -2 && result < 2) {
+            result = shortTextAnalyzer(text); 
+            } 
+          }
+          comment.SA = result;
+          results.push(comment)
+          db.query(`UPDATE comments SET SA = ${result} where idcomments = ${comment.idcomments}`, (err, res) => {
+            if (err) {
+              console.log('err in dbupdate ', err);
+              reject();
+            } else {
+              console.log('udated SA in db at index ', index)
+              console.log('res in SA update is ', res)
+            
+            //results.push(result)
+              resolve();
+            }
+          })     
 
         
-			})
-			.then((jsonResponse) => {
-				console.log('inside json')
-			})
-			.catch((err) => {
-				console.log('inside err')
-			})
-		})
+        })
+        .then(() => {
+        })
+        .catch((err) => {
+          console.log('inside err')
+        })
+      })
+
+    } else {
+      results.push(comment);
+    }
+
 	})
 	q.start((err) =>{
     if (err) throw err
-    console.log('all done:')
-  })
-		
-
+    console.log('all done: ', results)
+    res.json(results);
+  })		
 })
 
 router.post('/', (req, res, next) => {

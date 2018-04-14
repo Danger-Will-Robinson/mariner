@@ -17,6 +17,7 @@ class App extends React.Component {
       currentVideo:[],
       videoComments: [],
       currentTitle: '',
+      commentDescription: 'Recent Comments',
       showModal: false,
       loadedComment: null
     }
@@ -61,6 +62,16 @@ class App extends React.Component {
     console.log('state after componentDidMount ', this.state)
   }
 
+  async analyzeComments(comments) {
+    let sentComments = await axios.post('http://localhost:5001/analyze/comments', {
+      comments: this.state.videoComments
+    })
+    console.log('analyzedComments is ', sentComments);
+    this.setState({
+      videoComments: sentComments.data
+    })  
+  }
+
   videoRental() {
     if (this.state.view === 'main') {
       axios.post('http://localhost:5001/appQuery', {
@@ -100,6 +111,8 @@ class App extends React.Component {
       console.log('err in CR ', err);
     })
   } 
+  
+  
 
   renderQuestions(comments) {
     console.log('render Q clicked')
@@ -107,21 +120,23 @@ class App extends React.Component {
     console.log('videoComments before ', this.state.videoComments)
     this.state.videoComments.forEach((comment) => {
       if (comment.hasQuestion === 'T') {
+        console.log('inside if')
         collection.push(comment);
       }
     })
     this.setState({
-      view: 'comments',
-      videoComments: collection
+      videoComments: collection,
+      commentDescription: 'Questions'
     })
-    console.log('this.state after ', this.state.videoComments)
+    console.log('this.state after ', this.state)
   }
 
   passVideo(item) {
     // console.log('item in passVideo ', item)
     this.setState({
       currentTitle: item.title, 
-      currentVideo: item  
+      currentVideo: item,
+      commentDescription: 'Video Comments'  
     });
     this.getComments(item)
   }
@@ -160,12 +175,13 @@ class App extends React.Component {
     if (this.state.view === 'videos') {
       return <Videos videos={this.state.userVideos} changeView={this.changeView.bind(this)} pass={this.passVideo.bind(this)} serviceName='YouTube'/>
     }
-    if (this.state.view === 'comments') {
-      return <Comments title={this.state.currentTitle} comments={this.state.videoComments}/>
-    }
+    // if (this.state.view === 'comments') {
+    //   return <Comments title={this.state.currentTitle} comments={this.state.videoComments} renderQuestions={this.renderQuestions.bind(this)}/>
+    // }
     if (this.state.view === 'main') {
       return <Main 
               serviceName='YouTube'
+              commentDescription={this.state.commentDescription}
               changeView={this.changeView.bind(this)} 
               videos={this.state.userVideos}
               currentTitle={this.state.currentTitle}
@@ -175,6 +191,8 @@ class App extends React.Component {
               showModal={this.state.showModal}
               dismissModalHandler={() => this.dismissModalHandler()}
               loadedComment={this.state.loadedComment}
+              analyzeComments={this.analyzeComments.bind(this)}
+              renderQuestions={this.renderQuestions.bind(this)}
             />
     }
     if (this.state.view === 'no-content') {

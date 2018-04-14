@@ -10,6 +10,7 @@ const users = require('./routes/users');
 const comments = require('./routes/comments');
 const appQuery = require('./routes/appQuery');
 const analyze = require('./routes/analyze');
+const replied = require('./routes/replied')
 const app = express();
 const cors = require('cors');
 const queue = require('queue');
@@ -31,7 +32,8 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/comments', comments);
 app.use('/appquery', appQuery);
-app.use('/analyze', analyze)
+app.use('/analyze', analyze);
+app.use('/replied', replied);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
