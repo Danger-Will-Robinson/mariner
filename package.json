@@ -4,7 +4,7 @@
     "description": "DWR",
     "main": "app.js",
     "scripts": {
-        "test": "nodemon app.js",
+        "test": "jest",
         "start": "nodemon app.js",
         "build": "webpack",
         "dev-server": "webpack-dev-server --open"
@@ -46,6 +46,7 @@
         "autoprefixer": "^8.2.0",
         "babel-cli": "^6.26.0",
         "babel-core": "^6.26.0",
+        "babel-jest": "^22.4.3",
         "babel-loader": "^7.1.4",
         "babel-polyfill": "^6.26.0",
         "babel-preset-env": "^1.6.1",
@@ -53,11 +54,25 @@
         "babel-preset-react": "^6.24.1",
         "css-loader": "^0.28.11",
         "file-loader": "^1.1.11",
+        "identity-obj-proxy": "^3.0.0",
+        "jest": "^22.4.3",
         "postcss-flexbugs-fixes": "^3.3.0",
         "postcss-loader": "^2.1.3",
+        "react-test-renderer": "^16.3.1",
+        "regenerator-runtime": "^0.11.1",
         "style-loader": "^0.20.3",
         "webpack": "^4.1.1",
         "webpack-cli": "^2.0.11",
         "webpack-dev-server": "^3.1.1"
+    },
+    "jest": {
+        "moduleNameMapper": {
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/client/src/__mocks__/fileMock.js",
+            "\\.(css|less)$": "identity-obj-proxy"
+        },
+        "testPathIgnorePatterns": [
+            "<rootDir>/node_modules/",
+            "<rootDir>/micro-services/"
+        ]
     }
 }
