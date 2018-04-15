@@ -142,6 +142,12 @@ class App extends React.Component {
     this.getComments(item)
   }
 
+  passComment(comment) {
+    // This will allow a clicked comment to render elsewhere:
+    this.setState({
+      loadedComment: comment
+    });
+  }
   
 
   changeView(component) {
@@ -188,7 +194,8 @@ class App extends React.Component {
               currentTitle={this.state.currentTitle}
               currentVideo={this.state.currentVideo} 
               comments={this.state.videoComments} 
-              commentClicked={(e) => this.commentClickedHandler(e)} 
+              commentClicked={(e) => this.commentClickedHandler(e)}
+              passComment={this.passComment.bind(this)}
               showModal={this.state.showModal}
               dismissModalHandler={() => this.dismissModalHandler()}
               loadedComment={this.state.loadedComment}
