@@ -10,6 +10,7 @@ import Charts from './components/charts/charts.jsx';
 
 import NoContentError from './components/NoContentError/NoContentError.jsx';
 import TestChart from './components/TestChart/testChart.jsx';
+import Charts from './components/charts/charts.jsx';
 
 
 class App extends React.Component {
