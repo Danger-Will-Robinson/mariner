@@ -21,7 +21,8 @@ return (
     <Modal 
       isVisible={props.showModal} 
       dismissModalHandler={props.dismissModalHandler}
-      loadedComment={props.loadedComment}/>
+      loadedComment={props.loadedComment}
+      captureText={(event) => props.captureText(event)}/>
   </div>
 );
 

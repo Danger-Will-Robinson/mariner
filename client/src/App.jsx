@@ -20,7 +20,8 @@ class App extends React.Component {
       currentTitle: '',
       commentDescription: 'Recent Comments',
       showModal: false,
-      loadedComment: null
+      loadedComment: null,
+      replyText: null
     }
     console.log('this.state looks like ', this.state);
     this.changeView = this.changeView.bind(this);
@@ -176,6 +177,28 @@ class App extends React.Component {
     });
   }
 
+  captureReplyText(event) {
+    // Capture text
+    let replyText;
+    replyText = event.target.value;
+    // Set state
+    this.setState({
+      replyText: replyText
+    });
+  }
+
+  async sendReply() {
+    // Axios POST to comments/reply on Login
+    // Need text from modal form in req.body
+    // Need commentId, chanId, parentID in req.body
+    // providedID == commentID
+    // contentID ??? parentID
+    // === chanId
+    const userReply = await axios.post('http://localhost:3000/comments/reply', {
+      body: null
+    });
+  }
+
   renderView() {
     if (this.state.view === 'login') {
       return <Login />
@@ -202,6 +225,7 @@ class App extends React.Component {
               loadedComment={this.state.loadedComment}
               analyzeComments={this.analyzeComments.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
+              captureText={this.captureReplyText.bind(this)}
             />
     }
     if (this.state.view === 'no-content') {
