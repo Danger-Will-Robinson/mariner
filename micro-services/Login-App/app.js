@@ -1,18 +1,26 @@
-const express = require('express');
-const cookieSession = require('cookie-session');
-const passport = require('passport');
-const authRoutes = require('./routes/auth-routes');
-const profileRoutes = require('./routes/profile-routes');
-const apiRoutes = require('./routes/api-routes');
-const mongoose = require('mongoose');
-const keys = require('./config/keys');
-const passportSetup = require('./config/passport-setup');
+const keys = require('./config/keys')
+const passport = require('passport')
+const passportSetup = require('./config/passport-setup')
 
-const app = express();
+const express = require('express')
+const cookieSession = require('cookie-session')
+
+const cookie = process.env.CKE || require('./config/keys').session.cookieKey
+const mongo = process.env.MNG || require('./config/keys').mongodb.dbURI
+const PORT = process.env.PORT || 3000
+const app = express()
+
+const authRoutes = require('./routes/auth-routes')
+const profileRoutes = require('./routes/profile-routes')
+const apiRoutes = require('./routes/api-routes')
+const reply = require('./routes/comment-reply')
+
+const mongoose = require('mongoose')
+
 //set static
 app.use(express.static('static'))
     // set view engine
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
 
 // set up session cookies
 app.use(cookieSession({
@@ -21,8 +29,8 @@ app.use(cookieSession({
 }));
 
 // initialize passport
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 // connect to mongodb
@@ -31,19 +39,20 @@ mongoose.connect(keys.mongodb.dbURI, () => {
 });
 
 // set up routes
-app.use('/auth', authRoutes);
-app.use('/profile', profileRoutes);
-app.use('/api', apiRoutes);
-
+app.use('/auth', authRoutes)
+app.use('/profile', profileRoutes)
+app.use('/api', apiRoutes)
+app.use('/testing', reply)
 
 // create home route
 app.get('/', (req, res) => {
-    res.render('home', { user: req.user });
-});
-app.get('/test', (req, res) => {
-        res.render('api-test', { user: false })
+        res.render('home', { user: req.user })
     })
-    // app.get('/youtube', (req, res) => res.json(req))
+    //route for testing GUI
+app.get('/test', (req, res) => {
+    res.render('api-test', { user: req.user })
+})
+
 app.listen(3000, () => {
     console.log('app now listening for requests on port 3000');
-});
+})

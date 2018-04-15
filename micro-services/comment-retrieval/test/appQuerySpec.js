@@ -18,20 +18,20 @@ describe('appQuery returns', () => {
 	})
   })
   
-  it ('should return a 500 when improper query is posted', (done) => {
-  	let statusCode;
-  	axios.post('http://localhost:5001/appQuery', {
-	  query: 'Select  FROM comments'
-	})
-	.then((response) => {
-      console.log('response.status is ', response.status)	
-	})
-	.catch((err) => {
-	  console.log('err in 500 test ', err.response.status);
-	  statusCode = err.response.status;
-	  assert.equal(statusCode, 500)
-	})
-	.then(() => done(), done)
-  })
+ //  it ('should return a 500 when improper query is posted', (done) => {
+ //  	let statusCode;
+ //  	axios.post('http://localhost:5001/appQuery', {
+	//   query: 'Select  FROM comments'
+	// })
+	// .then((response) => {
+ //      console.log('response.status is ', response.status)	
+	// })
+	// .catch((err) => {
+	//   console.log('err in 500 test ', err.response.status);
+	//   statusCode = err.response.status;
+	//   assert.equal(statusCode, 500)
+	// })
+	// .then(() => done(), done)
+ //  })
 
 })

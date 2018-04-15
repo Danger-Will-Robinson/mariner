@@ -72,3 +72,13 @@
   
   color: #000000;
 }
+
+.composeIcon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 45%;
+  right: 30.21%;
+  top: 77.66%;
+  bottom:13.3%;
+}

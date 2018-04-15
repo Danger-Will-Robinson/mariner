@@ -40,7 +40,6 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
     let userData = await youtube.gimmeAll(req.user._id, keys.youTube.API_KEY)
     let commentCountByVideoID = {}
     let hasComment = new Set()
-
     userData.comments.forEach(comment => {
         if (commentCountByVideoID[comment.videoId]) {
             commentCountByVideoID[comment.videoId]++
