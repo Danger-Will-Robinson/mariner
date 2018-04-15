@@ -16,11 +16,13 @@ return (
       activeContent={props.currentVideo}
       currentTitle={props.currentTitle} 
       recentComments={props.comments} 
-      commentClicked={props.commentClicked} />
+      commentClicked={props.commentClicked}
+      passComment={props.passComment} />
     <Modal 
-      show={props.showModal} 
+      isVisible={props.showModal} 
       dismissModalHandler={props.dismissModalHandler}
-      loadedComment={props.loadedComment}/>
+      loadedComment={props.loadedComment}
+      captureText={(event) => props.captureText(event)}/>
   </div>
 );
 

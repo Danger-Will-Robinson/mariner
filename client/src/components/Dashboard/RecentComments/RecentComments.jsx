@@ -18,7 +18,7 @@ const recentComments = (props) => {
   // Store the Comments components in 'recentsList':
   console.log('commentsToRender ', commentsToRender)
   const recentsList = commentsToRender.map((comment) =>
-    <Comment key={comment.idcomments} comment={comment} clicked={props.commentClicked} />
+    <Comment key={comment.idcomments} comment={comment} clicked={props.commentClicked} passComment={function(){props.passComment(comment)}} />
   );
 
   // Render the recentsList const:
