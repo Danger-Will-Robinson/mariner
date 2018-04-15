@@ -16,7 +16,8 @@ return (
       activeContent={props.currentVideo}
       currentTitle={props.currentTitle} 
       recentComments={props.comments} 
-      commentClicked={props.commentClicked} />
+      commentClicked={props.commentClicked}
+      passComment={props.passComment} />
     <Modal 
       show={props.showModal} 
       dismissModalHandler={props.dismissModalHandler}
