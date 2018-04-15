@@ -145,7 +145,8 @@ class App extends React.Component {
   passComment(comment) {
     // This will allow a clicked comment to render elsewhere:
     this.setState({
-      loadedComment: comment
+      loadedComment: comment,
+      showModal: true
     });
   }
   
