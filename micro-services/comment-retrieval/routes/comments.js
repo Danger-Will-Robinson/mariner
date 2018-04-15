@@ -18,9 +18,10 @@ router.post('/', (req, res) => {
   console.log('receiving post from Login ')
   //console.log('receving post from Login req.body looks like ', req.body);
   db.query('use ThesisDB');
-    db.query(`insert into users (userName) values ('${req.body.user}')`, (err, res) => {
+    db.query(`insert into users (userName) values ('${req.body.user.name}')`, (err, res) => {
       if (err) {
-        console.log('err posting user name ') 
+        console.log('err posting user name ', err); 
+        console.log('req body looks like: ', req.body);
       } else {
         console.log('posted name to db');
       }
@@ -31,7 +32,7 @@ router.post('/', (req, res) => {
     //console.log('inside video loop')
     videoQ.push(() => {
       return new Promise((resolve, reject) => {
-        db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
+        db.query(`insert into videos (title, thumbnailURL, user, contentId, chanId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.contentDetails.videoId}', '${video.snippet.channelId}')`, (err, result) => {
           if (err) {
             console.log(`err at index ${index}, err looks like ${err}`)
             reject();

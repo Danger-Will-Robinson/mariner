@@ -198,7 +198,7 @@ class App extends React.Component {
     // providedID == commentID
     // contentID ??? parentID
     // === chanId
-    const userReply = await axios.post('http://localhost:3000/comments/reply', {
+    const userReply = await axios.post('http://localhost:3000/api/comments/reply', {
       body: null
     });
   }
