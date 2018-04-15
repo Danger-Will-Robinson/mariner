@@ -5,6 +5,7 @@ import Videos from './components/Videos/Videos.jsx';
 import Comments from './components/Comments/Comments.jsx';
 import Login from './containers/LogIn/Login.jsx';
 import Main from './containers/Main/Main.jsx';
+import Charts from './components/charts/charts.jsx';
 
 class App extends React.Component {
   constructor(props) {

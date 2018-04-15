@@ -9,16 +9,16 @@ var currentUser;
 var ALLVIDEOS = require('../data/youTubeAllVideoResponse');
 
 router.get('/', (req, res) => {
-    console.log('redir new user')
-    res.redirect('http://localhost:5000')
+    console.log('redir new user nkkn')
+    res.redirect('http://localhost:3000')
 })
 
 router.get('/:name/:id', (req, res) => {
     let user = {
-            name: req.params.name,
-            id: req.params.id
-        }
-    currentUser = user;// res.render('index', { user: user })
+        name: req.params.name,
+        id: req.params.id
+    }
+    currentUser = user; // res.render('index', { user: user })
     console.log('I think you are ', currentUser.name);
     res.redirect(`http://localhost:8080/`);
 });

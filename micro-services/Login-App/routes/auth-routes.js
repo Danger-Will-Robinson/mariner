@@ -38,9 +38,25 @@ router.get('/twitter/callback',
 router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res) => {
     let userComplete = req.user
     let userData = await youtube.gimmeAll(req.user._id, keys.youTube.API_KEY)
-        // userData.user = req.user
+    let commentCountByVideoID = {}
+    let hasComment = new Set()
 
-    User.findOneAndUpdate({ _id: req.user._id }, { videos: userData.videos, comments: userData.comments }, { fields: 'data' }, function(err) {
+    userData.comments.forEach(comment => {
+        if (commentCountByVideoID[comment.videoId]) {
+            commentCountByVideoID[comment.videoId]++
+        } else {
+            hasComment.add(comment.videoId)
+            commentCountByVideoID[comment.videoId] = 1
+        }
+    })
+    userData.videos.forEach(video => {
+        if (hasComment.has(video.snippet.resourceId.videoId)) {
+            video.commentCount = commentCountByVideoID[video.snippet.resourceId.videoId]
+        }
+    })
+    console.log(userData.videos, '******')
+    userData.commentCountByVideoID = commentCountByVideoID
+    User.findOneAndUpdate({ _id: req.user._id }, { videos: userData.videos, comments: userData.comments, commentCountByVideoID: commentCountByVideoID }, { fields: 'data' }, function(err) {
         if (err) {
             console.log(err, 'err in update db')
         }
@@ -50,7 +66,8 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
     axios.post('http://localhost:5001/comments', {
             videos: userData.videos,
             user: req.user,
-            comments: userData.comments
+            comments: userData.comments,
+            commentCountByVideoID: commentCountByVideoID
         })
         .then((response) => {
             console.log('success: response is ')
