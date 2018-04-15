@@ -26,9 +26,9 @@ const modal = (props) => (
         </p>
         {props.loadedComment ? <Comment comment={props.loadedComment}/> : <p>Loading...</p>}
         {/* <Comment comment={props.loadedComment} /> */}
-        <form className={classes.modalForm}>
-          <textarea defaultValue={"Type your reply here..."} className={classes.modalTextArea} />
-          <input type="submit" name="Reply" value="Reply" />
+        <form className={classes.modalForm} action="http://localhost:3000/comments/reply" method="post">
+          <textarea defaultValue={"Type your reply here..."} className={classes.modalTextArea} onChange={props.captureText}/>
+          <input className={classes.replyButton} type="submit" name="Reply" value="Reply" />
         </form>
       </div>
     </Aux>

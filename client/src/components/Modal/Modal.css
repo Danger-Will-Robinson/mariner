@@ -45,3 +45,8 @@
   font-size: 18px;
   color: #000000;
 }
+
+.replyButton {
+  position: absolute;
+  margin: 224px auto 10px;
+}
