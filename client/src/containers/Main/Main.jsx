@@ -19,7 +19,7 @@ return (
       commentClicked={props.commentClicked}
       passComment={props.passComment} />
     <Modal 
-      show={props.showModal} 
+      isVisible={props.showModal} 
       dismissModalHandler={props.dismissModalHandler}
       loadedComment={props.loadedComment}/>
   </div>
