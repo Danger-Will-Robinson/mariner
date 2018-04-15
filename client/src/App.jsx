@@ -219,15 +219,17 @@ class App extends React.Component {
     });
   }
 
-  async sendReply() {
+  sendReply() {
     // Axios POST to comments/reply on Login
-    // Need text from modal form in req.body
     // Need commentId, chanId, parentID in req.body
-    // providedID == commentID
-    // contentID ??? parentID
-    // === chanId
-    const userReply = await axios.post('http://localhost:3000/api/comments/reply', {
-      body: null
+    // providedID == commentID  Ex. UgzVaKGXg9hhW03f9nR4
+    // contentID ??? videoID // parentID  Ex. qPjiMYNyE1Y
+    // chanId === chanId  Ex. UC4zIIM0SSi27usDj00g
+    axios.post('http://localhost:3000/api/comments/reply', {
+      chanId: this.state.currentVideo.chanId,
+      videoId: this.state.currentVideo.contentId,
+      commentId: this.state.loadedComment.providedId,
+      textOriginal: this.state.replyText
     });
   }
 
