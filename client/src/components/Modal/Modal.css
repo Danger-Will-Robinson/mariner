@@ -1,5 +1,7 @@
+
+
 .Modal {
-  position: fixed;
+  position: relative;
   width: 766px;
   height: 829px;
   left: 337px;
@@ -8,6 +10,7 @@
   background-color: #448EB8;
   z-index: 500;
   transition: all 0.3s ease-out;
+  -webkit-user-drag: element;
 }
 
 .modalTitle {
