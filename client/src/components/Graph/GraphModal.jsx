@@ -4,6 +4,7 @@ import classes from './GraphModal.css';
 import Aux from '../../hoc/Aux.jsx';
 import Backdrop from '../Backdrop/Backdrop.jsx';
 import Comment from '../../components/Comments/Comment/Comment.jsx';
+import Charts from './Charts.jsx'
 
 /* 
 1) Modal should render once a user clicks on a comment from anywhere in the Mariner UI.
@@ -24,6 +25,7 @@ const GraphModal = (props) => (
         <p className={classes.modalTitle}>
           Sentiment Analysis Details
         </p>
+        <Charts/>
       </div>
     </Aux>
   ) :
