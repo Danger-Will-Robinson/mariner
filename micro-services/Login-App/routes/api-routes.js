@@ -203,5 +203,10 @@ router.get('/comments/replytodirect/', (req, res) => {
         }
     });
 })
+router.get('/user/all-data', async function(req, res) {
+
+    let data = await youtube.gimmeAll(req.user._id)
+    res.json(data)
+})
 
 module.exports = router;
