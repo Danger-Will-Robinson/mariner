@@ -39,28 +39,41 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
     let userComplete = req.user
     let userData = await youtube.gimmeAll(req.user._id, keys.youTube.API_KEY)
     let commentCountByVideoID = {}
-    let hasComment = new Set()
     userData.comments.forEach(comment => {
         if (commentCountByVideoID[comment.videoId]) {
             commentCountByVideoID[comment.videoId]++
         } else {
-            hasComment.add(comment.videoId)
             commentCountByVideoID[comment.videoId] = 1
         }
     })
     userData.videos.forEach(video => {
-        if (hasComment.has(video.snippet.resourceId.videoId)) {
-            video.commentCount = commentCountByVideoID[video.snippet.resourceId.videoId]
+        if (commentCountByVideoID[video.videoId]) {
+            video.commentCount = commentCountByVideoID[video.videoId]
         }
     })
-    console.log(userData.videos, '******')
-    userData.commentCountByVideoID = commentCountByVideoID
-    User.findOneAndUpdate({ _id: req.user._id }, { videos: userData.videos, comments: userData.comments, commentCountByVideoID: commentCountByVideoID }, { fields: 'data' }, function(err) {
+    let wordCount = {}
+    userData.comments.forEach(c => {
+        c.comment.split(' ').forEach(word => {
+            word = word.replace(/\./g, '').replace(/\!/, '').replace(/\,/, '').replace(/\?/, '').replace(/\(/, '').replace(/\)/, '').replace(/\$/, '').replace(/\!/, '').replace(/\#/, '').replace(/\+/, '')
+            if (!wordCount[word]) {
+                wordCount[word] = 1
+            } else {
+                wordCount[word]++
+            }
+        })
+    })
+
+
+    // console.log(userData.videos, '******')
+    // userData.commentCountByVideoID = commentCountByVideoID
+    User.findOneAndUpdate({ _id: req.user._id }, { $set: { videos: userData.videos, comments: userData.comments, commentCountByVideoID: commentCountByVideoID, wordCount: wordCount } }, { upsert: true, returnNewDocument: true, fields: 'data' }, function(err, data) {
         if (err) {
-            console.log(err, 'err in update db')
+            console.error(err.message, 'err in update db')
         }
     })
     res.userData = req.user;
+
+
 
     axios.post('http://localhost:5001/comments', {
             videos: userData.videos,
@@ -69,14 +82,14 @@ router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res
             commentCountByVideoID: commentCountByVideoID
         })
         .then((response) => {
-            console.log('success: response is ')
+            console.log('success posting to CR ')
         })
         .catch((err) => {
-            console.log('err in axios post ');
+            console.error('err in axios post ', err.message);
         })
+        // res.render('youtubeVideos', { data:
     res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`);
 
-    // res.render('youtubeVideos', { data:
 
 });
 
