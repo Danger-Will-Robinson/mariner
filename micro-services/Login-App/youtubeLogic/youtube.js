@@ -94,7 +94,6 @@ module.exports = youtubeLogic = {
 
     },
     getPlaylists: function(chanID, API_KEY, token) {
-        console.log('plays runn, has token:', token)
         let params = {
             playlistId: chanID,
             maxResults: '50',
@@ -225,6 +224,8 @@ module.exports = youtubeLogic = {
                 videos: videoObjects,
                 comments: commentObjects
             }
+            this.videoHolder = []
+            this.commentHolder = []
             return responseObject
         } else {
             return {
