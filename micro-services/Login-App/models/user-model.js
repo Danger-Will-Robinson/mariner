@@ -16,7 +16,8 @@ var userSchema = new mongoose.Schema({
     name: String,
     data: [],
     videos: {},
-    comments: {}
+    comments: {},
+    commentCountByVideoID: {}
 }, { collection: "you-tube-logins" });
 
 // var User = mongoose.model('User', userSchema);

@@ -5,8 +5,12 @@ import Videos from './components/Videos/Videos.jsx';
 import Comments from './components/Comments/Comments.jsx';
 import Login from './containers/LogIn/Login.jsx';
 import Main from './containers/Main/Main.jsx';
+
+import Charts from './components/charts/charts.jsx';
+
 import NoContentError from './components/NoContentError/NoContentError.jsx';
 import TestChart from './components/TestChart/testChart.jsx';
+
 
 class App extends React.Component {
   constructor(props) {
