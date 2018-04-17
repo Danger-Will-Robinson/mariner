@@ -8,7 +8,7 @@ const navBar = (props) => (
   <div className={classes.NavBar}>
     <img src={MarinerLogo} className={classes.appLogo}></img>
     <TitleBar serviceName={props.serviceName} />
-    <NavServiceSelector changeView={props.changeView} renderQuestions={props.renderQuestions} analyzeComments={props.analyzeComments}/>
+    <NavServiceSelector changeView={props.changeView} renderQuestions={props.renderQuestions} analyzeComments={props.analyzeComments} renderGraph={props.renderGraph}/>
     <div href="http://localhost:3000/auth/logout" className={classes.logOutButton}>
       <span className={classes.logOutText}>
           Log Out

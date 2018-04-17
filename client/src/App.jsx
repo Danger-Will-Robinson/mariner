@@ -19,6 +19,7 @@ class App extends React.Component {
       videoComments: [],
       currentTitle: '',
       commentDescription: 'Recent Comments',
+      showGraph: false,
       showModal: false,
       loadedComment: null,
       replyText: null
@@ -150,6 +151,12 @@ class App extends React.Component {
       showModal: true
     });
   }
+
+  renderGraph() {
+    this.setState({
+      showGraph: true
+    })
+  }
   
 
   changeView(component) {
@@ -173,7 +180,8 @@ class App extends React.Component {
     // Pass this down to the <Backdrop /> component, so that when it is clicked, the page
     // dimisses the modal view.
     this.setState({
-      showModal: false
+      showModal: false,
+      showGraph: false
     });
   }
 
@@ -220,9 +228,11 @@ class App extends React.Component {
               comments={this.state.videoComments} 
               commentClicked={(e) => this.commentClickedHandler(e)}
               passComment={this.passComment.bind(this)}
+              showGraph={this.state.showGraph}
               showModal={this.state.showModal}
               dismissModalHandler={() => this.dismissModalHandler()}
               loadedComment={this.state.loadedComment}
+              renderGraph={this.renderGraph.bind(this)}
               analyzeComments={this.analyzeComments.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
               captureText={this.captureReplyText.bind(this)}
