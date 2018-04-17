@@ -10,7 +10,7 @@ import sentimentLogo from '../../../../assets/sentimentIcon.png'
 
 const navServiceSelector = (props) => {
  
- console.log('props in navServiceSelector ', props)  
+ //console.log('props in navServiceSelector ', props)  
 
  return (
   <div>

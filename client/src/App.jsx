@@ -24,9 +24,11 @@ class App extends React.Component {
       currentTitle: '',
       commentDescription: 'Recent Comments',
       showGraph: false,
+      showReplyAllModal: false,
       showModal: false,
       loadedComment: null,
-      replyText: null
+      replyText: null,
+      replyAll: []
     }
     console.log('this.state looks like ', this.state);
     this.changeView = this.changeView.bind(this);
@@ -150,10 +152,18 @@ class App extends React.Component {
 
   passComment(comment) {
     // This will allow a clicked comment to render elsewhere:
+    console.log('comment is ', comment)
     this.setState({
       loadedComment: comment,
       showModal: true
     });
+  }
+
+  replyAll(comment) {
+    this.state.replyAll.push(comment)
+    console.log('replyAll after push ', this.state.replyAll)
+    //console.log('something Changed')
+    
   }
 
   renderGraph() {
@@ -162,6 +172,11 @@ class App extends React.Component {
     })
   }
   
+  renderReplyAll() {
+    this.setState({
+      showReplyAllModal: true
+    })
+  }
 
   changeView(component) {
     this.setState({
@@ -185,7 +200,8 @@ class App extends React.Component {
     // dimisses the modal view.
     this.setState({
       showModal: false,
-      showGraph: false
+      showGraph: false,
+      showReplyAllModal: false
     });
   }
 
@@ -234,11 +250,15 @@ class App extends React.Component {
               comments={this.state.videoComments} 
               commentClicked={(e) => this.commentClickedHandler(e)}
               passComment={this.passComment.bind(this)}
+              replyAll={this.replyAll.bind(this)}
               showGraph={this.state.showGraph}
               showModal={this.state.showModal}
+              showReplyAllModal={this.state.showReplyAllModal}
               dismissModalHandler={() => this.dismissModalHandler()}
               loadedComment={this.state.loadedComment}
+              replyAllCollection={this.state.replyAll}
               renderGraph={this.renderGraph.bind(this)}
+              renderReplyAll={this.renderReplyAll.bind(this)}
               analyzeComments={this.analyzeComments.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
               captureText={this.captureReplyText.bind(this)}
