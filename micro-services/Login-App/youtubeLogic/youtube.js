@@ -54,6 +54,11 @@ module.exports = youtubeLogic = {
     addComment: (chanId, parentId, commentText, accessToken, refresh_token, keys) => {
 
         return new Promise(resolve => {
+            const google = require('googleapis')
+            const youTubeDataApi = google.google.youtube('v3')
+
+            const OAuth2 = google.google.auth.OAuth2
+
 
             const oauth2Client = new OAuth2(keys.youTube.clientID, keys.youTube.clientSecret, [])
 
@@ -136,10 +141,8 @@ module.exports = youtubeLogic = {
     videoHolder: [],
 
     getUploadedVideos: function(uploadsID, API_KEY, token) {
-        console.log('getUploaded running')
-        if (token) {
-            console.log('inside of recursion')
-        }
+        console.log('getting uploaded videos')
+
         return new Promise(resolve => {
             let params = {
                 part: 'snippet,contentDetails',
@@ -198,7 +201,6 @@ module.exports = youtubeLogic = {
     },
     gimmeVideos: async function(chanID, API_KEY) {
         let videos = await this.getUploadedVideos(chanID, API_KEY)
-        console.log('all videos first', videos[0])
         if (videos)
             return videos
     },
@@ -248,14 +250,11 @@ module.exports = youtubeLogic = {
                     }
                 })
                 .then(allComments => {
-                    console.log('holder now', youtubeLogic.commentHolder.length)
 
                     youtubeLogic.commentHolder = youtubeLogic.commentHolder.concat(allComments.data.items.map(this.commentFormatter))
                     if (allComments.data.nextPageToken) {
-                        console.log('again!!')
                         youtubeLogic.getNextCommentPage(allComments.data.nextPageToken, channelID, API_KEY)
                     } else {
-                        console.log('done')
                         resolve(youtubeLogic.commentHolder)
                     }
                 }).catch(err => {

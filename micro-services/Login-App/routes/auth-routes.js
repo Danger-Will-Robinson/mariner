@@ -30,7 +30,6 @@ router.get('/twitter',
 router.get('/twitter/callback',
         passport.authenticate('twitter'),
         (req, res) => {
-            console.log(req.user)
             res.render('twitter', { user: req.user, status: req.user._json.status })
         }
     )
@@ -92,7 +91,7 @@ var moveData = async(user, userData, commentCountByVideoID) => {
                 console.log('success posting to CR ')
             })
             .catch((err) => {
-                console.error('err in axios post ', err.message);
+                console.error('err in axios post to CR ', err.message);
             })
 
 

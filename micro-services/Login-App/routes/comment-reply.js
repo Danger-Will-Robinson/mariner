@@ -33,7 +33,7 @@ router.get('/post', (req, res) => {
                 videoId: "J03msr1ExRI",
                 topLevelComment: {
                     snippet: {
-                        textOriginal: "TESTING DEPLOY FROM LOCAL NODE SERVER -BOT "
+                        textOriginal: "MARINER IS THE BEST EVER!"
                     }
                 }
             }
