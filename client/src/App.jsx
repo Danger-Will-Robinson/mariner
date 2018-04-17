@@ -250,6 +250,7 @@ class App extends React.Component {
               comments={this.state.videoComments} 
               commentClicked={(e) => this.commentClickedHandler(e)}
               passComment={this.passComment.bind(this)}
+              sendReply={this.sendReply.bind(this)}
               replyAll={this.replyAll.bind(this)}
               showGraph={this.state.showGraph}
               showModal={this.state.showModal}

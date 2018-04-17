@@ -27,6 +27,7 @@ return (
       isVisible={props.showModal} 
       dismissModalHandler={props.dismissModalHandler}
       loadedComment={props.loadedComment}
+      sendReply={props.sendReply}
       captureText={(event) => props.captureText(event)}/>
     <GraphModal
       isVisible={props.showGraph}
