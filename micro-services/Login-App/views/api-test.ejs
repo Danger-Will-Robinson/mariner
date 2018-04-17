@@ -3,15 +3,14 @@
 <% include ./nav-bar.ejs %>
 <body>
     <h1>CURRENT WORKING API ROUTES</h1>
-    <p>mao</p>
-    <button id="execute-request-button">TEST POST COMMENT TO COMMENT</button>
-    <br />
+    <h3><a href="/api/comments/refresh">REFRESH CURRENT USER COMENTS</a></h3>
+    <h3><a href="/api/user/all-data">ALL DATA FOR CURRENT USER</a></h3>
+
     <a href="/testing/post"> TEST POST COMMENT TO VIDEO</a>
-<form name="reply-form" method="POST" action="/api/comments/reply">
+<form name="reply-form" method="POST" action="/api/comments/replytodirect">
   <table>
     <tr>
       <td>reply to a comment</td>
-      <td>Channel ID<input type="text" name="chanId" ></td>
       <td>Video ID<input type="text" name="videoId" ></td>
       <td>Comment ID<input type="text" name="commentId" ></td>
       <td>Comment Text<input type="text" name="textOriginal" ></td>
@@ -29,6 +28,14 @@
         <td>Comment Text<input type="text" name="textOriginal" ></td>
         <button type="submit">POST COMMENT</button>
         
+      </tr>
+    </table>
+</form>
+<form name="refresher" method="GET" action="/api/comments/refresh">
+    <table>
+      <tr>
+        <td>Refresh User Comments by userId</td>
+        <td>"/api/comments/refresh"<input type="text" name="chanId" ></td>
       </tr>
     </table>
 </form>
