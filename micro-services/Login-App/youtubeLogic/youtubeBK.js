@@ -211,7 +211,6 @@ module.exports = youtubeLogic = {
                         key: API_KEY
                     }
                 }).then(allComments => {
-                    // console.log('HERE', allComments.data.items[0].snippet.topLevelComment)
                     var objs = allComments.data.items.map(e => {
                         return {
                             commentId: e.snippet.topLevelComment.id,

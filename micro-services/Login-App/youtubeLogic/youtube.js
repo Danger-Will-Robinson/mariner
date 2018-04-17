@@ -54,6 +54,11 @@ module.exports = youtubeLogic = {
     addComment: (chanId, parentId, commentText, accessToken, refresh_token, keys) => {
 
         return new Promise(resolve => {
+            const google = require('googleapis')
+            const youTubeDataApi = google.google.youtube('v3')
+
+            const OAuth2 = google.google.auth.OAuth2
+
 
             const oauth2Client = new OAuth2(keys.youTube.clientID, keys.youTube.clientSecret, [])
 
@@ -94,7 +99,6 @@ module.exports = youtubeLogic = {
 
     },
     getPlaylists: function(chanID, API_KEY, token) {
-        console.log('plays runn, has token:', token)
         let params = {
             playlistId: chanID,
             maxResults: '50',
@@ -137,10 +141,8 @@ module.exports = youtubeLogic = {
     videoHolder: [],
 
     getUploadedVideos: function(uploadsID, API_KEY, token) {
-        console.log('getUploaded running')
-        if (token) {
-            console.log('inside of recursion')
-        }
+        console.log('getting uploaded videos')
+
         return new Promise(resolve => {
             let params = {
                 part: 'snippet,contentDetails',
@@ -199,7 +201,6 @@ module.exports = youtubeLogic = {
     },
     gimmeVideos: async function(chanID, API_KEY) {
         let videos = await this.getUploadedVideos(chanID, API_KEY)
-        console.log('all videos first', videos[0])
         if (videos)
             return videos
     },
@@ -225,6 +226,8 @@ module.exports = youtubeLogic = {
                 videos: videoObjects,
                 comments: commentObjects
             }
+            youtubeLogic.videoHolder = []
+            youtubeLogic.commentHolder = []
             return responseObject
         } else {
             return {
@@ -247,14 +250,11 @@ module.exports = youtubeLogic = {
                     }
                 })
                 .then(allComments => {
-                    console.log('holder now', youtubeLogic.commentHolder.length)
 
                     youtubeLogic.commentHolder = youtubeLogic.commentHolder.concat(allComments.data.items.map(this.commentFormatter))
                     if (allComments.data.nextPageToken) {
-                        console.log('again!!')
                         youtubeLogic.getNextCommentPage(allComments.data.nextPageToken, channelID, API_KEY)
                     } else {
-                        console.log('done')
                         resolve(youtubeLogic.commentHolder)
                     }
                 }).catch(err => {
@@ -305,7 +305,8 @@ module.exports = youtubeLogic = {
             author: e.snippet.topLevelComment.snippet.authorDisplayName,
             authorThumbnail: e.snippet.topLevelComment.snippet.authorProfileImageUrl,
             videoId: e.snippet.topLevelComment.snippet.videoId,
-            comment: e.snippet.topLevelComment.snippet.textDisplay,
+
+            comment: e.snippet.topLevelComment.snippet.textDisplay.replace(/\./g, '').replace(/\,/, '').replace(/\&/, '').replace(/\;/, '').replace(/\$/, '').replace('#39', '').replace(/\+/, ''),
             likeCount: e.snippet.topLevelComment.snippet.likeCount,
             publishedAt: e.snippet.topLevelComment.snippet.publishedAt
         }

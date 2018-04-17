@@ -6,11 +6,11 @@ import Comments from './components/Comments/Comments.jsx';
 import Login from './containers/LogIn/Login.jsx';
 import Main from './containers/Main/Main.jsx';
 
-import Charts from './components/charts/charts.jsx';
 
 import NoContentError from './components/NoContentError/NoContentError.jsx';
 import TestChart from './components/TestChart/testChart.jsx';
 import queue from 'queue'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -44,20 +44,26 @@ class App extends React.Component {
     if (this.state.view === 'login') {
       const currentUser = await axios.get('http://localhost:5000/getUser');
       console.log('currentUser is ', currentUser)
-      const userVideos = await axios.post('http://localhost:5001/appQuery', {
-        query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
-      });
-      console.log('userVideos is ', userVideos)
-      const videoComments = await axios.post('http://localhost:5001/appQuery', {
-        query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos.data[0].videoTitle}')`
+      // const userVideos = await axios.post('http://localhost:5001/appQuery', {
+      //   query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
+      // });
+      //added by joe
+      console.log('checking for ', currentUser.data.id)
+      currentUser.data = await  axios.get('http://localhost:3000/api/all-data/by-id',  {
+        params: {
+          id: currentUser.data.id
+        }
+      })
+      
+      console.log(currentUser.data.data[0].videos[0], 'hedsdij')
+      this.setState({
+        user: currentUser.data.data.name,
+        userVideos:   currentUser.data.data[0].videos,
+        currentVideo: currentUser.data.data[0].videos[0] ,
+        videoComments: currentUser.data.data[0].comments
       });
       
-      this.setState({
-        user: currentUser.data,
-        userVideos: userVideos.data,
-        currentVideo: userVideos.data[0],
-        videoComments: videoComments.data
-      });
+
     }
 
     if (this.state.user !== '' && this.state.userVideos !== [] && this.state.videoComments !== []) {
@@ -71,6 +77,9 @@ class App extends React.Component {
     }
     console.log('state after componentDidMount ', this.state)
   }
+
+
+
 
   async analyzeComments(comments) {
     let sentComments = await axios.post('http://localhost:5001/analyze/comments', {
@@ -180,10 +189,21 @@ class App extends React.Component {
   }
 
   changeView(component) {
+    if (component === 'logout') {
+      console.log('logout pressed')
+      this.setState({
+        user: undefined,
+        userVideos:   [],
+        currentVideo: {},
+        videoComments: [],
+        view: 'login'
+      });
+    } else {
     this.setState({
       view: component  
     });
     console.log('clicking')
+    }
   }
 
   commentClickedHandler(e) {

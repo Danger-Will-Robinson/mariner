@@ -28,7 +28,7 @@ router.post('/query/', queryController.queryCommentDB);
 router.get('/getUser', (req, res) => {
     // send user name to front end
     if (currentUser) {
-        res.json(currentUser.name);
+        res.json(currentUser);
     } else {
         res.redirect('http://localhost:8080');
     }
