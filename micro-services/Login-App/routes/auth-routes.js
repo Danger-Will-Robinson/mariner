@@ -37,15 +37,8 @@ router.get('/twitter/callback',
     // send back all of the
 router.get('/youtube/callback', passport.authenticate('youtube'), async(req, res) => {
     // getData(req.user)
-    moveData(req.user)
-        // res.render('youtubeVideos', { data:
-    res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`);
-
-
-});
-var moveData = async(user) => {
-        let userComplete = user
-        let userData = await youtube.gimmeAll(user._id, keys.youTube.API_KEY)
+    let userComplete = req.user
+    youtube.gimmeAll(req.user._id, keys.youTube.API_KEY).then(userData => {
         let commentCountByVideoID = {}
         userData.comments.forEach(comment => {
             if (commentCountByVideoID[comment.videoId]) {
@@ -59,22 +52,35 @@ var moveData = async(user) => {
                 video.commentCount = commentCountByVideoID[video.videoId]
             }
         })
+
         let wordCount = {}
-        userData.comments.forEach(c => {
-            c.comment.split(' ').forEach(word => {
-                word = word.replace(/\./g, '').replace(/\!/, '').replace(/\,/, '').replace(/\&/, '').replace(/\;/, '').replace(/\$/, '').replace(/\!/, '').replace(/\#/, '').replace(/\+/, '')
-                if (!wordCount[word]) {
-                    wordCount[word] = 1
-                } else {
-                    wordCount[word]++
-                }
+        if (userData.comments) {
+            userData.comments.forEach(c => {
+                c.comment.split(' ').forEach(word => {
+                    word = word.replace(/\./g, '').replace(/\!/, '').replace(/\,/, '').replace(/\&/, '').replace(/\;/, '').replace(/\$/, '').replace(/\!/, '').replace(/\'#'/, '').replace(/\+/, '')
+                    if (!wordCount[word]) {
+                        wordCount[word] = 1
+                    } else {
+                        wordCount[word]++
+                    }
+                })
             })
-        })
-        User.findOneAndUpdate({ _id: user._id }, { $set: { videos: userData.videos, comments: userData.comments, commentCountByVideoID: commentCountByVideoID, wordCount: wordCount } }, { upsert: true, returnNewDocument: true, fields: 'data' }, function(err, data) {
+        }
+        User.findOneAndUpdate({ _id: req.user._id }, { $set: { videos: userData.videos, comments: userData.comments, commentCountByVideoID: commentCountByVideoID, wordCount: wordCount } }, { upsert: true, returnNewDocument: true, fields: 'data' }, function(err, data) {
             if (err) {
                 console.error(err.message, 'err in update db')
             }
         })
+        moveData(req.user, userData, commentCountByVideoID)
+            // res.render('youtubeVideos', { data:
+        res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`);
+
+    }).catch(err => {
+        console.error(err.message)
+    })
+});
+var moveData = async(user, userData, commentCountByVideoID) => {
+
 
         axios.post('http://localhost:5001/comments', {
                 videos: userData.videos,
@@ -88,6 +94,8 @@ var moveData = async(user) => {
             .catch((err) => {
                 console.error('err in axios post ', err.message);
             })
+
+
     }
     // callback route for google to redirect to
     // hand control to passport to use code to grab profile info

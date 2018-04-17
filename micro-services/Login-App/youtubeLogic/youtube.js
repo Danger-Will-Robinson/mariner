@@ -224,8 +224,8 @@ module.exports = youtubeLogic = {
                 videos: videoObjects,
                 comments: commentObjects
             }
-            this.videoHolder = []
-            this.commentHolder = []
+            youtubeLogic.videoHolder = []
+            youtubeLogic.commentHolder = []
             return responseObject
         } else {
             return {
@@ -306,7 +306,8 @@ module.exports = youtubeLogic = {
             author: e.snippet.topLevelComment.snippet.authorDisplayName,
             authorThumbnail: e.snippet.topLevelComment.snippet.authorProfileImageUrl,
             videoId: e.snippet.topLevelComment.snippet.videoId,
-            comment: e.snippet.topLevelComment.snippet.textDisplay,
+
+            comment: e.snippet.topLevelComment.snippet.textDisplay.replace(/\./g, '').replace(/\,/, '').replace(/\&/, '').replace(/\;/, '').replace(/\$/, '').replace('#39', '').replace(/\+/, ''),
             likeCount: e.snippet.topLevelComment.snippet.likeCount,
             publishedAt: e.snippet.topLevelComment.snippet.publishedAt
         }
