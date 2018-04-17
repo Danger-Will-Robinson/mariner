@@ -18,7 +18,7 @@ const dashBoard = (props) => {
         {props.commentDescription}
       </p>
       <div>
-      <RecentComments comments={props.recentComments} currentTitle={props.currentTitle} commentClicked={props.commentClicked} passComment={props.passComment}/>
+      <RecentComments comments={props.recentComments} currentTitle={props.currentTitle} commentClicked={props.commentClicked} passComment={props.passComment} renderReplyAll={props.renderReplyAll} replyAll={props.replyAll}/>
       </div>
     </div>
   )

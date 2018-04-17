@@ -9,7 +9,7 @@ import Main from './containers/Main/Main.jsx';
 
 import NoContentError from './components/NoContentError/NoContentError.jsx';
 import TestChart from './components/TestChart/testChart.jsx';
-import Charts from './components/charts/charts.jsx';
+import queue from 'queue'
 
 
 class App extends React.Component {
@@ -24,17 +24,20 @@ class App extends React.Component {
       currentTitle: '',
       commentDescription: 'Recent Comments',
       showGraph: false,
+      showReplyAllModal: false,
       showModal: false,
       loadedComment: null,
-      replyText: null
+      replyText: null,
+      replyAll: []
     }
     console.log('this.state looks like ', this.state);
     this.changeView = this.changeView.bind(this);
   }
   
+  
 
   componentWillMount() {
-
+       
   }
 
   async componentDidMount() {
@@ -159,10 +162,18 @@ class App extends React.Component {
 
   passComment(comment) {
     // This will allow a clicked comment to render elsewhere:
+    console.log('comment is ', comment)
     this.setState({
       loadedComment: comment,
       showModal: true
     });
+  }
+
+  replyAll(comment) {
+    this.state.replyAll.push(comment)
+    console.log('replyAll after push ', this.state.replyAll)
+    //console.log('something Changed')
+    
   }
 
   renderGraph() {
@@ -171,6 +182,11 @@ class App extends React.Component {
     })
   }
   
+  renderReplyAll() {
+    this.setState({
+      showReplyAllModal: true
+    })
+  }
 
   changeView(component) {
     if (component === 'logout') {
@@ -203,9 +219,11 @@ class App extends React.Component {
   dismissModalHandler() {
     // Pass this down to the <Backdrop /> component, so that when it is clicked, the page
     // dimisses the modal view.
+    console.log('window is ', window)
     this.setState({
       showModal: false,
-      showGraph: false
+      showGraph: false,
+      showReplyAllModal: false
     });
   }
 
@@ -217,6 +235,35 @@ class App extends React.Component {
     this.setState({
       replyText: replyText
     });
+  }
+
+  sendMultiples() {
+    let q = queue();
+    let replied = this.state.replyAll;
+    replied.forEach((comment) => {
+      q.push(() => {
+        return new Promise((resolve, reject) => {
+          axios.post('http://localhost:3000/api/comments/reply', {
+            chanId: this.state.currentVideo.chanId,
+            videoID: this.state.currentVideo.contentId,
+            commentID: comment.providedID,
+            textOriginal: this.state.replyText
+          })
+          .then((response) => {
+            console.log('in response of sendMultiples')
+            resolve()
+          })
+          .catch((err) => {
+            console.log('in err of sendMultiples')
+            reject()
+          })
+        })
+      })
+    })
+    q.start((err) => {
+      if (err) throw err
+      console.log('all done ')  
+    }) 
   }
 
   sendReply() {
@@ -254,11 +301,17 @@ class App extends React.Component {
               comments={this.state.videoComments} 
               commentClicked={(e) => this.commentClickedHandler(e)}
               passComment={this.passComment.bind(this)}
+              sendReply={this.sendReply.bind(this)}
+              replyAll={this.replyAll.bind(this)}
               showGraph={this.state.showGraph}
               showModal={this.state.showModal}
+              showReplyAllModal={this.state.showReplyAllModal}
               dismissModalHandler={() => this.dismissModalHandler()}
               loadedComment={this.state.loadedComment}
+              replyAllCollection={this.state.replyAll}
               renderGraph={this.renderGraph.bind(this)}
+              renderReplyAll={this.renderReplyAll.bind(this)}
+              sendMultiples={this.sendMultiples.bind(this)}
               analyzeComments={this.analyzeComments.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
               captureText={this.captureReplyText.bind(this)}
