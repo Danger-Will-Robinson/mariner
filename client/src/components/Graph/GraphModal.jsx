@@ -8,6 +8,7 @@ import Comment from '../../components/Comments/Comment/Comment.jsx';
 import Charts from './Charts.jsx'
 
 
+
 /* 
 1) Modal should render once a user clicks on a comment from anywhere in the Mariner UI.
 2) Modal will show Comment in a centered box on the page. It will also have a backdrop component that will
@@ -27,6 +28,7 @@ const GraphModal = (props) => (
         <p className={classes.modalTitle}>
           Sentiment Analysis Details
         </p>
+        <Charts/>
       </div>
     </Aux>
   ) :
