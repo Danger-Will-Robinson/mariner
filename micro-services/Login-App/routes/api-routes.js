@@ -3,6 +3,13 @@ const keys = require('../config/keys');
 const bodyParser = require('body-parser');
 const User = require('../models/user-model');
 var youtube = require('../youtubeLogic/youtube')
+const google = require('googleapis')
+const youTubeDataApi = google.google.youtube('v3')
+const OAuth2 = google.google.auth.OAuth2
+
+const oauth2Client = new OAuth2(keys.youTube.clientID, keys.youTube.clientSecret, [])
+
+google.google.options({ auth: oauth2Client })
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -79,7 +86,6 @@ router.get('/comment/upload/:chanId/:parentId/:textOriginal', async(req, res) =>
 })
 
 router.post('/comments/uploader/', async(req, res) => {
-    console.log('hit with', req.body, Object.keys(req.user), req.user._doc.refresh_token, req.user._doc.access_token)
     const data = req.body
     let result = await youtube.addComment(data.chanId, data.parentID, data.textOriginal, req.user._doc.access_token, req.user._doc.refresh_token, keys)
     res.send(result)
@@ -87,7 +93,6 @@ router.post('/comments/uploader/', async(req, res) => {
 })
 
 router.post('/comments/reply/', async(req, res) => {
-    console.log('hit with in reply route', req.body, req.user)
     const data = req.body
     let result = await youtube.replyToComment(data.commentId, data.chanId, data.parentID, data.textOriginal, req.user.access_token, req.user.refresh_token, keys)
     res.send(result)
@@ -120,7 +125,6 @@ router.post('/all-data/by-id/:id', function(req, res) {
 })
 
 router.post('/all-data/by-name', function(req, res) {
-    console.log('ding', req.query, req.params, req.body)
 
     if (req.query.name || req.body.name) {
         User.find({ name: req.query.name || req.body.name }, function(err, data) {
@@ -134,6 +138,7 @@ router.post('/all-data/by-name', function(req, res) {
     }
 })
 
+
 router.get('/sample', function(req, res) {
     User.find({ name: 'ph8tel' }, function(err, data) {
         if (err) {
@@ -143,6 +148,65 @@ router.get('/sample', function(req, res) {
     }).catch(err => res.send('error finding by name'))
 })
 
+router.get('comments/reply/thread', async(req, res) => {
+    //Please send the comment ID as commentId
+    let commentId = req.body.commentId
+    let thread = await youtube.getReplies(commentId, keys.youTube.API_KEY)
+    res.json(thread)
+})
+router.get('/comments/refresh', async(req, res) => {
 
+    let newComments = await youtube.getComments(req.user._id, keys.youTube.API_KEY)
+    req.user.comments = newComments
+    let dbParams = { comments: newComments }
+    writeToDb(req.user._id, dbParams)
+    sendToCr(req.user)
+    res.json(newComments)
+})
+var sendToCr = (user) => {
+    console.log('user sent to CR for update')
+}
+var writeToDb = (id, data) => {
+    User.findOneAndUpdate({ _id: id }, { $set: data }, { upsert: true, returnNewDocument: true, fields: 'data' }, function(err, data) {
+        if (err) {
+            console.error(err.message, 'err in update db')
+        }
+        console.log('db is updated')
+    })
+}
+router.get('/comments/replytodirect/', (req, res) => {
+
+    oauth2Client.setCredentials({
+
+        refresh_token: req.user.refresh_token,
+        access_token: req.user.access_token
+    });
+    let params = {
+        auth: oauth2Client,
+        part: "snippet",
+        resource: {
+            snippet: {
+                videoId: req.body.videoId,
+                parentId: req.body.commentId,
+                textOriginal: req.body.textOriginal
+            }
+        }
+    }
+    console.log(params.resource.snippet.textOriginal, 'sent')
+    youTubeDataApi.comments.insert(params, (err, info) => {
+        if (err) {
+            console.log('hit failure', err.message);
+            res.status(400).send("failed posting comment");
+        } else {
+            console.log('comment posted', info.statusText);
+            res.status(200).send("posted comment");
+        }
+    });
+})
+router.get('/user/all-data', async function(req, res) {
+
+    let data = await youtube.gimmeAll(req.user._id)
+    res.json(data)
+})
 
 module.exports = router;

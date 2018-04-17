@@ -6,13 +6,13 @@ import NavServiceSelector from './NavServiceSelector/NavServiceSelector.jsx';
 
 const navBar = (props) => (
   <div className={classes.NavBar}>
-    <img src={MarinerLogo} className={classes.appLogo}></img>
+    <img  onClick={ ()=> props.changeView('main') } src={MarinerLogo} className={classes.appLogo}></img>
     <TitleBar serviceName={props.serviceName} />
     <NavServiceSelector changeView={props.changeView} renderQuestions={props.renderQuestions} analyzeComments={props.analyzeComments} renderGraph={props.renderGraph}/>
     <div href="http://localhost:3000/auth/logout" className={classes.logOutButton}>
-      <span className={classes.logOutText}>
+      <span onClick={ ()=> props.changeView('logout') } className={classes.logOutText} >
           Log Out
-      </span>
+     </span>
     </div>
   </div>
 );
