@@ -167,10 +167,21 @@ class App extends React.Component {
   
 
   changeView(component) {
+    if (component === 'logout') {
+      console.log('logout pressed')
+      this.setState({
+        user: undefined,
+        userVideos:   [],
+        currentVideo: {},
+        videoComments: [],
+        view: 'login'
+      });
+    } else {
     this.setState({
       view: component  
     });
     console.log('clicking')
+    }
   }
 
   commentClickedHandler(e) {
