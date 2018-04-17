@@ -21,11 +21,11 @@ const modal = (props) => (
         style={{
           opacity: props.isVisible ? '1' : '0'
         }}>
-        <p className={classes.modalTitle}>
+        <p className={classes.replyAllModalTitle}>
           Replying to {props.replyAllCollection.length} Comments
         </p>
         {/* <Comment comment={props.loadedComment} /> */}
-        <form className={classes.modalForm} action="http://localhost:3000/comments/reply" method="post">
+        <form className={classes.replyAllModalForm} action="http://localhost:3000/comments/reply" method="post">
           <textarea defaultValue={"Type your reply here..."} className={classes.modalTextArea} onChange={props.captureText}/>
           <input className={classes.replyButton} type="submit" name="Reply" value="Reply" />
         </form>
