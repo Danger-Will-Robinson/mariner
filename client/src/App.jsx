@@ -10,7 +10,7 @@ import Charts from './components/charts/charts.jsx';
 
 import NoContentError from './components/NoContentError/NoContentError.jsx';
 import TestChart from './components/TestChart/testChart.jsx';
-
+import queue from 'queue'
 
 class App extends React.Component {
   constructor(props) {
@@ -34,9 +34,10 @@ class App extends React.Component {
     this.changeView = this.changeView.bind(this);
   }
   
+  
 
   componentWillMount() {
-
+       
   }
 
   async componentDidMount() {
@@ -198,6 +199,7 @@ class App extends React.Component {
   dismissModalHandler() {
     // Pass this down to the <Backdrop /> component, so that when it is clicked, the page
     // dimisses the modal view.
+    console.log('window is ', window)
     this.setState({
       showModal: false,
       showGraph: false,
@@ -213,6 +215,35 @@ class App extends React.Component {
     this.setState({
       replyText: replyText
     });
+  }
+
+  sendMultiples() {
+    let q = queue();
+    let replied = this.state.replyAll;
+    replied.forEach((comment) => {
+      q.push(() => {
+        return new Promise((resolve, reject) => {
+          axios.post('http://localhost:3000/api/comments/reply', {
+            chanId: this.state.currentVideo.chanId,
+            videoID: this.state.currentVideo.contentId,
+            commentID: comment.providedID,
+            textOriginal: this.state.replyText
+          })
+          .then((response) => {
+            console.log('in response of sendMultiples')
+            resolve()
+          })
+          .catch((err) => {
+            console.log('in err of sendMultiples')
+            reject()
+          })
+        })
+      })
+    })
+    q.start((err) => {
+      if (err) throw err
+      console.log('all done ')  
+    }) 
   }
 
   sendReply() {
@@ -260,6 +291,7 @@ class App extends React.Component {
               replyAllCollection={this.state.replyAll}
               renderGraph={this.renderGraph.bind(this)}
               renderReplyAll={this.renderReplyAll.bind(this)}
+              sendMultiples={this.sendMultiples.bind(this)}
               analyzeComments={this.analyzeComments.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
               captureText={this.captureReplyText.bind(this)}

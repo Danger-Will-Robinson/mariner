@@ -27,7 +27,7 @@ const modal = (props) => (
         {/* <Comment comment={props.loadedComment} /> */}
         <form className={classes.replyAllModalForm} action="http://localhost:3000/comments/reply" method="post">
           <textarea defaultValue={"Type your reply here..."} className={classes.modalTextArea} onChange={props.captureText}/>
-          <input className={classes.replyButton} type="submit" name="Reply" value="Reply" />
+          <input onClick={function(){props.sendMultiples()}}className={classes.replyButton} type="submit" name="Reply" value="Reply" />
         </form>
       </div>
     </Aux>

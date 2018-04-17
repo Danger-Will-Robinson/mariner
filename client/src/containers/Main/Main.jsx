@@ -35,6 +35,8 @@ return (
     <ReplyAllModal 
       isVisible={props.showReplyAllModal}
       replyAllCollection={props.replyAllCollection}
+      captureText={(event) => props.captureText(event)}
+      sendMultiples={props.sendMultiples}
       dismissModalHandler={props.dismissModalHandler}/>   
   </div>
 );
