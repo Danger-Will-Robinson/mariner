@@ -43,7 +43,9 @@ class App extends React.Component {
   async componentDidMount() {
     if (this.state.view === 'login') {
       const currentUser = await axios.get('http://localhost:5000/getUser');
+      let currentUserName = currentUser.data.name
       console.log('currentUser is ', currentUser)
+      console.log('currentUserName is ', currentUserName)
       // const userVideos = await axios.post('http://localhost:5001/appQuery', {
       //   query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
       // });
@@ -54,16 +56,26 @@ class App extends React.Component {
           id: currentUser.data.id
         }
       })
+
+      const userVideos = await axios.post('http://localhost:5001/appQuery', {
+        query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUserName}')`
+      });
+
+      console.log('userVideos in componentDidMount ', userVideos)
+      console.log('userVideos is here title is ', userVideos.data[0].title)
+      const videoComments = await axios.post('http://localhost:5001/appQuery', {
+        query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos}')`
+      });
+      console.log('videoComments is in here is ', videoComments)
       
       console.log(currentUser.data.data[0].videos[0], 'hedsdij')
       this.setState({
         user: currentUser.data.data[0].name,
-        userVideos:   currentUser.data.data[0].videos,
-        currentVideo: currentUser.data.data[0].videos[0],
-        videoComments: currentUser.data.data[0].comments
+        userVideos:   userVideos.data,
+        currentVideo:  userVideos.data[0],
+        videoComments: videoComments.data
       });
       
-      console.log('Front end thinks you are ', currentUser.data);
 
     }
 
@@ -83,13 +95,27 @@ class App extends React.Component {
 
 
   async analyzeComments(comments) {
-    let sentComments = await axios.post('http://localhost:5001/analyze/comments', {
+    // let sentComments = []
+    // sentComments = await axios.post('http://localhost:5001/analyze/comments', {
+    //   comments: this.state.videoComments
+    // })
+    // console.log('analyzedComments is ', sentComments);
+    // this.setState({
+    //   videoComments: sentComments.data
+    // })
+    console.log('this.state before analyze ', this.state)
+    await axios.post('http://localhost:5001/analyze/comments', {
       comments: this.state.videoComments
     })
-    console.log('analyzedComments is ', sentComments);
-    this.setState({
-      videoComments: sentComments.data
-    })  
+    .then((response) => {
+      this.setState({
+        videoComments: response.data
+      }, console.log('state after analyze ', this.state))
+    })
+    .catch((err) => {
+      if (err) throw err;
+    })
+    console.log('this.state after after ', this.state)  
   }
 
   videoRental() {
@@ -152,7 +178,7 @@ class App extends React.Component {
   }
 
   passVideo(item) {
-    // console.log('item in passVideo ', item)
+    console.log('item in passVideo ', item)
     this.setState({
       currentTitle: item.title, 
       currentVideo: item,
@@ -285,6 +311,7 @@ class App extends React.Component {
       console.log('All data: ', allData);
       console.log('accessToken', accessToken);
       console.log('refreshToken', refreshToken);
+      console.log('commentID ', this.state.loadedComment.providedId)
       // Axios POST to comments/reply on Login
       // Need commentId, chanId, parentID in req.body
       // providedID == commentID  Ex. UgwXC-AmR5Qoc9-JYtJ4AaABAg
@@ -295,7 +322,7 @@ class App extends React.Component {
         // videoId: this.state.currentVideo.contentId,
         access_token: accessToken,
         refresh_token: refreshToken,
-        commentId: this.state.loadedComment.commentId || this.state.loadedComment.providedId,
+        commentId: this.state.loadedComment.providedId,
         textOriginal: this.state.replyText
       })
       .then((response) => {
