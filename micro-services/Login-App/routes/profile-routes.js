@@ -5,6 +5,7 @@ const OAuth2 = google.google.auth.OAuth2
 
 const authCheck = (req, res, next) => {
     if (!req.user) {
+        console.log('req.body in authCheck ', req.body)
         res.redirect('/auth/login');
     } else {
         next();

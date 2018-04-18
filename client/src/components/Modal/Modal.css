@@ -29,9 +29,32 @@
   color: #000000;
 }
 
+.replyAllModalTitle {
+  position: absolute;
+  width: 260px;
+  height: 43px;
+  left: 229px;
+  /* top: 124px; */
+
+  font-family: Arial Verdana;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 36px;
+
+  color: #000000;
+
+}
+
 .modalForm {
   position: absolute;
   top: 500px;
+  left: 250px;
+}
+
+.replyAllModalForm {
+  position: absolute;
+  top: 200px;
   left: 250px;
 }
 
