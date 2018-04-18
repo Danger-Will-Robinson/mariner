@@ -267,17 +267,47 @@ class App extends React.Component {
   }
 
   sendReply() {
-    // Axios POST to comments/reply on Login
-    // Need commentId, chanId, parentID in req.body
-    // providedID == commentID  Ex. UgzVaKGXg9hhW03f9nR4
-    // contentID ??? videoID // parentID  Ex. qPjiMYNyE1Y
-    // chanId === chanId  Ex. UC4zIIM0SSi27usDj00g
-    axios.post('http://localhost:3000/api/comments/reply', {
-      chanId: this.state.currentVideo.chanId,
-      videoId: this.state.currentVideo.contentId,
-      commentId: this.state.loadedComment.providedId,
-      textOriginal: this.state.replyText
-    });
+    console.log('Send Reply fired!');
+    // Refresh token:
+    let allData;
+    let accessToken;
+    let refreshToken;
+    // set this equal to an axios call to Joe's mongoDb that has the tokens. (POST: 3000/api/all-data/by-name 
+    axios.post('http://localhost:3000/api/all-data/by-name', {
+      name: 'Sean Spencer' || this.state.user
+    })
+    .then((response) => {
+      console.log('Recieved response from Log-in');
+      allData = response.data;
+      accessToken = allData[0].access_token;
+      refreshToken = allData[0].refresh_token;
+      console.log('All data: ', allData);
+      console.log('accessToken', accessToken);
+      console.log('refreshToken', refreshToken);
+      // Axios POST to comments/reply on Login
+      // Need commentId, chanId, parentID in req.body
+      // providedID == commentID  Ex. UgwXC-AmR5Qoc9-JYtJ4AaABAg
+      // contentID ??? videoID // parentID  Ex. qPjiMYNyE1Y
+      // chanId === chanId  Ex. UC4zIIM0SSi27usDj00g
+      axios.post('http://localhost:3000/api/comments/replytodirect', {
+        // chanId: this.state.currentVideo.chanId,
+        // videoId: this.state.currentVideo.contentId,
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        commentId: 'UgwXC-AmR5Qoc9-JYtJ4AaABAg' || this.state.loadedComment.providedId,
+        textOriginal: this.state.replyText
+      })
+      .then((response) => {
+        console.log('Successfully sent post to comments/reply', response);
+      })
+      .catch((err) => {
+        console.log('Error sending reply to comment: ', err.message);
+      });
+    })
+    .catch((err) => {
+      console.log('Err geting tokens', err.message);
+    });  
+
   }
 
   renderView() {
