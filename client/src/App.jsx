@@ -57,12 +57,13 @@ class App extends React.Component {
       
       console.log(currentUser.data.data[0].videos[0], 'hedsdij')
       this.setState({
-        user: currentUser.data.data.name,
+        user: currentUser.data.data[0].name,
         userVideos:   currentUser.data.data[0].videos,
-        currentVideo: currentUser.data.data[0].videos[0] ,
+        currentVideo: currentUser.data.data[0].videos[0],
         videoComments: currentUser.data.data[0].comments
       });
       
+      console.log('Front end thinks you are ', currentUser.data);
 
     }
 
@@ -274,7 +275,7 @@ class App extends React.Component {
     let refreshToken;
     // set this equal to an axios call to Joe's mongoDb that has the tokens. (POST: 3000/api/all-data/by-name 
     axios.post('http://localhost:3000/api/all-data/by-name', {
-      name: 'Sean Spencer' || this.state.user
+      name: this.state.user
     })
     .then((response) => {
       console.log('Recieved response from Log-in');
@@ -294,7 +295,7 @@ class App extends React.Component {
         // videoId: this.state.currentVideo.contentId,
         access_token: accessToken,
         refresh_token: refreshToken,
-        commentId: 'UgwXC-AmR5Qoc9-JYtJ4AaABAg' || this.state.loadedComment.providedId,
+        commentId: this.state.loadedComment.commentId || this.state.loadedComment.providedId,
         textOriginal: this.state.replyText
       })
       .then((response) => {
