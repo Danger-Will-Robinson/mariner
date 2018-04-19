@@ -30,10 +30,10 @@ router.post('/', (req, res) => {
   
   req.body.videos.forEach((video, index) => {
     console.log('inside video loop')
-    console.log('video looks like video ', video.thumbnails)
+    console.log('video looks like video ', video)
     videoQ.push(() => {
       return new Promise((resolve, reject) => {
-        db.query(`insert into videos (title, thumbnailURL, lowRes, user, contentId, chanId) values ('${video.title.replace(/'/g, "''")}', '${video.thumbnails.maxres.url}', '${video.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.videoId}', '${video.channelId}')`, (err, result) => {
+        db.query(`insert into videos (title, thumbnailURL, lowRes, commentCount, user, contentId, chanId) values ('${video.title.replace(/'/g, "''")}', '${video.thumbnails.maxres.url}', '${video.thumbnails.default.url}', '${video.commentCount}', (select idusers from users where username ='${req.body.user.name}'), '${video.videoId}', '${video.channelId}')`, (err, result) => {
           if (err) {
             console.log(`err at index ${index}, err looks like ${err}`)
             reject();
@@ -61,7 +61,7 @@ router.post('/', (req, res) => {
     console.log('inside comment loop')
     commentQ.push(() => {
       return new Promise((resolve, reject) => {
-        console.log('comment in loop is ', comment.videoId)
+        console.log('comment in loop is ', comment)
         let bools = identifyQuestion(comment.comment);
         db.query(`insert into comments (comment, author, timestamp, thumbnail, likeCount, providedId, hasQuestion, video) values ('${comment.comment}', '${comment.author}', '${comment.publishedAt}', '${comment.authorThumbnail}', '${comment.likeCount}', '${comment.commentId}', '${bools}', (select idvideos from videos where contentId ='${comment.videoId}'))`, (err, result) => {
           if (err) {

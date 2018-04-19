@@ -344,6 +344,7 @@ class App extends React.Component {
         console.log('Successfully sent post to comments/reply', response);
       })
       .catch((err) => {
+        console.log('commentId in app.jsx err ', this.state.loadedComment.providedId)
         console.log('Error sending reply to comment: ', err.message);
       });
     })
