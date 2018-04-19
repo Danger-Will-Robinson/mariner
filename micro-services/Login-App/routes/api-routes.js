@@ -1,31 +1,33 @@
 const router = require('express').Router();
-const keys = require('../config/keys');
 const bodyParser = require('body-parser');
-const User = require('../models/user-model');
-var youtube = require('../youtubeLogic/youtube')
+
+const youtube = require('../youtubeLogic/youtube')
+const keys = require('../config/keys');
+
 const google = require('googleapis')
 const youTubeDataApi = google.google.youtube('v3')
 const OAuth2 = google.google.auth.OAuth2
-
 const oauth2Client = new OAuth2(keys.youTube.clientID, keys.youTube.clientSecret, [])
-
 google.google.options({ auth: oauth2Client })
+
+const User = require('../models/user-model');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
-router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:8080");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+router.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next()
+})
 
 router.get('/user/tokens/:id', (req, res) => {
     let userId = req.params.id;
     console.log('user info is', userId)
+    res.json(req.user)
 })
 
-router.post('/comments/by-name/', function(req, res) {
+router.post('/comments/by-name/', (req, res) => {
     if (req.query.name || req.body.name) {
         User.find({ name: req.query.name || req.body.name }, function(err, data) {
             if (err) {
@@ -38,13 +40,12 @@ router.post('/comments/by-name/', function(req, res) {
     }
 })
 
-router.post('/comments/by-id/', function(req, res) {
+router.post('/comments/by-id/', (req, res) => {
     if (req.query.id || req.body.id) {
         User.find({ _id: req.query.id || req.body.id }, function(err, data) {
             if (err) {
                 console.error(err)
             }
-            console.log(data)
             res.json(data[0].comments)
         }).catch(err => res.send('error finding by id'))
     } else {
@@ -52,13 +53,12 @@ router.post('/comments/by-id/', function(req, res) {
     }
 })
 
-router.post('/videos/by-id/', function(req, res) {
+router.post('/videos/by-id/', (req, res) => {
     if (req.query.id || req.body.id) {
         User.find({ _id: req.query.id || req.body.id }, function(err, data) {
             if (err) {
                 console.error(err)
             }
-            // console.log('videos in login api is ', data[0].videos)
             res.json(data[0].videos)
         }).catch(err => res.send('error finding by id'))
     } else {
@@ -66,7 +66,7 @@ router.post('/videos/by-id/', function(req, res) {
     }
 })
 
-router.post('/videos/by-name/', function(req, res) {
+router.post('/videos/by-name/', (req, res) => {
     if (req.query.name || req.body.name) {
         User.find({ name: req.query.name || req.body.name }, function(err, data) {
             if (err) {
@@ -98,20 +98,20 @@ router.post('/comments/reply/', async(req, res) => {
     res.send(result)
 
 })
-router.get('/all-data/by-id', function(req, res) {
+
+router.get('/all-data/by-id', (req, res) => {
     if (req.query.id || req.body.id) {
         User.find({ _id: req.query.id || req.body.id }, function(err, data) {
             if (err) {
                 console.log(err)
             }
-            // console.log('sending this back to FE', data)
             res.json(data)
         }).catch(err => res.send('error finding by id'))
     } else {
         res.send("no matches")
     }
 })
-router.post('/all-data/by-id/:id', function(req, res) {
+router.post('/all-data/by-id/:id', (req, res) => {
     if (req.query.id || req.body.id || req.params.id) {
         User.find({ _id: req.query.id || req.body.id || req.params.id }, function(err, data) {
             if (err) {
@@ -124,8 +124,7 @@ router.post('/all-data/by-id/:id', function(req, res) {
     }
 })
 
-router.post('/all-data/by-name', function(req, res) {
-    console.log('Heres your request', 'query ', req.query, 'params: ', req.params, 'body: ', req.body);
+router.post('/all-data/by-name', (req, res) => {
     if (req.query.name || req.body.name || req.params.name) {
         User.find({ name: req.query.name || req.body.name }, function(err, data) {
             if (err) {
@@ -138,8 +137,7 @@ router.post('/all-data/by-name', function(req, res) {
     }
 })
 
-
-router.get('/sample', function(req, res) {
+router.get('/sample', (req, res) => {
     User.find({ name: 'ph8tel' }, function(err, data) {
         if (err) {
             console.log(err)
@@ -149,13 +147,12 @@ router.get('/sample', function(req, res) {
 })
 
 router.get('comments/reply/thread', async(req, res) => {
-    //Please send the comment ID as commentId
     let commentId = req.body.commentId
     let thread = await youtube.getReplies(commentId, keys.youTube.API_KEY)
     res.json(thread)
 })
-router.get('/comments/refresh', async(req, res) => {
 
+router.get('/comments/refresh', async(req, res) => {
     let newComments = await youtube.getComments(req.user._id, keys.youTube.API_KEY)
     req.user.comments = newComments
     let dbParams = { comments: newComments }
@@ -163,9 +160,81 @@ router.get('/comments/refresh', async(req, res) => {
     sendToCr(req.user)
     res.json(newComments)
 })
+
+router.get('/comments/replytodirect/', (req, res) => {
+
+    oauth2Client.setCredentials({
+
+        refresh_token: req.user.refresh_token,
+        access_token: req.user.access_token
+    })
+    let params = {
+        auth: oauth2Client,
+        part: "snippet",
+        resource: {
+            snippet: {
+                videoId: req.body.videoId,
+                parentId: req.body.commentId,
+                textOriginal: req.body.textOriginal
+            }
+        }
+    }
+    console.log(params.resource.snippet.textOriginal, 'sent')
+    res.status(200).send("posted comment")
+
+    youTubeDataApi.comments.insert(params, (err, info) => {
+        if (err) {
+            console.log('hit failure', err.message)
+            res.status(400).send("failed posting comment")
+        } else {
+            console.log('comment posted', info.statusText)
+            res.status(200).send("posted comment")
+        }
+    })
+});
+
+router.post('/comments/replytodirect/', (req, res) => {
+
+    oauth2Client.setCredentials({
+        refresh_token: req.body.refresh_token,
+        access_token: req.body.access_token
+    })
+
+    let params = {
+        auth: oauth2Client,
+        part: "snippet",
+        resource: {
+            snippet: {
+                videoId: req.body.videoId,
+                parentId: req.body.commentId,
+                textOriginal: req.body.textOriginal
+            }
+        }
+    }
+
+    console.log(params.resource.snippet.textOriginal, 'sent')
+    res.status(200).send("posted comment");
+
+    youTubeDataApi.comments.insert(params, (err, info) => {
+        if (err) {
+            console.log('hit failure', err.message)
+            res.status(400).send("failed posting comment")
+        } else {
+            console.log('comment posted', info.statusText)
+            res.status(200).send("posted comment")
+        }
+    })
+})
+
+router.get('/user/all-data', async(req, res) => {
+    let data = await youtube.gimmeAll(req.user._id)
+    res.json(data)
+})
+
 var sendToCr = (user) => {
     console.log('user sent to CR for update')
 }
+
 var writeToDb = (id, data) => {
     User.findOneAndUpdate({ _id: id }, { $set: data }, { upsert: true, returnNewDocument: true, fields: 'data' }, function(err, data) {
         if (err) {
@@ -174,73 +243,7 @@ var writeToDb = (id, data) => {
         console.log('db is updated')
     })
 }
-router.get('/comments/replytodirect/', (req, res) => {
 
-    oauth2Client.setCredentials({
 
-        refresh_token: req.user.refresh_token,
-        access_token: req.user.access_token
-    });
-    let params = {
-        auth: oauth2Client,
-        part: "snippet",
-        resource: {
-            snippet: {
-                videoId: req.body.videoId,
-                parentId: req.body.commentId,
-                textOriginal: req.body.textOriginal
-            }
-        }
-    }
-    console.log(params.resource.snippet.textOriginal, 'sent')
-    res.status(200).send("posted comment");
-
-    // youTubeDataApi.comments.insert(params, (err, info) => {
-    //     if (err) {
-    //         console.log('hit failure', err.message);
-    //         res.status(400).send("failed posting comment");
-    //     } else {
-    //         console.log('comment posted', info.statusText);
-    //         res.status(200).send("posted comment");
-    //     }
-    // });
-});
-
-router.post('/comments/replytodirect/', (req, res) => {
-    console.log('videoId:', req.body.commentId, 'params:', req.params, 'query:', req.query, 'User', req.user);
-    oauth2Client.setCredentials({
-
-        refresh_token: req.body.refresh_token,
-        access_token: req.body.access_token
-    });
-    let params = {
-        auth: oauth2Client,
-        part: "snippet",
-        resource: {
-            snippet: {
-                videoId: req.body.videoId,
-                parentId: req.body.commentId,
-                textOriginal: req.body.textOriginal
-            }
-        }
-    }
-    console.log(params.resource.snippet.textOriginal, 'sent')
-    res.status(200).send("posted comment");
-
-    // youTubeDataApi.comments.insert(params, (err, info) => {
-    //     if (err) {
-    //         console.log('hit failure', err.message);
-    //         res.status(400).send("failed posting comment");
-    //     } else {
-    //         console.log('comment posted', info.statusText);
-    //         res.status(200).send("posted comment");
-    //     }
-    // });
-})
-router.get('/user/all-data', async function(req, res) {
-
-    let data = await youtube.gimmeAll(req.user._id)
-    res.json(data)
-})
 
 module.exports = router;
