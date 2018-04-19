@@ -27,27 +27,15 @@
   color: #000000;
 }
 
-.modalForm {
+
+.LineChart {
   position: absolute;
-  top: 500px;
-  left: 250px;
+  top: 150px;
 }
 
-.modalTextArea {
-  width: 500px;
-  height: 200px;
+.buttonList {
   position: absolute;
-  left: -130px;
-  font-size: 16px;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  line-height: normal;
-  font-size: 18px;
-  color: #000000;
+  left: 600px;
+  top: 150px;
 }
 
-.replyButton {
-  position: absolute;
-  margin: 224px auto 10px;
-}

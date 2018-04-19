@@ -117,14 +117,15 @@ class App extends React.Component {
        '1': 'Nuetral',
        '2': 'Warm',
        '3': 'Positive',
-       '4': 'Glowing',
-       '5': 'High Praise',
+       '4': 'Praise',
+       '5': 'Glowing',
     }
 
     let storage = {};
     let data = [];
     comments.forEach((comment) => {
       let score = scoreConversion[comment.SA];
+      comment.SA = score;
       if (storage[score] === undefined) {
         storage[score] = 1
       } else {
@@ -139,6 +140,20 @@ class App extends React.Component {
     }
     console.log('data in countAnalyzed is ', data);
     return data;
+  }
+
+  filterSentaments(sentament) {
+    let collection = [];
+    this.state.videoComments.forEach((comment) => {
+      if (comment.SA === sentament) {
+        collection.push(comment);        
+      }
+      this.setState({
+        videoComments: collection,
+        showGraph:false
+      })
+    })
+    console.log('this was clicked ', sentament)
   }
 
 
@@ -371,6 +386,7 @@ class App extends React.Component {
               sendMultiples={this.sendMultiples.bind(this)}
               analyzeComments={this.analyzeComments.bind(this)}
               countAnalyzed={this.countAnalyzed.bind(this)}
+              filterSentaments={this.filterSentaments.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
               captureText={this.captureReplyText.bind(this)}
             />
