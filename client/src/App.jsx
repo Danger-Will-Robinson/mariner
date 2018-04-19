@@ -95,49 +95,28 @@ class App extends React.Component {
 
 
   async analyzeComments(comments) {
-    // let sentComments = []
-    // sentComments = await axios.post('http://localhost:5001/analyze/comments', {
-    //   comments: this.state.videoComments
-    // })
-    // console.log('analyzedComments is ', sentComments);
-    // this.setState({
-    //   videoComments: sentComments.data
-    // })
-    console.log('this.state before analyze ', this.state)
-    await axios.post('http://localhost:5001/analyze/comments', {
+    let sentComments = []
+    sentComments = await axios.post('http://localhost:5001/analyze/comments', {
       comments: this.state.videoComments
     })
-    .then((response) => {
-      this.setState({
-        videoComments: response.data
-      }, console.log('state after analyze ', this.state))
+    console.log('analyzedComments is ', sentComments);
+    this.setState({
+      videoComments: sentComments.data
     })
-    .catch((err) => {
-      if (err) throw err;
-    })
-    console.log('this.state after after ', this.state)  
+    // console.log('this.state before analyze ', this.state)
+    // await axios.post('http://localhost:5001/analyze/comments', {
+    //   comments: this.state.videoComments
+    // })
+    // .then((response) => {
+    //   this.setState({
+    //     videoComments: response.data
+    //   }, console.log('state after analyze ', this.state))
+    // })
+    // .catch((err) => {
+    //   if (err) throw err;
+    // })
+    // console.log('this.state after after ', this.state)  
   }
-
-  // videoRental() {
-  //   if (this.state.view === 'main') {
-  //     axios.post('http://localhost:5001/appQuery', {
-  //     query: `SELECT * FROM videos where user in (select idusers from users where username = '${this.state.user}')`
-  //     })
-  //     .then(response => {
-  //       console.log('response from mariner ', response);
-  //       this.setState({
-  //         userVideos: response.data
-  //       })
-  //       console.log('this.state after rental ', this.state)
-  //     })
-  //     .catch(err => {
-  //       console.log('err in videoRental ', err);
-  //     })  
-  //   }
-  // }
-
-  
-  
   
 
   renderQuestions(comments) {
@@ -179,11 +158,6 @@ class App extends React.Component {
         view: 'main'
       });
     })
-    // .then(() => {
-    //   this.setState({
-    //     view: 'main'
-    //   });
-    // })
     .catch(err => {
       console.log('err in CR ', err);
     })
