@@ -30,10 +30,10 @@ router.post('/', (req, res) => {
   
   req.body.videos.forEach((video, index) => {
     console.log('inside video loop')
-    console.log('video looks like video ', video)
+    console.log('video looks like video ', video.thumbnails)
     videoQ.push(() => {
       return new Promise((resolve, reject) => {
-        db.query(`insert into videos (title, thumbnailURL, user, contentId, chanId) values ('${video.title.replace(/'/g, "''")}', '${video.thumbnails.maxres.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.videoId}', '${video.channelId}')`, (err, result) => {
+        db.query(`insert into videos (title, thumbnailURL, lowRes, user, contentId, chanId) values ('${video.title.replace(/'/g, "''")}', '${video.thumbnails.maxres.url}', '${video.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.videoId}', '${video.channelId}')`, (err, result) => {
           if (err) {
             console.log(`err at index ${index}, err looks like ${err}`)
             reject();
