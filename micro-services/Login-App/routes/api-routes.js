@@ -125,7 +125,7 @@ router.post('/all-data/by-id/:id', function(req, res) {
 })
 
 router.post('/all-data/by-name', function(req, res) {
-    console.log('Heres your request', 'query ', req.query, 'params: ' , req.params, 'body: ', req.body);
+    console.log('Heres your request', 'query ', req.query, 'params: ', req.params, 'body: ', req.body);
     if (req.query.name || req.body.name || req.params.name) {
         User.find({ name: req.query.name || req.body.name }, function(err, data) {
             if (err) {
@@ -193,19 +193,21 @@ router.get('/comments/replytodirect/', (req, res) => {
         }
     }
     console.log(params.resource.snippet.textOriginal, 'sent')
-    youTubeDataApi.comments.insert(params, (err, info) => {
-        if (err) {
-            console.log('hit failure', err.message);
-            res.status(400).send("failed posting comment");
-        } else {
-            console.log('comment posted', info.statusText);
-            res.status(200).send("posted comment");
-        }
-    });
+    res.status(200).send("posted comment");
+
+    // youTubeDataApi.comments.insert(params, (err, info) => {
+    //     if (err) {
+    //         console.log('hit failure', err.message);
+    //         res.status(400).send("failed posting comment");
+    //     } else {
+    //         console.log('comment posted', info.statusText);
+    //         res.status(200).send("posted comment");
+    //     }
+    // });
 });
 
 router.post('/comments/replytodirect/', (req, res) => {
-    console.log('videoId:',req.body.commentId, 'params:', req.params, 'query:', req.query, 'User', req.user);
+    console.log('videoId:', req.body.commentId, 'params:', req.params, 'query:', req.query, 'User', req.user);
     oauth2Client.setCredentials({
 
         refresh_token: req.body.refresh_token,
@@ -223,15 +225,17 @@ router.post('/comments/replytodirect/', (req, res) => {
         }
     }
     console.log(params.resource.snippet.textOriginal, 'sent')
-    youTubeDataApi.comments.insert(params, (err, info) => {
-        if (err) {
-            console.log('hit failure', err.message);
-            res.status(400).send("failed posting comment");
-        } else {
-            console.log('comment posted', info.statusText);
-            res.status(200).send("posted comment");
-        }
-    });
+    res.status(200).send("posted comment");
+
+    // youTubeDataApi.comments.insert(params, (err, info) => {
+    //     if (err) {
+    //         console.log('hit failure', err.message);
+    //         res.status(400).send("failed posting comment");
+    //     } else {
+    //         console.log('comment posted', info.statusText);
+    //         res.status(200).send("posted comment");
+    //     }
+    // });
 })
 router.get('/user/all-data', async function(req, res) {
 

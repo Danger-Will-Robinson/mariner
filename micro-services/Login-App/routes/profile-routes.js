@@ -5,7 +5,6 @@ const OAuth2 = google.google.auth.OAuth2
 
 const authCheck = (req, res, next) => {
     if (!req.user) {
-        console.log('req.body in authCheck ', req.body)
         res.redirect('/auth/login');
     } else {
         next();
@@ -13,14 +12,9 @@ const authCheck = (req, res, next) => {
 };
 
 router.get('/', authCheck, (req, res) => {
-    console.log('in gooogle user is', req.user)
     res.render('profile', { user: req.user });
 });
 
-
-
-
-// authCheck
 router.get('/youtube', function(req, res) {
 
     res.json({
