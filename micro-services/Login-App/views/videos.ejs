@@ -42,30 +42,8 @@
 					<div class="clear"> </div>
 				</div>
 				<div class="box">
-                    <% if (data.length) { %>
-                        <% for(var i=0; i<data.length; i++) { %>
-					<div class="grid">
-                        <img src="<%= data[i].thumbnails.high.url %>" />
-                        <h3><%= data[i].title %></h3>
-                            <div class="grid-info">
-                                <div class="video-share">
-                                  <ul>
-                                    <li><a href="https://www.youtube.com/watch?v=data[i].videoId"><img src="http://ph8tel.com/images/likes.png" title="links" /></a></li>
-                                    <li><a href="https://www.youtube.com/watch?v=data[i].videoId"><img src="http://ph8tel.com/images/link.png" title="Link" /></a></li>
-                                    <li><a href="https://www.youtube.com/watch?v=data[i].videoId"><img src="http://ph8tel.com/images/views.png" title="Views" /></a></li>
-                                  </ul>
-                                </div>
-							    <div class="video-watch">
-								   <a href="https://www.youtube.com/watch?v=3vJmFuPMmBU"> Comment</a>
-							    </div>
-							    <div class="clear"> </div>
-							    <div class="lables"></div>
-						</div>
-					</div>
-                        <% } %>
-                    <% } else { %>
-                    <h2>No Videos </h2>
-                    <% } %>
+                <% include ./videoGrid.ejs %>
+
 				<div class="clear"> </div>
 			</div>
 			<div class="clear"> </div>

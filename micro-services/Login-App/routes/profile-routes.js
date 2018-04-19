@@ -21,8 +21,8 @@ router.get('/videos', authCheck, (req, res) => {
     res.render('videos', r)
 })
 router.get('/video/:id', authCheck, (req, res) => {
-    console.log(Object.keys(req.body), req.query, req.params, req.user.name, "BTBBTB") //, req._doc.name)
-    let r = { data: req.user.videos, user: req.user.name, thing: req.user.commentCountByVideoId }
+    console.log(req.query, req.params, "BWQ") //, req._doc.name)
+    let r = { data: req.user.videos.slice(req.params.id, req.params.id + 24), user: req.user.name, thing: req.user.commentCountByVideoId }
     console.log('sendingVVVVVVV', r)
     res.render('videos', r)
 })
