@@ -21,7 +21,7 @@ class App extends React.Component {
       userVideos:[],
       currentVideo:[],
       videoComments: [],
-      originalSentaments: [],
+      originalSentiments: [],
       currentTitle: '',
       commentDescription: 'Recent Comments',
       showGraph: false,
@@ -143,10 +143,10 @@ class App extends React.Component {
     return data;
   }
 
-  filterSentaments(sentament) {
+  filterSentiments(sentiment) {
     let collection = [];
     this.state.videoComments.forEach((comment) => {
-      if (comment.SA === sentament) {
+      if (comment.SA === sentiment) {
         collection.push(comment);        
       }
       this.setState({
@@ -154,7 +154,7 @@ class App extends React.Component {
         showGraph:false
       })
     })
-    console.log('this was clicked ', sentament)
+    console.log('this was clicked ', sentiment)
   }
 
 
@@ -387,7 +387,7 @@ class App extends React.Component {
               sendMultiples={this.sendMultiples.bind(this)}
               analyzeComments={this.analyzeComments.bind(this)}
               countAnalyzed={this.countAnalyzed.bind(this)}
-              filterSentaments={this.filterSentaments.bind(this)}
+              filterSentiments={this.filterSentiments.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
               captureText={this.captureReplyText.bind(this)}
             />

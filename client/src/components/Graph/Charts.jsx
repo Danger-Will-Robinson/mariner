@@ -8,7 +8,7 @@ import { XAxis, YAxis, LineChart, Line, CartesianGrid } from 'recharts'
 
 const Charts = (props) => {
   //let data = [{'uv': 200, 'Score!': -5}, {'uv': 300, 'Score!': 0}, {'uv': 500, 'Score!': 5}];
-  const sentaments = {
+  const sentiments = {
     'Glowing': 'Glowing',
     'Praise': 'Praise',
     'Positive': 'Positive',
@@ -33,15 +33,15 @@ const Charts = (props) => {
         </LineChart>      
       </div>
       <ul className={Classes.buttonList}> 
-        <button onClick={function(){props.filterSentaments(sentaments.Glowing)}}>Filter {sentaments.Glowing}</button>
-        <button onClick={function(){props.filterSentaments(sentaments.Praise)}}>Filter {sentaments.Praise}</button>
-        <button onClick={function(){props.filterSentaments(sentaments.Positive)}}>Filter {sentaments.Positive}</button>
-        <button onClick={function(){props.filterSentaments(sentaments.Warm)}}>Filter {sentaments.Warm}</button>
-        <button onClick={function(){props.filterSentaments(sentaments.Nuetral)}}>Filter {sentaments.Nuetral}</button>
-        <button onClick={function(){props.filterSentaments(sentaments.Shade)}}>Filter {sentaments.Shade}</button>
-        <button onClick={function(){props.filterSentaments(sentaments.Negative)}}>Filter {sentaments.Negative}</button>
-        <button onClick={function(){props.filterSentaments(sentaments.Mean)}}>Filter {sentaments.Mean}</button>
-        <button onClick={function(){props.filterSentaments(sentaments.Hostile)}}>Filter {sentaments.Hostile}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Glowing)}}>Filter {sentiments.Glowing}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Praise)}}>Filter {sentiments.Praise}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Positive)}}>Filter {sentiments.Positive}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Warm)}}>Filter {sentiments.Warm}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Nuetral)}}>Filter {sentiments.Nuetral}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Shade)}}>Filter {sentiments.Shade}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Negative)}}>Filter {sentiments.Negative}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Mean)}}>Filter {sentiments.Mean}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Hostile)}}>Filter {sentiments.Hostile}</button>
       </ul>
           
        
