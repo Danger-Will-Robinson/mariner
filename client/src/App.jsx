@@ -5,6 +5,7 @@ import Videos from './components/Videos/Videos.jsx';
 import Comments from './components/Comments/Comments.jsx';
 import Login from './containers/LogIn/Login.jsx';
 import Main from './containers/Main/Main.jsx';
+import Spinner from './UI/Spinner/Spinner.jsx';
 
 
 import NoContentError from './components/NoContentError/NoContentError.jsx';
@@ -16,7 +17,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'login',
+      view: '',
       user: '',
       userVideos:[],
       currentVideo:[],
@@ -38,7 +39,7 @@ class App extends React.Component {
   
 
   componentWillMount() {
-       
+
   }
 
   async componentDidMount() {
@@ -84,7 +85,7 @@ class App extends React.Component {
       this.setState({
         view: 'main'
       });
-    } else if (this.state.userVideos.length === 0) {
+    } else if (this.state.userVideos.length === 0 && this.state.user !== '') {
       this.setState({
         view: 'no-content'
       })
@@ -310,7 +311,6 @@ class App extends React.Component {
 
   sendReply() {
     console.log('Send Reply fired!');
-    // Refresh token:
     let allData;
     let accessToken;
     let refreshToken;
@@ -354,6 +354,9 @@ class App extends React.Component {
   }
 
   renderView() {
+    if (this.state.view === 'loading') {
+      return <Spinner />
+    }
     if (this.state.view === 'login') {
       return <Login />
     }
