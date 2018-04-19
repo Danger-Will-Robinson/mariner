@@ -31,13 +31,13 @@
         <% if (data.length) { %>
         <h2>Videos:</h2>
             <% for(var i=0; i<data.length; i++) { %>
-            <h3><%= data[i].snippet.title %></h3>
+            <h3><%= data[i].title %></h3>
                 <li>
-                  <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= data[i].contentDetails.videoId %>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= data[i].videoId %>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                   
-                  <p>Title: <%= data[i].snippet.title %> </p><br/> 
-                  <p>description: <%= data[i].snippet.description %> </p><br/>
-                  <p><img src="<%= data[i].snippet.thumbnails.default.url %>" />video id: <%= data[i].contentDetails.videoId %></p>
+                  <p>Title: <%= data[i].title %> </p><br/> 
+                  <p>description: <%= data[i].description %> </p><br/>
+                  <p><img src="<%= data[i].thumbnails.maxres.url %>" />video id: <%= data[i].videoId %></p>
                 </li>
             <% } %>
         <% } else { %>

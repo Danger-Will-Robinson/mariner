@@ -153,6 +153,7 @@ router.get('comments/reply/thread', async(req, res) => {
 })
 
 router.get('/comments/refresh', async(req, res) => {
+    console.log('user', req.user)
     let newComments = await youtube.getComments(req.user._id, keys.youTube.API_KEY)
     req.user.comments = newComments
     let dbParams = { comments: newComments }
@@ -227,7 +228,8 @@ router.post('/comments/replytodirect/', (req, res) => {
 })
 
 router.get('/user/all-data', async(req, res) => {
-    let data = await youtube.gimmeAll(req.user._id)
+    let data = req.user
+        // let data = await youtube.gimmeAll(req.user._id)
     res.json(data)
 })
 

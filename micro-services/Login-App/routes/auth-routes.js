@@ -44,6 +44,7 @@ router.get('/youtube/callback',
     passport.authenticate('youtube'),
 
     async(req, res) => {
+        console.log('ran')
 
         let userComplete = req.user
 
@@ -60,14 +61,19 @@ router.get('/youtube/callback',
             })
 
             moveData(req.user, userData, userData.commentCountByVideoID)
+            let r = { data: req.user.videos, user: req.user.name, thing: req.user.commentCountByVideoID }
+            console.log('sending', r)
+            res.render('videos', r)
 
-            res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`)
+            // res.render('youtubeVideos', { user: req.user, comments: userData.comments, data: userData.videos })
+            // res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`)
 
         }).catch(err => {
             console.error(err.message)
+
+            res.redirect('http://localhost:8080')
         })
-    }
-)
+    })
 
 // callback route for google to redirect to
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
