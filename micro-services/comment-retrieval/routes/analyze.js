@@ -15,7 +15,7 @@ const R = require('ramda');
 
 const q = queues();
 
-let results = [];
+
 
 
 preDefine();
@@ -25,6 +25,7 @@ let processor = unified()
 	.use(retext)
 
 router.post('/comments', (req, res, done) => {
+  let results = [];
 	db.query('use ThesisDB');
 	
 	req.body.comments.forEach((comment, index) => {
@@ -76,7 +77,8 @@ router.post('/comments', (req, res, done) => {
     if (err) throw err
     console.log('all done: ', results)
     res.json(results);
-  })		
+  })
+
 })
 
 router.post('/', (req, res, next) => {

@@ -101,7 +101,8 @@ class App extends React.Component {
     })
     console.log('analyzedComments is ', sentComments);
     this.setState({
-      videoComments: sentComments.data
+      videoComments: sentComments.data,
+      showGraph: true
     })
     // console.log('this.state before analyze ', this.state)
     // await axios.post('http://localhost:5001/analyze/comments', {
