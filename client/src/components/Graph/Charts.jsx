@@ -26,7 +26,7 @@ const Charts = (props) => {
     <div>
       <div>
         <LineChart className={Classes.LineChart} height={400} width={400} data={data}>
-          <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+          <Line ClassName={Classes.line}type="monotone" dataKey="uv" stroke="red" />
           <CartesianGrid stroke="#ccc" />
           <XAxis dataKey="Score!" />
           <YAxis />

@@ -27,7 +27,9 @@
   color: #000000;
 }
 
-
+.line {
+  color: indianred;
+}
 .LineChart {
   position: absolute;
   top: 150px;

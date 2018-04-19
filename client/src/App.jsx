@@ -21,6 +21,7 @@ class App extends React.Component {
       userVideos:[],
       currentVideo:[],
       videoComments: [],
+      originalSentaments: [],
       currentTitle: '',
       commentDescription: 'Recent Comments',
       showGraph: false,
@@ -325,7 +326,7 @@ class App extends React.Component {
       console.log('All data: ', allData);
       console.log('accessToken', accessToken);
       console.log('refreshToken', refreshToken);
-      console.log('commentID ', this.state.loadedComment.providedId)
+      console.log('commentID in app.jsx', this.state.loadedComment.providedId)
       // Axios POST to comments/reply on Login
       // Need commentId, chanId, parentID in req.body
       // providedID == commentID  Ex. UgwXC-AmR5Qoc9-JYtJ4AaABAg
