@@ -44,6 +44,12 @@ router.post('/comments', (req, res, done) => {
             result = shortTextAnalyzer(text); 
             } 
           }
+          if (result > 5) {
+            result = 5
+          }
+          if (result < -5) {
+            result = -5
+          }
           comment.SA = result;
           results.push(comment)
           db.query(`UPDATE comments SET SA = ${result} where idcomments = ${comment.idcomments}`, (err, res) => {

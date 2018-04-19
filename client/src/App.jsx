@@ -104,21 +104,43 @@ class App extends React.Component {
       videoComments: sentComments.data,
       showGraph: true
     })
-    // console.log('this.state before analyze ', this.state)
-    // await axios.post('http://localhost:5001/analyze/comments', {
-    //   comments: this.state.videoComments
-    // })
-    // .then((response) => {
-    //   this.setState({
-    //     videoComments: response.data
-    //   }, console.log('state after analyze ', this.state))
-    // })
-    // .catch((err) => {
-    //   if (err) throw err;
-    // })
-    // console.log('this.state after after ', this.state)  
   }
   
+  countAnalyzed(comments) {
+    const scoreConversion = {
+      '-5': 'Hostile',
+      '-4': 'Mean',
+      '-3': 'Negative',
+      '-2': 'Shade',
+      '-1': 'Nuetral',
+       '0': 'Nuetral',
+       '1': 'Nuetral',
+       '2': 'Warm',
+       '3': 'Positive',
+       '4': 'Glowing',
+       '5': 'High Praise',
+    }
+
+    let storage = {};
+    let data = [];
+    comments.forEach((comment) => {
+      let score = scoreConversion[comment.SA];
+      if (storage[score] === undefined) {
+        storage[score] = 1
+      } else {
+        storage[score]++
+      }
+    })
+    for (var key in storage) {
+      data.push({
+        'uv': storage[key],
+        'Score!': key
+      })
+    }
+    console.log('data in countAnalyzed is ', data);
+    return data;
+  }
+
 
   renderQuestions(comments) {
     console.log('render Q clicked')
@@ -348,6 +370,7 @@ class App extends React.Component {
               renderReplyAll={this.renderReplyAll.bind(this)}
               sendMultiples={this.sendMultiples.bind(this)}
               analyzeComments={this.analyzeComments.bind(this)}
+              countAnalyzed={this.countAnalyzed.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
               captureText={this.captureReplyText.bind(this)}
             />

@@ -88,43 +88,7 @@ router.post('/', (req, res) => {
 })
   
   
-  // req.body.videos.forEach((video, index) => {
-  //   console.log('inside map')
-  //   //db.query(`(SELECT REPLACE('${video.snippet.title}', ''', '''')),`)
-  //   videoQ.push(() => {
-  //     return new Promise((resolve, reject) => {
-  //       db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
-  //         if (err) {
-  //         console.log(`err at index ${index}, err looks like ${err}`)
-  //       } else {
-  //         console.log('posted to db');
-  //       }
-  //       })   
-  //     })
-  //   })
-
-    
-  // })
-  // videoQ.start((err) => {
-  //   if (err) throw err
-  //   console.log('finished videoQ')  
-  // })
-
-  // req.body.comments.forEach((comment, index) => {
-  //   let bools = identifyQuestion(comment.comment);
-  //   console.log('bools is ', bools)
-  //   db.query(`insert into comments (comment, author, timestamp, thumbnail, likeCount, providedId, hasQuestion, video) values ('${comment.comment}', '${comment.author}', '${comment.publishedAt}', '${comment.authorThumbnail}', '${comment.likeCount}', '${comment.commentId}', '${bools}', (select idvideos from videos where contentId ='${comment.videoId}'))`, (err, result) => {
-  //     if (err) {
-  //       console.log(`err in comment post at index ${index}, err looks like ${err}`)
-  //     } else {
-  //       console.log('posted comment to db');
-  //     }
-  //   })  
-  // })
-
-  //  res.status(200).send()
-  //  res.end()
-  
+ 
 
 router.get('/', (req, res) => {
   console.log('get request happening in comments app router.get')

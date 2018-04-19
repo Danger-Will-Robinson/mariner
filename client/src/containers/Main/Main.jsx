@@ -30,6 +30,8 @@ return (
       sendReply={props.sendReply}
       captureText={(event) => props.captureText(event)}/>
     <GraphModal
+      comments={props.comments}
+      countAnalyzed={props.countAnalyzed}
       isVisible={props.showGraph}
       dismissModalHandler={props.dismissModalHandler}/> 
     <ReplyAllModal 
