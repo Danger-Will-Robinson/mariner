@@ -3,7 +3,7 @@ import classes from './Videos.css'
 import NavBar from '../../components/NavBar/NavBar.jsx'
 // added a comment
 const Videos = (props) => {
-  console.log('props in videos.jsx ', props)
+  //console.log('props in videos.jsx ', props)
   return (
     <div>
       <NavBar className={classes.videoList} serviceName={props.serviceName} changeView={props.changeView}/>

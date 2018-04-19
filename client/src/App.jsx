@@ -118,45 +118,25 @@ class App extends React.Component {
     console.log('this.state after after ', this.state)  
   }
 
-  videoRental() {
-    if (this.state.view === 'main') {
-      axios.post('http://localhost:5001/appQuery', {
-      query: `SELECT * FROM videos where user in (select idusers from users where username = '${this.state.user}')`
-      })
-      .then(response => {
-        console.log('response from mariner ', response);
-        this.setState({
-          userVideos: response.data
-        })
-        console.log('this.state after rental ', this.state)
-      })
-      .catch(err => {
-        console.log('err in videoRental ', err);
-      })  
-    }
-  }
+  // videoRental() {
+  //   if (this.state.view === 'main') {
+  //     axios.post('http://localhost:5001/appQuery', {
+  //     query: `SELECT * FROM videos where user in (select idusers from users where username = '${this.state.user}')`
+  //     })
+  //     .then(response => {
+  //       console.log('response from mariner ', response);
+  //       this.setState({
+  //         userVideos: response.data
+  //       })
+  //       console.log('this.state after rental ', this.state)
+  //     })
+  //     .catch(err => {
+  //       console.log('err in videoRental ', err);
+  //     })  
+  //   }
+  // }
 
-  getComments(videoTitle) {
-    console.log('video title is ', videoTitle)
-    axios.post('http://localhost:5001/appQuery', {
-      query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${videoTitle.title || videoTitle}')`
-    })
-    .then((response) => {
-      console.log('comment response from mariner ', response.data);
-      this.setState({
-        videoComments: response.data
-      });
-      console.log('this.state after CR ', this.state.videoComments)
-      })
-    .then(() => {
-      this.setState({
-        view: 'main'
-      });
-    })
-    .catch(err => {
-      console.log('err in CR ', err);
-    })
-  } 
+  
   
   
 
@@ -186,6 +166,28 @@ class App extends React.Component {
     });
     this.getComments(item)
   }
+
+  getComments(videoTitle) {
+    console.log('video title is ', videoTitle)
+    axios.post('http://localhost:5001/appQuery', {
+      query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${videoTitle.title || videoTitle}')`
+    })
+    .then((response) => {
+      console.log('comment response from mariner ', response.data);
+      this.setState({
+        videoComments: response.data,
+        view: 'main'
+      });
+    })
+    // .then(() => {
+    //   this.setState({
+    //     view: 'main'
+    //   });
+    // })
+    .catch(err => {
+      console.log('err in CR ', err);
+    })
+  } 
 
   passComment(comment) {
     // This will allow a clicked comment to render elsewhere:
