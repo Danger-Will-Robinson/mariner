@@ -29,10 +29,11 @@ router.post('/', (req, res) => {
   
   
   req.body.videos.forEach((video, index) => {
-    //console.log('inside video loop')
+    console.log('inside video loop')
+    console.log('video looks like video ', video.thumbnails)
     videoQ.push(() => {
       return new Promise((resolve, reject) => {
-        db.query(`insert into videos (title, thumbnailURL, user, contentId, chanId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.contentDetails.videoId}', '${video.snippet.channelId}')`, (err, result) => {
+        db.query(`insert into videos (title, thumbnailURL, lowRes, user, contentId, chanId) values ('${video.title.replace(/'/g, "''")}', '${video.thumbnails.maxres.url}', '${video.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.videoId}', '${video.channelId}')`, (err, result) => {
           if (err) {
             console.log(`err at index ${index}, err looks like ${err}`)
             reject();
@@ -46,7 +47,7 @@ router.post('/', (req, res) => {
         console.log('ready for json');
       })
       .catch((err) => {
-        console.log('err in req.body.videos loop ');
+        console.log('err in req.body.videos loop ', err);
       })      
     })
     
@@ -60,13 +61,14 @@ router.post('/', (req, res) => {
     console.log('inside comment loop')
     commentQ.push(() => {
       return new Promise((resolve, reject) => {
+        console.log('comment in loop is ', comment.videoId)
         let bools = identifyQuestion(comment.comment);
         db.query(`insert into comments (comment, author, timestamp, thumbnail, likeCount, providedId, hasQuestion, video) values ('${comment.comment}', '${comment.author}', '${comment.publishedAt}', '${comment.authorThumbnail}', '${comment.likeCount}', '${comment.commentId}', '${bools}', (select idvideos from videos where contentId ='${comment.videoId}'))`, (err, result) => {
           if (err) {
-            console.log('err in comment db query', err);
+            //console.log('err in comment db query', err);
             reject();
           } else {
-            console.log('posted comment to db at index ', index);
+            //console.log('posted comment to db at index ', index);
             resolve();
           }
         })
@@ -86,43 +88,7 @@ router.post('/', (req, res) => {
 })
   
   
-  // req.body.videos.forEach((video, index) => {
-  //   console.log('inside map')
-  //   //db.query(`(SELECT REPLACE('${video.snippet.title}', ''', '''')),`)
-  //   videoQ.push(() => {
-  //     return new Promise((resolve, reject) => {
-  //       db.query(`insert into videos (title, thumbnailURL, user, contentId) values ('${video.snippet.title.replace(/'/g, "''")}', '${video.snippet.thumbnails.default.url}', (select idusers from users where username ='${req.body.user.name}'), '${video.contentDetails.videoId}')`, (err, result) => {
-  //         if (err) {
-  //         console.log(`err at index ${index}, err looks like ${err}`)
-  //       } else {
-  //         console.log('posted to db');
-  //       }
-  //       })   
-  //     })
-  //   })
-
-    
-  // })
-  // videoQ.start((err) => {
-  //   if (err) throw err
-  //   console.log('finished videoQ')  
-  // })
-
-  // req.body.comments.forEach((comment, index) => {
-  //   let bools = identifyQuestion(comment.comment);
-  //   console.log('bools is ', bools)
-  //   db.query(`insert into comments (comment, author, timestamp, thumbnail, likeCount, providedId, hasQuestion, video) values ('${comment.comment}', '${comment.author}', '${comment.publishedAt}', '${comment.authorThumbnail}', '${comment.likeCount}', '${comment.commentId}', '${bools}', (select idvideos from videos where contentId ='${comment.videoId}'))`, (err, result) => {
-  //     if (err) {
-  //       console.log(`err in comment post at index ${index}, err looks like ${err}`)
-  //     } else {
-  //       console.log('posted comment to db');
-  //     }
-  //   })  
-  // })
-
-  //  res.status(200).send()
-  //  res.end()
-  
+ 
 
 router.get('/', (req, res) => {
   console.log('get request happening in comments app router.get')

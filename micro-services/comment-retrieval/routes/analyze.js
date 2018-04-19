@@ -15,7 +15,7 @@ const R = require('ramda');
 
 const q = queues();
 
-let results = [];
+
 
 
 preDefine();
@@ -25,6 +25,7 @@ let processor = unified()
 	.use(retext)
 
 router.post('/comments', (req, res, done) => {
+  let results = [];
 	db.query('use ThesisDB');
 	
 	req.body.comments.forEach((comment, index) => {
@@ -42,6 +43,12 @@ router.post('/comments', (req, res, done) => {
             if (result > -2 && result < 2) {
             result = shortTextAnalyzer(text); 
             } 
+          }
+          if (result > 5) {
+            result = 5
+          }
+          if (result < -5) {
+            result = -5
           }
           comment.SA = result;
           results.push(comment)
@@ -76,7 +83,8 @@ router.post('/comments', (req, res, done) => {
     if (err) throw err
     console.log('all done: ', results)
     res.json(results);
-  })		
+  })
+
 })
 
 router.post('/', (req, res, next) => {

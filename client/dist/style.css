@@ -9,7 +9,7 @@ h1 {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  grid-gap: 10px;
+  grid-gap: 20px;
   grid-auto-flow: dense;
   list-style: none;
   margin: 1em auto;

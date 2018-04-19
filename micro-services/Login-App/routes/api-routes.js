@@ -205,7 +205,7 @@ router.get('/comments/replytodirect/', (req, res) => {
 });
 
 router.post('/comments/replytodirect/', (req, res) => {
-    console.log('videoId:',req.body.commentId, 'params:', req.params, 'query:', req.query, 'User', req.user);
+    console.log('parentId:',req.body.commentId, 'params:', req.params, 'query:', req.query, 'User', req.user, 'videoId', req.body.videoId);
     oauth2Client.setCredentials({
 
         refresh_token: req.body.refresh_token,

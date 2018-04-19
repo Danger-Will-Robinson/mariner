@@ -8,7 +8,7 @@ router.post('/', function (req, res) {
 
   // Extract 'query' from request.body
   const query = req.body.query;
-  //console.log('query is ', query);
+  console.log('query is ', query);
 
   // Use this string to execute query on DB.
   db.query('use ThesisDB');
@@ -19,7 +19,7 @@ router.post('/', function (req, res) {
       res.end();
     } else {
       res.status(200);
-      //console.log(result);
+      console.log('result in app query ', result);
       res.json(result);
     }
   });
