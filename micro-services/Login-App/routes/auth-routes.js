@@ -47,8 +47,10 @@ router.get('/youtube/callback',
 
         let userComplete = req.user
 
-        youtube.gimmeAll(req.user._id, keys.youTube.API_KEY).then(rawData => {
-            console.log(Object.keys(rawData), 'REERER')
+        youtube.gimmeAll(req.user._id, keys.youTube.API_KEY)
+
+        .then(rawData => {
+
             let userData = formatData(rawData)
 
             User.findOneAndUpdate({ _id: req.user._id }, { $set: { videos: userData.videos, comments: userData.comments, commentCountByVideoID: userData.commentCountByVideoID, wordCount: userData.wordCount } }, { upsert: true, returnNewDocument: true, fields: 'data' }, function(err, data) {
@@ -57,10 +59,9 @@ router.get('/youtube/callback',
                 }
             })
 
-
             moveData(req.user, userData, userData.commentCountByVideoID)
 
-            res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`);
+            res.redirect(`http://localhost:5000/${req.user.name}/${req.user._id}`)
 
         }).catch(err => {
             console.error(err.message)
