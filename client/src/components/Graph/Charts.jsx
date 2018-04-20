@@ -8,7 +8,7 @@ import { XAxis, YAxis, LineChart, Line, CartesianGrid } from 'recharts'
 
 const Charts = (props) => {
   //let data = [{'uv': 200, 'Score!': -5}, {'uv': 300, 'Score!': 0}, {'uv': 500, 'Score!': 5}];
-  console.log('props.comments ', props.comments)
+  //console.log('props.comments ', props.comments)
   const sentiments = {
     'Glowing': 'Glowing',
     'Praise': 'Praise',
@@ -20,6 +20,7 @@ const Charts = (props) => {
     'Mean': 'Mean',
     'Hostile': 'Hostile' 
   }
+  //console.log('props comments ', props.comments)
   let data = props.countAnalyzed(props.comments)
 
   return(
