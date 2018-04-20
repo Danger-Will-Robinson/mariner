@@ -29,8 +29,8 @@ const Charts = (props) => {
         <LineChart className={Classes.LineChart} height={400} width={400} data={data}>
           <Line ClassName={Classes.line}type="monotone" dataKey="uv" stroke="red" />
           <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="Score!" />
-          <YAxis />
+          <XAxis stroke="black" dataKey="Score!" />
+          <YAxis stroke="black"/>
         </LineChart>      
       </div>
       <ul className={Classes.buttonList}> 

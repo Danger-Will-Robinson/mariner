@@ -10,7 +10,7 @@ const comment = (props) => (
     <p className={classes.userName}>{props.comment.author || "Username"} </p>
     <p className={classes.commentText}>{props.comment.comment || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel molestie libero, ut varius nulla. Pellentesque eleifend nunc eu vulputate fermentum. "}</p>
     <p className={classes.commentTime}>{moment(props.comment.timestamp).calendar() || "Today, 2:04PM"}</p>
-    <button onClick={props.passComment}> Single Reply
+    <button className={classes.Button}onClick={props.passComment}> Reply
     </button>
     {/* <img src={composeIcon} className={classes.composeIcon}></img> */}
   </div>
