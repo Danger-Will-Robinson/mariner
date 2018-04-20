@@ -21,6 +21,7 @@ class App extends React.Component {
       user: '',
       userVideos:[],
       currentVideo:[],
+      loading: true,
       videoComments: [],
       originalSentiments: [],
       currentTitle: '',
@@ -43,53 +44,89 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    if (this.state.view === 'login') {
-      const currentUser = await axios.get('http://localhost:5000/getUser');
-      let currentUserName = currentUser.data.name
-      console.log('currentUser is ', currentUser)
-      console.log('currentUserName is ', currentUserName)
-      // const userVideos = await axios.post('http://localhost:5001/appQuery', {
-      //   query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
-      // });
-      //added by joe
-      console.log('checking for ', currentUser.data.id)
-      currentUser.data = await  axios.get('http://localhost:3000/api/all-data/by-id',  {
-        params: {
-          id: currentUser.data.id
-        }
-      })
 
+    // Check to see if a user is established
+    // While checking, display loading component    
+    let { data: {name, id} } = await axios.get('http://localhost:5000/getUser');
+    if (name !== undefined || id !== undefined) {
+      // Print data:
+      console.log(`Username: ${name} // ID: ${id}`);
+      // Get data from CR:
+
+      // Get Videos:
       const userVideos = await axios.post('http://localhost:5001/appQuery', {
-        query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUserName}')`
+        query: `SELECT * FROM videos where user in (select idusers from users where username = '${name}')`
       });
 
-      console.log('userVideos in componentDidMount ', userVideos)
-      console.log('userVideos is here title is ', userVideos.data[0].title)
+      // Get Comments:
       const videoComments = await axios.post('http://localhost:5001/appQuery', {
         query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos}')`
       });
-      console.log('videoComments is in here is ', videoComments)
-      
-      console.log(currentUser.data.data[0].videos[0], 'hedsdij')
+      // Fill state with content, set view to 'main', loading false.   
+      // If a user comes back and there is no content, dispaly no content page.
+         
       this.setState({
-        user: currentUser.data.data[0].name,
-        userVideos:   userVideos.data,
-        currentVideo:  userVideos.data[0],
-        videoComments: videoComments.data
+        user: name,
+        userVideos: userVideos.data,
+        currentVideo: userVideos.data[0],
+        videoComments: videoComments.data,
+        loading: false,
+        view: userVideos.length === 0 ? 'no-content' : 'main'
       });
-      
 
-    }
-
-    if (this.state.user !== '' && this.state.userVideos !== [] && this.state.videoComments !== []) {
+    } else {
       this.setState({
-        view: 'main'
-      });
-    } else if (this.state.userVideos.length === 0 && this.state.user !== '') {
-      this.setState({
-        view: 'no-content'
+        loading: false,
+        view: 'login'
       })
     }
+    // if (this.state.view === 'login') {
+    //   const currentUser = await axios.get('http://localhost:5000/getUser');
+    //   let currentUserName = currentUser.data.name
+    //   console.log('currentUser is ', currentUser)
+    //   console.log('currentUserName is ', currentUserName)
+    //   // const userVideos = await axios.post('http://localhost:5001/appQuery', {
+    //   //   query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
+    //   // });
+    //   //added by joe
+    //   console.log('checking for ', currentUser.data.id)
+    //   currentUser.data = await  axios.get('http://localhost:3000/api/all-data/by-id',  {
+    //     params: {
+    //       id: currentUser.data.id
+    //     }
+    //   })
+
+    //   const userVideos = await axios.post('http://localhost:5001/appQuery', {
+    //     query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUserName}')`
+    //   });
+
+    //   console.log('userVideos in componentDidMount ', userVideos)
+    //   console.log('userVideos is here title is ', userVideos.data[0].title)
+    //   const videoComments = await axios.post('http://localhost:5001/appQuery', {
+    //     query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos}')`
+    //   });
+    //   console.log('videoComments is in here is ', videoComments)
+      
+    //   console.log(currentUser.data.data[0].videos[0], 'hedsdij')
+    //   this.setState({
+    //     user: currentUser.data.data[0].name,
+    //     userVideos:   userVideos.data,
+    //     currentVideo:  userVideos.data[0],
+    //     videoComments: videoComments.data
+    //   });
+      
+
+    // }
+
+    // if (this.state.user !== '' && this.state.userVideos !== [] && this.state.videoComments !== []) {
+    //   this.setState({
+    //     view: 'main'
+    //   });
+    // } else if (this.state.userVideos.length === 0 && this.state.user !== '') {
+    //   this.setState({
+    //     view: 'no-content'
+    //   })
+    // }
     console.log('state after componentDidMount ', this.state)
   }
 
@@ -354,7 +391,7 @@ class App extends React.Component {
   }
 
   renderView() {
-    if (this.state.view === 'loading') {
+    if (this.state.loading === true) {
       return <Spinner />
     }
     if (this.state.view === 'login') {
