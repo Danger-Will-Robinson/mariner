@@ -1,0 +1,45 @@
+
+<!DOCTYPE HTML>
+<html>
+<% include htmlHead.ejs %>
+	<body>
+	<!----start-wrap---->
+	<div class="wrap">
+		<!----start-Header---->
+        <% include ./header.ejs %>
+		<!----End-Header---->
+		<div class="clear"> </div>
+		<div class="content">
+		<% include ./pieChart.ejs %>
+			<div class="left-content">
+				<% include ./commentSearchBar %>
+				<div class="box">
+                <% include ./commentGrid.ejs %>
+				<div class="clear"> </div>
+			</div>
+			<div class="clear"> </div>
+            <% include ./commentPagination.ejs %>
+			<div class="clear"> </div>
+		</div>
+		<div class="right-content">
+			<div class="popular">
+				<h3>Comment Stats</h3>
+				<p><img src="http://ph8tel.com/images/l1.png" title="likes" /> Over 800 comments!<a href="https://www.youtube.com/user/ph8tel/about">*</a></p>
+				<div class="clear"> </div>
+			</div>
+			<div class="grid1">
+                <% include ./chart.ejs %>
+			</div>
+			<div class="clear"> </div>
+		</div>
+		<div class="clear"> </div>
+        </div>
+        <div class="clear"> </div>
+		</div>
+        <% include ./footer.ejs %>
+
+	</div>
+	<!----End-wrap---->
+	</body>
+</html>
+

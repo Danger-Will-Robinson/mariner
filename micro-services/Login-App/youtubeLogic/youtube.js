@@ -2,7 +2,6 @@ const axios = require('axios')
 
 module.exports = youtubeLogic = {
 
-
     replyToComment: (commentId, chanId, parentId, commentText, accessToken, refresh_token, keys) => {
 
         return new Promise(resolve => {
@@ -54,12 +53,10 @@ module.exports = youtubeLogic = {
     addComment: (chanId, parentId, commentText, accessToken, refresh_token, keys) => {
 
         return new Promise(resolve => {
+
             const google = require('googleapis')
             const youTubeDataApi = google.google.youtube('v3')
-
             const OAuth2 = google.google.auth.OAuth2
-
-
             const oauth2Client = new OAuth2(keys.youTube.clientID, keys.youTube.clientSecret, [])
 
             // put the tokens in the header
@@ -67,6 +64,7 @@ module.exports = youtubeLogic = {
                 refresh_token: refresh_token,
                 access_token: accessToken
             });
+
             //default set to tokens are in header
             google.google.options({ auth: oauth2Client })
 
@@ -86,6 +84,7 @@ module.exports = youtubeLogic = {
                     }
                 }
             }
+
             youTubeDataApi.commentThreads.insert(params, (err, info) => {
                 if (err) {
                     console.log('Failure posting comment. This is how you messed up:', err.message);
@@ -94,25 +93,29 @@ module.exports = youtubeLogic = {
                     console.log('comment posted', info.statusText);
                     resolve("posted comment");
                 }
-            });
+            })
+
         })
 
     },
-    getPlaylists: function(chanID, API_KEY, token) {
+
+    getPlaylists: (chanID, API_KEY, token) => {
+
         let params = {
             playlistId: chanID,
             maxResults: '50',
             part: 'snippet,contentDetails',
             key: API_KEY
         }
+
         if (token) {
             params.pageToken = token
         }
+
         return new Promise(resolve => {
             axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
                 params: params
             }).then(playlists => {
-
                 let videoObjects = playlists.data.items.map(e => {
                     return {
                         channelId: e.snippet.channelId,
@@ -122,7 +125,9 @@ module.exports = youtubeLogic = {
                         thumbnails: e.snippet.thumbnails
                     }
                 })
+
                 youtubeLogic.videoHolder = youtubeLogic.videoHolder.concat(videoObjects)
+
                 if (playlists.data.nextPageToken) {
                     console.log('Found another page of videos, current count:', youtubeLogic.videoHolder.length)
                     resolve(youtubeLogic.getPlaylists(chanID, API_KEY, playlists.data.nextPageToken))
@@ -135,13 +140,12 @@ module.exports = youtubeLogic = {
                 console.error('lists catch ran error', err.message)
                 resolve(err)
             })
-
         })
     },
+
     videoHolder: [],
 
-    getUploadedVideos: function(uploadsID, API_KEY, token) {
-        console.log('getting uploaded videos')
+    getUploadedVideos: (uploadsID, API_KEY, token) => {
 
         return new Promise(resolve => {
             let params = {
@@ -151,6 +155,7 @@ module.exports = youtubeLogic = {
                 maxResults: '50',
                 key: API_KEY
             }
+
             if (token) {
                 params.pageToken = token
             }
@@ -158,18 +163,19 @@ module.exports = youtubeLogic = {
             axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
                 params: params
             }).then(allVideos => {
+                console.log(allVideos.data.items[0], "SAMPLE")
                 let formattedVideos = allVideos.data.items.map(youtubeLogic.formattVideos)
-                console.log('foratted sample:', formattedVideos[0])
                 youtubeLogic.videoHolder.concat(formattedVideos)
-                console.log(allVideos, 'SDFDSDFSDSDFSDFSFDSFDs')
+
                 if (allVideos.data.nextPageToken) {
                     resolve(youtubeLogic.getUploadedVideos(uploadsID, API_KEY, token))
                 } else {
                     resolve(youtubeLogic.videoHolder)
                 }
+
             }).catch(err => {
-                console.log('catch in get uploaded', err.response.data)
-                resolve(err)
+                console.error('catch in get uploaded', err.response.data)
+                resolve(err.message)
             })
         })
     },
@@ -199,46 +205,55 @@ module.exports = youtubeLogic = {
                 .catch(err => console.log('error in get chan infoerr', err.message))
         })
     },
-    gimmeVideos: async function(chanID, API_KEY) {
+
+    gimmeVideos: async(chanID, API_KEY) => {
         let videos = await this.getUploadedVideos(chanID, API_KEY)
-        if (videos)
-            return videos
+        return videos
     },
-    gimmeComments: async function(chanID, API_KEY) {
+
+    gimmeComments: async(chanID, API_KEY) => {
         let commentObjects = await this.getComments(chanID, API_KEY)
         return commentObjects
     },
-    gimmePlaylist: async function(uploadsID, API_KEY) {
+
+    gimmePlaylist: async(uploadsID, API_KEY) => {
         let videoObjects = await this.getPlaylists(uploadsID, API_KEY)
         return videoObjects
     },
-    gimmeAll: async function(userID) {
-        let API_KEY = require('../config/keys').youTube.API_KEY
+
+    gimmeAll: async function(userID, API_KEY) {
+        // let API_KEY = require('../config/keys').youTube.API_KEY
         let channelInfo = await this.getChannelInfo(userID, API_KEY)
         if (channelInfo.data.items.length) {
+
             let uploadsID = channelInfo.data.items[0].contentDetails.relatedPlaylists.uploads;
             let channelId = channelInfo.data.items[0].id
+
             let commentObjects = await this.getComments(channelId, API_KEY)
-                // let videoObjects = await this.getUploadedVideos(uploadsID, API_KEY)
             let videoObjects = await this.getPlaylists(uploadsID, API_KEY)
 
             let responseObject = {
                 videos: videoObjects,
                 comments: commentObjects
             }
+
             youtubeLogic.videoHolder = []
             youtubeLogic.commentHolder = []
+
             return responseObject
+
         } else {
+
             return {
                 videos: [],
                 comments: []
             }
         }
     },
+
     commentHolder: [],
 
-    getNextCommentPage: function(pageToken, channelID, API_KEY) {
+    getNextCommentPage: (pageToken, channelID, API_KEY) => {
         return new Promise(resolve => {
             axios.get('https://www.googleapis.com/youtube/v3/commentThreads', {
                     params: {
@@ -250,7 +265,6 @@ module.exports = youtubeLogic = {
                     }
                 })
                 .then(allComments => {
-
                     youtubeLogic.commentHolder = youtubeLogic.commentHolder.concat(allComments.data.items.map(this.commentFormatter))
                     if (allComments.data.nextPageToken) {
                         youtubeLogic.getNextCommentPage(allComments.data.nextPageToken, channelID, API_KEY)
@@ -258,11 +272,11 @@ module.exports = youtubeLogic = {
                         resolve(youtubeLogic.commentHolder)
                     }
                 }).catch(err => {
-                    resolve([err.message])
+                    resolve(err.message)
                 })
         })
     },
-    getComments: async function(channelID, API_KEY, token) {
+    getComments: async(channelID, API_KEY, token) => {
 
         return new Promise(resolve => {
             let commentHolder = []
@@ -290,27 +304,26 @@ module.exports = youtubeLogic = {
                     let formattedComments = allComments.data.items.map(youtubeLogic.commentFormatter)
                     console.log('finished gettting comments total:', formattedComments.length + youtubeLogic.commentHolder.length)
                     resolve(youtubeLogic.commentHolder.concat(formattedComments))
-
                 }
-
             }).catch(err => {
                 console.log('error here is', err.message)
                 resolve(err.message)
             })
         })
     },
+
     commentFormatter: (e) => {
         return {
             commentId: e.snippet.topLevelComment.id,
             author: e.snippet.topLevelComment.snippet.authorDisplayName,
             authorThumbnail: e.snippet.topLevelComment.snippet.authorProfileImageUrl,
             videoId: e.snippet.topLevelComment.snippet.videoId,
-
             comment: e.snippet.topLevelComment.snippet.textDisplay.replace(/\./g, '').replace(/\,/, '').replace(/\&/, '').replace(/\;/, '').replace(/\$/, '').replace('#39', '').replace(/\+/, ''),
             likeCount: e.snippet.topLevelComment.snippet.likeCount,
             publishedAt: e.snippet.topLevelComment.snippet.publishedAt
         }
     },
+
     getReplies: (commentId, API_KEY) => {
         //returns an array of replies to a comment by id
         return new Promise(resolve => {
@@ -325,7 +338,6 @@ module.exports = youtubeLogic = {
                 }).catch(err => {
                     resolve(err.message)
                 })
-
         })
     }
 }

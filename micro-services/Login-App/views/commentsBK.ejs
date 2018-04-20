@@ -1,0 +1,226 @@
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>A Bike Named Su</title>
+		<link rel="shortcut icon" type="image/x-icon" href="http://ph8tel.com/images/pageicon.png" />
+		<link href="/../../css/style.css" rel="stylesheet" type="text/css"  media="all" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+
+		<meta name="keywords" content="DR650, dualsport, adv, motorcycle, video, travel, adventure, picture, tube" />
+		<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+        <style>
+        #overlay {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
+        }
+        
+        #text{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 50px;
+            color: white;
+            transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+        }
+        </style>
+        </head>
+	<body>
+	<!----start-wrap---->
+	<div class="wrap">
+		<!----start-Header---->
+		<div class="header">
+			<!----start-Logo---->
+			<div class="logo">
+				<a href="/"><img src="http://ph8tel.com/images/logo.png" title="logo" /></a>
+			</div>
+			<!----End-Logo---->
+			<!----start-top-nav---->
+            <% include ./nav.ejs %>
+			<div class="clear"> </div>
+			<!----End-top-nav---->
+		</div>
+		<!----End-Header---->
+		<div class="clear"> </div>
+		<div class="content">
+			<div class="left-content">
+				<div class="searchbar">
+					<div class="search-left">
+						<p><%= user %>'s comments</p>
+					</div>
+					<div class="search-right">
+						<form>
+							<input type="text"><input type="submit" value="" />
+						</form>
+					</div>
+					<div class="clear"> </div>
+                </div>
+                <% include ./pieChart.ejs %>
+				<div class="box">
+                    <% if (comments.length) { %>
+                        <% for(var i=0; i<comments.length; i++) { %>
+                    <div class="grid">
+                       <div id="overlay" onclick="off()">
+                           <div id="text"><%= comments[i].comment %></div>
+                       </div>
+                        <img src="<%= comments[i].authorThumbnail %>" />
+                        <h3><%= comments[i].author %></h3>
+                        <p > <%= comments[i].comment %></p>
+                        <button onclick="on()">see comment</button>
+                        
+					</div>
+                        <% } %>
+                    <% } else { %>
+                    <h2>No Comments</h2>
+                    <% } %>
+                <div class="clear"> </div>
+
+			</div>
+			<div class="clear"> </div>
+			<ul class="dc_pagination dc_paginationA dc_paginationA03">
+						  <li><a href="#" class="first">First</a></li>
+						  <li><a href="#" class="previous">Previous</a></li>
+						  <li><a href="#" class="current">1</a></li>
+						  <li><a href="#">2</a></li>
+						  <li><a href="#" >3</a></li>
+						  <li><a href="#">4</a></li>
+						  <li><a href="#">5</a></li>
+						  <li><a href="#" class="next">Next</a></li>
+						  <li><a href="#" class="last">Last</a></li>
+						  
+						</ul>
+			<div class="clear"> </div>
+		</div>
+		<div class="right-content">
+			<div class="popular">
+				<h3>Comment Analysis</h3>
+				<p><img src="http://ph8tel.com/images/l1.png" title="likes" /> Over 1,000,000 views<a href="https://www.youtube.com/user/ph8tel/about">*</a></p>
+				<div class="clear"> </div>
+			</div>
+			<div class="grid1">
+            <canvas id="myChart" width="100%" height="400"></canvas>
+            <script>
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels:  Object.keys({ a: 1, b: 2}),
+                    datasets: [{
+                        label: '# of Votes',
+                        data: Object.values({ a: 1, b: 2}) ,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+            </script>
+					</div>
+					<div class="clear"> </div>
+					<div class="Recent-Vodeos">
+						<h3>Recent-Videos</h3>
+						<div class="video1">
+							<iframe  src="https://www.youtube.com/embed/01C8dLzr7Kc?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+							<span>Trail 18 part 1</span>
+							<p>The connector between M10 and Elk Mountain Road</p>
+							<div class="clear"> </div>
+						</div>
+						<div class="video1 video2">
+							<iframe  src="https://www.youtube.com/embed/bWUJUoIIinI?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+							<span>Trail 18 part 2</span>
+							<p>Ariiving onto Elk Mountain Road from the trail 20 split off.</p>
+							<div class="clear"> </div>
+						</div>
+						<div class="r-all">
+							<a href="#">View All</a>
+						</div>
+					</div>
+		</div>
+		<div class="clear"> </div>
+		</div>
+		<div class="clear"> </div>
+		</div>
+		<div class="footer">
+				<div class="wrap"> 
+
+				<div class="box1">
+				<h4>Policy & Terms</h4>
+						<ul>
+							<li><a href="tems.html">Terms & Conditions</a></li>
+							<li><a href="privacy.html">Privacy Policy</a></li>
+
+						</ul>
+				</div>
+				
+				<div class="box1">
+					<div class="hide-box">
+				<h4>About Us</h4>
+						<ul>
+							<li><a href="contact.html">Contact Us</a></li>
+							<li><a href="sitemap.html">Site Map</a></li>
+						</ul>
+				</div>
+					</div>
+				<div class="box1">
+				<h4>Stay in touch on</h4>
+						<ul class="social">
+							<li><img src="http://ph8tel.com/images/facebook.png" title="facebook"><a href="https://www.facebook.com/kyter">Facebook</a></li>
+							<li><img src="http://ph8tel.com/images/instagram.png" title="instagram"><a href="https://www.instagram.com/ph8tel/">Instagram</a></li>
+							<li><img src="http://ph8tel.com/images/youtube.png" title="youtube"><a href="https://youtube.com/ph8tel">YouTube</a></li>
+						</ul>
+				</div>
+				<div class="clear"> </div>
+			</div>
+		</div>
+			<div class="clear"> </div>
+			<div class="copy-right">
+			<p>&#169 2018 All rights Reserved | Design by &nbsp;<a href="http://jacksonmedia.us">Jackson Media</a></p>
+		</div>
+	</div>
+    <!----End-wrap---->
+    <script>
+    function on() {
+        document.getElementById("overlay").style.display = "block";
+    }
+    
+    function off() {
+        document.getElementById("overlay").style.display = "none";
+    }
+    </script>
+	</body>
+</html>
+

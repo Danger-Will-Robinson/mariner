@@ -1,0 +1,44 @@
+
+<!DOCTYPE HTML>
+<html>
+<% include htmlHead.ejs %>
+	<body>
+	<!----start-wrap---->
+	<div class="wrap">
+		<!----start-Header---->
+        <% include ./header.ejs %>
+		<!----End-Header---->
+		<div class="clear"> </div>
+        <div class="content">
+			<div class="left-content">
+				<% include ./searchBar %>
+				<div class="box">
+                <% include ./videoGrid.ejs %>
+				<div class="clear"> </div>
+			</div>
+			<div class="clear"> </div>
+            <% include ./pagination.ejs %>
+			<div class="clear"> </div>
+		</div>
+		<div class="right-content">
+			<div class="popular">
+				<h3>Video Views</h3>
+				<p><img src="http://ph8tel.com/images/l1.png" title="likes" /> Over 1,000,000 views<a href="https://www.youtube.com/user/ph8tel/about">*</a></p>
+				<div class="clear"> </div>
+			</div>
+			<div class="grid1">
+                <% include ./chart.ejs %>
+			</div>
+			<div class="clear"> </div>
+		</div>
+		<div class="clear"> </div>
+        </div>
+        <div class="clear"> </div>
+		</div>
+        <% include ./footer.ejs %>
+
+	</div>
+	<!----End-wrap---->
+	</body>
+</html>
+

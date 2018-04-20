@@ -1,0 +1,26 @@
+<% if (data.length) { %>
+<% for(var i=0; i< 9; i++) { %>
+<div class="grid">
+<div class="video-share">
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=data[i].videoId"><img src="http://ph8tel.com/images/likes.png" title="like" /></a></li>
+  <li><a href="https://www.youtube.com/watch?v=data[i].videoId"><img src="http://ph8tel.com/images/link.png" title="share" /></a></li>
+  <li><a href="https://www.youtube.com/watch?v=data[i].videoId"><img src="http://ph8tel.com/images/views.png" title="Watch" /></a></li>
+  <li><a href="https://www.youtube.com/watch?v=data[i].videoId"><img src="https://cdn3.iconfinder.com/data/icons/gray-toolbar-4/512/chat-512.png" title="comment" height="15px" /></a></li>
+
+  </ul>
+</div>
+<img src="<%= data[i].thumbnails.high.url %>" />
+<h3><%= data[i].title %></h3>
+    <div class="grid-info">
+
+
+        <div class="clear"> </div>
+        <div class="lables">
+        </div>
+</div>
+</div>
+<% } %>
+<% } else { %>
+<h2>No Videos </h2>
+<% } %>

@@ -14,7 +14,6 @@ router.get('/post', (req, res) => {
     console.log('now in post test the token is ', req.user)
     User.findOne({ _id: req.user._id }).then((currentUser) => {
         if (currentUser) {
-            console.log('found him with access token of', currentUser.refresh_token)
             done(null, currentUser);
         }
     })
