@@ -8,19 +8,20 @@ import { XAxis, YAxis, LineChart, Line, CartesianGrid } from 'recharts'
 
 const Charts = (props) => {
   //let data = [{'uv': 200, 'Score!': -5}, {'uv': 300, 'Score!': 0}, {'uv': 500, 'Score!': 5}];
+  //console.log('props.comments ', props.comments)
   const sentiments = {
     'Glowing': 'Glowing',
     'Praise': 'Praise',
     'Positive': 'Positive',
     'Warm': 'Warm',
-    'Nuetral': 'Nuetral',
+    'Neutral': 'Neutral',
     'Shade': 'Shade',
     'Negative': 'Negative',
     'Mean': 'Mean',
     'Hostile': 'Hostile' 
   }
+  //console.log('props comments ', props.comments)
   let data = props.countAnalyzed(props.comments)
-  console.log('props. comments ', props.comments)
 
   return(
     <div>
@@ -37,7 +38,7 @@ const Charts = (props) => {
         <button onClick={function(){props.filterSentiments(sentiments.Praise)}}>Filter {sentiments.Praise}</button>
         <button onClick={function(){props.filterSentiments(sentiments.Positive)}}>Filter {sentiments.Positive}</button>
         <button onClick={function(){props.filterSentiments(sentiments.Warm)}}>Filter {sentiments.Warm}</button>
-        <button onClick={function(){props.filterSentiments(sentiments.Nuetral)}}>Filter {sentiments.Nuetral}</button>
+        <button onClick={function(){props.filterSentiments(sentiments.Nuetral)}}>Filter {sentiments.Neutral}</button>
         <button onClick={function(){props.filterSentiments(sentiments.Shade)}}>Filter {sentiments.Shade}</button>
         <button onClick={function(){props.filterSentiments(sentiments.Negative)}}>Filter {sentiments.Negative}</button>
         <button onClick={function(){props.filterSentiments(sentiments.Mean)}}>Filter {sentiments.Mean}</button>

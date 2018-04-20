@@ -32,7 +32,8 @@ return (
     <GraphModal
       comments={props.comments}
       countAnalyzed={props.countAnalyzed}
-      filteriments={props.filteriments}
+      filterSentiments={props.filterSentiments}
+      originalSentiments={props.originalSentiments}
       isVisible={props.showGraph}
       dismissModalHandler={props.dismissModalHandler}/> 
     <ReplyAllModal 

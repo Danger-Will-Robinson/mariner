@@ -22,7 +22,7 @@ class App extends React.Component {
       userVideos:[],
       currentVideo:[],
       videoComments: [],
-      originalSentiments: [],
+      originalSentiments: null,
       currentTitle: '',
       commentDescription: 'Recent Comments',
       showGraph: false,
@@ -46,13 +46,13 @@ class App extends React.Component {
     if (this.state.view === 'login') {
       const currentUser = await axios.get('http://localhost:5000/getUser');
       let currentUserName = currentUser.data.name
-      console.log('currentUser is ', currentUser)
-      console.log('currentUserName is ', currentUserName)
+      // console.log('currentUser is ', currentUser)
+      // console.log('currentUserName is ', currentUserName)
       // const userVideos = await axios.post('http://localhost:5001/appQuery', {
       //   query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
       // });
       //added by joe
-      console.log('checking for ', currentUser.data.id)
+      //console.log('checking for ', currentUser.data.id)
       currentUser.data = await  axios.get('http://localhost:3000/api/all-data/by-id',  {
         params: {
           id: currentUser.data.id
@@ -63,14 +63,14 @@ class App extends React.Component {
         query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUserName}')`
       });
 
-      console.log('userVideos in componentDidMount ', userVideos)
-      console.log('userVideos is here title is ', userVideos.data[0].title)
+      //console.log('userVideos in componentDidMount ', userVideos)
+      //console.log('userVideos is here title is ', userVideos.data[0].title)
       const videoComments = await axios.post('http://localhost:5001/appQuery', {
         query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos}')`
       });
-      console.log('videoComments is in here is ', videoComments)
+      //console.log('videoComments is in here is ', videoComments)
       
-      console.log(currentUser.data.data[0].videos[0], 'hedsdij')
+      //console.log(currentUser.data.data[0].videos[0], 'hedsdij')
       this.setState({
         user: currentUser.data.data[0].name,
         userVideos:   userVideos.data,
@@ -90,7 +90,7 @@ class App extends React.Component {
         view: 'no-content'
       })
     }
-    console.log('state after componentDidMount ', this.state)
+    //console.log('state after componentDidMount ', this.state)
   }
 
 
@@ -98,14 +98,23 @@ class App extends React.Component {
 
   async analyzeComments(comments) {
     let sentComments = []
-    sentComments = await axios.post('http://localhost:5001/analyze/comments', {
-      comments: this.state.videoComments
-    })
-    console.log('analyzedComments is ', sentComments);
-    this.setState({
-      videoComments: sentComments.data,
-      showGraph: true
-    })
+    if (this.state.originalSentiments === null) {  
+      sentComments = await axios.post('http://localhost:5001/analyze/comments', {
+        comments: this.state.videoComments
+      })
+      console.log('analyzedComments is ', sentComments);
+      this.setState({
+        videoComments: sentComments.data,
+        originalSentiments: sentComments.data,
+        showGraph: true
+      })
+    } else {
+      console.log('hitting AC else ')
+      this.setState({
+        videoComments: this.state.originalSentiments,
+        showGraph: true
+      })
+    }  
   }
   
   countAnalyzed(comments) {
@@ -122,11 +131,13 @@ class App extends React.Component {
        '4': 'Praise',
        '5': 'Glowing',
     }
-
-    let storage = {};
-    let data = [];
+    
+    const storage = {};
+    const data = [];
+    console.log('strage in CA ', storage)
+    console.log('comments in CA ', comments)
     comments.forEach((comment) => {
-      let score = scoreConversion[comment.SA];
+      let score = scoreConversion[comment.SA] || comment.SA;
       comment.SA = score;
       if (storage[score] === undefined) {
         storage[score] = 1
@@ -140,7 +151,6 @@ class App extends React.Component {
         'Score!': key
       })
     }
-    console.log('data in countAnalyzed is ', data);
     return data;
   }
 
@@ -149,13 +159,13 @@ class App extends React.Component {
     this.state.videoComments.forEach((comment) => {
       if (comment.SA === sentiment) {
         collection.push(comment);        
-      }
-      this.setState({
-        videoComments: collection,
-        showGraph:false
-      })
+      }     
     })
-    console.log('this was clicked ', sentiment)
+    this.setState({
+      videoComments: collection,
+      showGraph:false
+    })
+    
   }
 
 
@@ -344,6 +354,7 @@ class App extends React.Component {
         console.log('Successfully sent post to comments/reply', response);
       })
       .catch((err) => {
+        console.log('commentId in app.jsx err ', this.state.loadedComment.providedId)
         console.log('Error sending reply to comment: ', err.message);
       });
     })
