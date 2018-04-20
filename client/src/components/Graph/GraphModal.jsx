@@ -28,7 +28,7 @@ const GraphModal = (props) => (
         <p className={classes.modalTitle}>
           Sentiment Analysis Details
         </p>
-        <Charts countAnalyzed={props.countAnalyzed} comments={props.comments} filterSentiments={props.filterSentiments}/>
+        <Charts countAnalyzed={props.countAnalyzed} comments={props.comments} filterSentiments={props.filterSentiments} originalSentiments={props.originalSentiments}/>
       </div>
     </Aux>
   ) :
