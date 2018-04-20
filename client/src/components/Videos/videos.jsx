@@ -9,8 +9,7 @@ const Videos = (props) => {
       <NavBar className={classes.videoList} serviceName={props.serviceName} changeView={props.changeView}/>
       <ul className={classes.gridContainer}>
         {props.videos.map((video) => {
-        console.log('video', video)
-        return <div key={video.idvideos}><li><img src={video.lowRes}></img></li><div className="commentCount">comments: {video.commentCount ? video.commentCount : '0'}</div><a onClick={function(){props.pass(video)}}>{video.title} See Content</a></div>
+        return <div className={classes.video} onClick={function(){props.pass(video)}}key={video.idvideos}><li><img src={video.lowRes}></img></li><div className="commentCount">comments: {video.commentCount ? video.commentCount : '0'}</div><a>{video.title}</a></div>
         })}
       </ul>
     </div>  
