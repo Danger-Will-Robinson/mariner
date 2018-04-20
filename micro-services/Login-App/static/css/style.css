@@ -374,7 +374,25 @@ body {}
     float: left;
 }
 
+.comment-grid {
+    width: 25%;
+    height: 100px;
+    padding: 7px;
+    border: 1px solid rgb(230, 230, 230);
+    float: left;
+}
+
+.comment-grid p {
+    word-wrap: break-word;
+    width: 100px;
+    height: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .grid p {
+    word-wrap: break-word;
     width: 100px;
     height: 180px;
     white-space: nowrap;

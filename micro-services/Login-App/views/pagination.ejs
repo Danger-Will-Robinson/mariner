@@ -1,17 +1,22 @@
 <ul class="dc_pagination dc_paginationA dc_paginationA03">
-<li><a href="#" class="first">First</a></li>
-<li><a href="#" class="current">1</a></li>
-<% if (data.length > 24) { %>
+<li><a href="/profile/videos" class="first">First</a></li>
+<li><a href="#" >1</a></li>
+<% if (data.length > 9) { %>
 
-<% for(var i=24; i<data.length; i = i + 24) { %>
-<li><a href="/profile/video/<%= i %>" ><%= i %></a></li>
-	  
-<% } %>
+	<% for(var i=9; i<data.length; i = i + 9) { %>
+		<% if (i ===  9) { %>
+
+			<li><a href="/profile/video/<%= i %>"  class="active"><%= i %></a></li>
+		<% } else { %>
+		<li><a href="/profile/video/<%= i %>"  ><%= i %> </a></li>
+		<% } %>
+	<% } %>
 <li><a href="#" class="next">Next</a></li>
-<li><a href="#" class="last">Last</a></li>
+<li><a href="/profile/video/<%= data.length - 10 %>" class="last">Last</a></li>
+
 <% } else{ %>
 <li><a href="#" class="next">Next</a></li>
-<li><a href="#" class="last">Last</a></li>
+<li><a href="/profile/video/<%= data.length - 10 %>" class="last">Last</a></li>
 <% } %>
 
 </ul>
