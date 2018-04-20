@@ -228,7 +228,8 @@ class App extends React.Component {
     this.setState({
       currentTitle: item.title, 
       currentVideo: item,
-      commentDescription: 'Video Comments'  
+      commentDescription: 'Video Comments' ,
+      originalSentiments: null 
     });
     this.getComments(item)
   }
@@ -333,11 +334,12 @@ class App extends React.Component {
     replied.forEach((comment) => {
       q.push(() => {
         return new Promise((resolve, reject) => {
-          axios.post('http://localhost:3000/api/comments/reply', {
-            chanId: this.state.currentVideo.chanId,
-            videoID: this.state.currentVideo.contentId,
-            commentID: comment.providedID,
-            textOriginal: this.state.replyText
+          axios.post('http://localhost:3000/api/all-data/by-name', {
+            // chanId: this.state.currentVideo.chanId,
+            // videoID: this.state.currentVideo.contentId,
+            // commentID: comment.providedID,
+            // textOriginal: this.state.replyText
+
           })
           .then((response) => {
             console.log('in response of sendMultiples')

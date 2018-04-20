@@ -84,6 +84,7 @@ router.post('/', (req, res) => {
   commentQ.start((err) => {
     if (err) throw err
     console.log('all done with comments');
+    res.send('done with your post')
   })
 })
   
