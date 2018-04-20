@@ -16,7 +16,7 @@ const navServiceSelector = (props) => {
   <div>
     <img onClick={() => {props.changeView('videos')}}src={YouTubeLogo} className={classes.serviceIcon}></img>
     <img onClick={() => {props.renderQuestions()}}src={QuestionMarkLogo} className={classes.questionIcon}></img>
-    <img onClick={() => {props.analyzeComments()}} onClick={() => {props.renderGraph()}}src ={sentimentLogo} className={classes.sentimentIcon}></img>
+    <img onClick={() => {props.analyzeComments()}} src ={sentimentLogo} className={classes.sentimentIcon}></img>
   </div>
 
   ) 

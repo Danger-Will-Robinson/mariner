@@ -3,46 +3,20 @@
 exports[`App renders 1`] = `
 <div>
   <div
-    className="loginFrame"
+    className="sk-folding-cube"
   >
-    <img
-      className="loginLogo"
-      src="test-file-stub"
-    />
-    <h1
-      className="appTitle"
-    >
-      MARINER
-    </h1>
     <div
-      className="loginOptionsRow"
-    >
-      <p
-        className="loginChoicePrompt"
-      >
-        Choose a service to start with.
-      </p>
-      <a
-        href="http://localhost:3000/auth/youtube"
-      >
-        <img
-          className="loginYoutube"
-          src="test-file-stub"
-        />
-      </a>
-      <img
-        className="loginGoogle"
-        src="test-file-stub"
-      />
-      <img
-        className="loginTwitter"
-        src="test-file-stub"
-      />
-      <img
-        className="loginTwitch"
-        src="test-file-stub"
-      />
-    </div>
+      className="sk-cube1 sk-cube"
+    />
+    <div
+      className="sk-cube2 sk-cube"
+    />
+    <div
+      className="sk-cube4 sk-cube"
+    />
+    <div
+      className="sk-cube3 sk-cube"
+    />
   </div>
 </div>
 `;

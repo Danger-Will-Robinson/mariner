@@ -9,7 +9,7 @@ var currentUser;
 var ALLVIDEOS = require('../data/youTubeAllVideoResponse');
 
 router.get('/', (req, res) => {
-    console.log('redir new user nkkn')
+    console.log('redir new user')
     res.redirect('http://localhost:3000')
 })
 
@@ -30,7 +30,8 @@ router.get('/getUser', (req, res) => {
     if (currentUser) {
         res.json(currentUser);
     } else {
-        res.redirect('http://localhost:8080');
+        // res.redirect('http://localhost:8080');
+        res.end();
     }
 });
 

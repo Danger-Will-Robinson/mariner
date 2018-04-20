@@ -5,6 +5,7 @@ import Videos from './components/Videos/Videos.jsx';
 import Comments from './components/Comments/Comments.jsx';
 import Login from './containers/LogIn/Login.jsx';
 import Main from './containers/Main/Main.jsx';
+import Spinner from './UI/Spinner/Spinner.jsx';
 
 
 import NoContentError from './components/NoContentError/NoContentError.jsx';
@@ -16,11 +17,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'login',
+      view: '',
       user: '',
       userVideos:[],
       currentVideo:[],
+      loading: true,
       videoComments: [],
+      originalSentiments: null,
       currentTitle: '',
       commentDescription: 'Recent Comments',
       showGraph: false,
@@ -37,44 +40,93 @@ class App extends React.Component {
   
 
   componentWillMount() {
-       
+
   }
 
   async componentDidMount() {
-    if (this.state.view === 'login') {
-      const currentUser = await axios.get('http://localhost:5000/getUser');
-      console.log('currentUser is ', currentUser)
-      // const userVideos = await axios.post('http://localhost:5001/appQuery', {
-      //   query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
-      // });
-      //added by joe
-      console.log('checking for ', currentUser.data.id)
-      currentUser.data = await  axios.get('http://localhost:3000/api/all-data/by-id',  {
-        params: {
-          id: currentUser.data.id
-        }
-      })
-      
-      console.log(currentUser.data.data[0].videos[0], 'hedsdij')
-      this.setState({
-        user: currentUser.data.data.name,
-        userVideos:   currentUser.data.data[0].videos,
-        currentVideo: currentUser.data.data[0].videos[0] ,
-        videoComments: currentUser.data.data[0].comments
+
+    // Check to see if a user is established
+    // While checking, display loading component    
+    let { data: {name, id} } = await axios.get('http://localhost:5000/getUser');
+    if (name !== undefined || id !== undefined) {
+      // Print data:
+      console.log(`Username: ${name} // ID: ${id}`);
+      // Get data from CR:
+
+      // Get Videos:
+      const userVideos = await axios.post('http://localhost:5001/appQuery', {
+        query: `SELECT * FROM videos where user in (select idusers from users where username = '${name}')`
       });
+
+      // Get Comments:
+      const videoComments = await axios.post('http://localhost:5001/appQuery', {
+        query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos}')`
+      });
+      // Fill state with content, set view to 'main', loading false.   
+      // If a user comes back and there is no content, dispaly no content page.
+         
+      this.setState({
+        user: name,
+        userVideos: userVideos.data,
+        currentVideo: userVideos.data[0],
+        videoComments: videoComments.data,
+        loading: false,
+        view: userVideos.length === 0 ? 'no-content' : 'main'
+      });
+
+    } else {
+      this.setState({
+        loading: false,
+        view: 'login'
+      })
+    }
+    // if (this.state.view === 'login') {
+    //   const currentUser = await axios.get('http://localhost:5000/getUser');
+    //   let currentUserName = currentUser.data.name
+    //   console.log('currentUser is ', currentUser)
+    //   console.log('currentUserName is ', currentUserName)
+    //   // const userVideos = await axios.post('http://localhost:5001/appQuery', {
+    //   //   query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUser.data}')`
+    //   // });
+    //   //added by joe
+    //   console.log('checking for ', currentUser.data.id)
+    //   currentUser.data = await  axios.get('http://localhost:3000/api/all-data/by-id',  {
+    //     params: {
+    //       id: currentUser.data.id
+    //     }
+    //   })
+
+    //   const userVideos = await axios.post('http://localhost:5001/appQuery', {
+    //     query: `SELECT * FROM videos where user in (select idusers from users where username = '${currentUserName}')`
+    //   });
+
+    //   console.log('userVideos in componentDidMount ', userVideos)
+    //   console.log('userVideos is here title is ', userVideos.data[0].title)
+    //   const videoComments = await axios.post('http://localhost:5001/appQuery', {
+    //     query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${userVideos.data[0].title || userVideos}')`
+    //   });
+    //   console.log('videoComments is in here is ', videoComments)
+      
+    //   console.log(currentUser.data.data[0].videos[0], 'hedsdij')
+    //   this.setState({
+    //     user: currentUser.data.data[0].name,
+    //     userVideos:   userVideos.data,
+    //     currentVideo:  userVideos.data[0],
+    //     videoComments: videoComments.data
+    //   });
       
 
-    }
+    // }
 
-    if (this.state.user !== '' && this.state.userVideos !== [] && this.state.videoComments !== []) {
-      this.setState({
-        view: 'main'
-      });
-    } else if (this.state.userVideos.length === 0) {
-      this.setState({
-        view: 'no-content'
-      })
-    }
+    // if (this.state.user !== '' && this.state.userVideos !== [] && this.state.videoComments !== []) {
+    //   this.setState({
+    //     view: 'main'
+    //   });
+    // } else if (this.state.userVideos.length === 0 && this.state.user !== '') {
+    //   this.setState({
+    //     view: 'no-content'
+    //   })
+    // }
     console.log('state after componentDidMount ', this.state)
   }
 
@@ -82,56 +134,77 @@ class App extends React.Component {
 
 
   async analyzeComments(comments) {
-    let sentComments = await axios.post('http://localhost:5001/analyze/comments', {
-      comments: this.state.videoComments
-    })
-    console.log('analyzedComments is ', sentComments);
-    this.setState({
-      videoComments: sentComments.data
-    })  
+    let sentComments = []
+    if (this.state.originalSentiments === null) {  
+      sentComments = await axios.post('http://localhost:5001/analyze/comments', {
+        comments: this.state.videoComments
+      })
+      console.log('analyzedComments is ', sentComments);
+      this.setState({
+        videoComments: sentComments.data,
+        originalSentiments: sentComments.data,
+        showGraph: true
+      })
+    } else {
+      console.log('hitting AC else ')
+      this.setState({
+        videoComments: this.state.originalSentiments,
+        showGraph: true
+      })
+    }  
   }
-
-  videoRental() {
-    if (this.state.view === 'main') {
-      axios.post('http://localhost:5001/appQuery', {
-      query: `SELECT * FROM videos where user in (select idusers from users where username = '${this.state.user}')`
-      })
-      .then(response => {
-        console.log('response from mariner ', response);
-        this.setState({
-          userVideos: response.data
-        })
-        console.log('this.state after rental ', this.state)
-      })
-      .catch(err => {
-        console.log('err in videoRental ', err);
-      })  
+  
+  countAnalyzed(comments) {
+    const scoreConversion = {
+      '-5': 'Hostile',
+      '-4': 'Mean',
+      '-3': 'Negative',
+      '-2': 'Shade',
+      '-1': 'Nuetral',
+       '0': 'Nuetral',
+       '1': 'Nuetral',
+       '2': 'Warm',
+       '3': 'Positive',
+       '4': 'Praise',
+       '5': 'Glowing',
     }
+    
+    const storage = {};
+    const data = [];
+    console.log('strage in CA ', storage)
+    console.log('comments in CA ', comments)
+    comments.forEach((comment) => {
+      let score = scoreConversion[comment.SA] || comment.SA;
+      comment.SA = score;
+      if (storage[score] === undefined) {
+        storage[score] = 1
+      } else {
+        storage[score]++
+      }
+    })
+    for (var key in storage) {
+      data.push({
+        'uv': storage[key],
+        'Score!': key
+      })
+    }
+    return data;
   }
 
-  getComments(videoTitle) {
-    console.log('video title is ', videoTitle)
-    axios.post('http://localhost:5001/appQuery', {
-      query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${videoTitle.title || videoTitle}')`
+  filterSentiments(sentiment) {
+    let collection = [];
+    this.state.videoComments.forEach((comment) => {
+      if (comment.SA === sentiment) {
+        collection.push(comment);        
+      }     
     })
-    .then((response) => {
-      console.log('comment response from mariner ', response.data);
-      this.setState({
-        videoComments: response.data
-      });
-      console.log('this.state after CR ', this.state.videoComments)
-      })
-    .then(() => {
-      this.setState({
-        view: 'main'
-      });
+    this.setState({
+      videoComments: collection,
+      showGraph:false
     })
-    .catch(err => {
-      console.log('err in CR ', err);
-    })
-  } 
-  
-  
+    
+  }
+
 
   renderQuestions(comments) {
     console.log('render Q clicked')
@@ -151,7 +224,7 @@ class App extends React.Component {
   }
 
   passVideo(item) {
-    // console.log('item in passVideo ', item)
+    console.log('item in passVideo ', item)
     this.setState({
       currentTitle: item.title, 
       currentVideo: item,
@@ -159,6 +232,23 @@ class App extends React.Component {
     });
     this.getComments(item)
   }
+
+  getComments(videoTitle) {
+    console.log('video title is ', videoTitle)
+    axios.post('http://localhost:5001/appQuery', {
+      query: `SELECT * FROM comments where video in (select idvideos from videos where title = '${videoTitle.title || videoTitle}')`
+    })
+    .then((response) => {
+      console.log('comment response from mariner ', response.data);
+      this.setState({
+        videoComments: response.data,
+        view: 'main'
+      });
+    })
+    .catch(err => {
+      console.log('err in CR ', err);
+    })
+  } 
 
   passComment(comment) {
     // This will allow a clicked comment to render elsewhere:
@@ -268,13 +358,12 @@ class App extends React.Component {
 
   sendReply() {
     console.log('Send Reply fired!');
-    // Refresh token:
     let allData;
     let accessToken;
     let refreshToken;
     // set this equal to an axios call to Joe's mongoDb that has the tokens. (POST: 3000/api/all-data/by-name 
     axios.post('http://localhost:3000/api/all-data/by-name', {
-      name: 'Sean Spencer' || this.state.user
+      name: this.state.user
     })
     .then((response) => {
       console.log('Recieved response from Log-in');
@@ -284,6 +373,7 @@ class App extends React.Component {
       console.log('All data: ', allData);
       console.log('accessToken', accessToken);
       console.log('refreshToken', refreshToken);
+      console.log('commentID in app.jsx', this.state.loadedComment.providedId)
       // Axios POST to comments/reply on Login
       // Need commentId, chanId, parentID in req.body
       // providedID == commentID  Ex. UgwXC-AmR5Qoc9-JYtJ4AaABAg
@@ -294,13 +384,14 @@ class App extends React.Component {
         // videoId: this.state.currentVideo.contentId,
         access_token: accessToken,
         refresh_token: refreshToken,
-        commentId: 'UgwXC-AmR5Qoc9-JYtJ4AaABAg' || this.state.loadedComment.providedId,
+        commentId: this.state.loadedComment.providedId,
         textOriginal: this.state.replyText
       })
       .then((response) => {
         console.log('Successfully sent post to comments/reply', response);
       })
       .catch((err) => {
+        console.log('commentId in app.jsx err ', this.state.loadedComment.providedId)
         console.log('Error sending reply to comment: ', err.message);
       });
     })
@@ -311,6 +402,9 @@ class App extends React.Component {
   }
 
   renderView() {
+    if (this.state.loading === true) {
+      return <Spinner />
+    }
     if (this.state.view === 'login') {
       return <Login />
     }
@@ -343,6 +437,8 @@ class App extends React.Component {
               renderReplyAll={this.renderReplyAll.bind(this)}
               sendMultiples={this.sendMultiples.bind(this)}
               analyzeComments={this.analyzeComments.bind(this)}
+              countAnalyzed={this.countAnalyzed.bind(this)}
+              filterSentiments={this.filterSentiments.bind(this)}
               renderQuestions={this.renderQuestions.bind(this)}
               captureText={this.captureReplyText.bind(this)}
             />
