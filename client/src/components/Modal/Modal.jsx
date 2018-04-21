@@ -29,7 +29,7 @@ const modal = (props) => (
         <form className={classes.modalForm}>
           <textarea defaultValue={"Type your reply here..."} className={classes.modalTextArea} onChange={props.captureText}/>
         </form>
-          <button onClick={function(){props.sendReply()}}className={classes.replyButton}>Reply!</button>
+          <button onClick={function(){props.sendReply()}}className={classes.replyButton}>Post!</button>
       </div>
     </Aux>
   ) :

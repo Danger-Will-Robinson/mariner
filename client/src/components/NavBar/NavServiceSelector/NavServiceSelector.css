@@ -4,6 +4,7 @@
   height: 50px;
   left: 129px;
   top: 10px;
+  cursor: pointer;
 }
 
 .questionIcon {
@@ -12,6 +13,7 @@
   height: 45px;
   left: 185px;
   top: 12px;
+  cursor: pointer;
 }
 
 .sentimentIcon {
@@ -20,4 +22,5 @@
   height: 46px;
   left: 235px;
   top: 12px;
+  cursor: pointer;
 }
